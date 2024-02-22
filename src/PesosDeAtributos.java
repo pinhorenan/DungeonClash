@@ -1,9 +1,33 @@
 public class PesosDeAtributos {
-   private int pesoForca;
-   private int pesoAgilidade;
-   private int pesoInteligencia;
+   private double pesoForca;
+   private double pesoAgilidade;
+   private double pesoInteligencia;
+   private int pesoMana;
 
-   public PesosDeAtributos() {}
+   public PesosDeAtributos(double pesoForca, double pesoAgilidade, double pesoInteligencia, int pesoMana) {
+      this.pesoForca = pesoForca;
+      this.pesoAgilidade = pesoAgilidade;
+      this.pesoInteligencia = pesoInteligencia;
+   }
+
+   // Getters
+
+
+   public int getPesoMana() {
+      return pesoMana;
+   }
+
+   public double getPesoForca() {
+      return pesoForca;
+   }
+
+   public double getPesoAgilidade() {
+      return pesoAgilidade;
+   }
+
+   public double getPesoInteligencia() {
+      return pesoInteligencia;
+   }
 }
 
 
