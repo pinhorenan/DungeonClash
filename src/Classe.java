@@ -1,6 +1,6 @@
 import java.util.Set;
 
-public abstract class Classe extends Personagem {
+public abstract class Classe {
 
     // Atributos
     public int forca;
