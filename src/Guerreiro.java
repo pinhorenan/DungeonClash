@@ -4,6 +4,8 @@ public class Guerreiro extends Classe {
         this.forca = getNivel()*4;
         this.agilidade = getNivel();
         this.inteligencia = getNivel();
-        this.habilidades = adicionarHabilidade(atirarFlecha);
+        this.habilidades = adicionarHabilidade(socar);
+        this.habilidades = adicionarHabilidade(golpeDeEspada);
+        this.habilidades = adicionarHabilidade(espadaFlamejanta);
     }
 }
