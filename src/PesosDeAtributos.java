@@ -4,7 +4,7 @@ public class PesosDeAtributos {
    private double pesoInteligencia;
    private int pesoMana;
 
-   public PesosDeAtributos(double pesoForca, double pesoAgilidade, double pesoInteligencia) {
+   public PesosDeAtributos(double pesoForca, double pesoAgilidade, double pesoInteligencia, int pesoMana) {
       this.pesoForca = pesoForca;
       this.pesoAgilidade = pesoAgilidade;
       this.pesoInteligencia = pesoInteligencia;
