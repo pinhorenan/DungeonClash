@@ -9,7 +9,5 @@ public class Guerreiro extends Classe {
         this.habilidades = adicionarHabilidade(espadaFlamejanta);
     }
 
-    public Habilidade Espada_flamejante() {
-        tempo
-    }
+    public Habilidade Espada_flamejante()
 }
