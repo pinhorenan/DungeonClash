@@ -79,6 +79,9 @@ public class Personagem {
 
     public void sofrerDano(int dano) {
         // Implementar
+        if (this.PV > 0) {
+            this.PV -= dano;
+        }
     }
 
     public void atacarInimigo(Habilidade habilidade) {
