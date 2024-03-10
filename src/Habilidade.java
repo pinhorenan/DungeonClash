@@ -8,13 +8,12 @@ public class Habilidade {
     private boolean afetaAmigos; // Se pode ser utilizada em amigos
     private static int ID; // Identificador único da habilidade
 
-    public Habilidade(String nome, PesosDeAtributos pesosDano, PesosDeAtributos pesosMana, int tempo, boolean afetaAmigos, boolean afetaGrupo) {
-    // mago 
-        // private Habilidade cura = new Habilidade("Cura", 
+    public Habilidade(String nome, PesosDeAtributos new pesosDano, PesosDeAtributos new pesosMana, int tempo, boolean afetaAmigos, boolean afetaGrupo) {
+        this.ID = 0; // SUPER TEMPORÁRIO AO INVÉS DE 0 TEM QUE SER UM MÉTODO PRA GERAR NÚMEROS ALEATORIOS
         this.nome = nome;
+        this.tempo = tempo;
         this.pesosDano = pesosDano;
         this.pesosMana = pesosMana;
-        this.tempo = tempo;
         this.afetaGrupo = afetaGrupo;
         this.afetaAmigos = afetaAmigos;
     }
