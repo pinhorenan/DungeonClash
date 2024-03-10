@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Personagem {
 
     private final String nome;
@@ -11,7 +13,8 @@ public class Personagem {
     public Personagem(String nome, Classe classe) {
         nivel = 1;
         PE = 0;
-        ID = 0; // TEMPORÁRIO!!! Adicionar método para randomizar IDs.
+        Random random = new Random();
+        ID = random.nextInt(1000000); // implementando id do jeito decente. Depois a gente vê do jeito que é pedido
         tempoEspera = 0;
         this.nome = nome;
         this.classe = classe;
