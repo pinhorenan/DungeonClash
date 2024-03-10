@@ -19,24 +19,23 @@ public class Habilidade {
         this.afetaAmigos = afetaAmigos;
     }
 
+
+    // Getters
+
     public String getNome() {
         return nome;
     }
 
     public double getPesoForca() {
-        return pesosAtributos.getPesoForca();
+        return PesosDeAtributos.getPesoForca();
     }
 
     public double getPesoAgilidade() {
-        return pesosAtributos.getPesoAgilidade();
+        return PesosDeAtributos.getPesoAgilidade();
     }
 
     public double getPesoInteligencia() {
-        return pesosAtributos.getPesoInteligencia();
-    }
-
-    public int getPesoMana() {
-        return pesosAtributos.getPesoMana();
+        return PesosDeAtributos.getPesoInteligencia();
     }
 
     public int getTempo() {
@@ -50,6 +49,8 @@ public class Habilidade {
     public boolean isAfetaAmigos() {
         return afetaAmigos;
     }
+
+    // Setters
 
     public void setNome(String nome) {
         this.nome = nome;

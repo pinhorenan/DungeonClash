@@ -1,11 +1,37 @@
+import java.util.Random;
+
 public class Personagem {
     // Atributos
     private String nome;
     private int nivel, PE;
-    private float PV, PM;
+    private float PVmax, PMmax;
     private int tempoEspera;
     private Classe classe;
     private static int ID;
+
+
+    public Personagem(String nome, Classe classe) {
+        this.nome = nome; // correto?
+        nivel = 1; // correto?
+        PE = 0; // correto?
+        PVmax = nivel * classe.forca + (nivel * (classe.agilidade/2) ); // temp?
+        PMmax = nivel * classe.inteligencia + (nivel * (classe.agilidade/3)); // temp?
+        tempoEspera = 1; // temp
+        this.classe = classe; // correto?
+        ID = 0; // temp. adicionar randomizador
+
+    }
+
+    // Métodos
+
+
+    // PE necessário p/ subir de nível: nívelAtual * 25
+    public void subirNivel() {
+        PVmax += nivel * classe.forca + (nivel * (classe.agilidade/2));
+        PMmax += nivel * classe.inteligencia + (nivel * (classe.agilidade/3));
+        PE = 0;
+    }
+
 
     // Getters
 
