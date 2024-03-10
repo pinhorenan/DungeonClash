@@ -4,6 +4,7 @@ public class Personagem {
 
     private final String nome;
     private final Classe classe;
+    private static int proximoID = 1; // Contador estático para gerar IDs únicos
     private final int ID;
     private int nivel, PE, tempoEspera;
     private float PVmax, PV, PMmax, PM;
@@ -14,7 +15,7 @@ public class Personagem {
         nivel = 1;
         PE = 0;
         Random random = new Random();
-        ID = random.nextInt(1000000); // implementando id do jeito decente. Depois a gente vê do jeito que é pedido
+        this.ID = gerarProximoID(); // implementando id do jeito decente. Depois a gente vê do jeito que é pedido
         tempoEspera = 0;
         this.nome = nome;
         this.classe = classe;
@@ -36,6 +37,9 @@ public class Personagem {
         }   // Revisar este código.
     }
 
+    private static int gerarProximoID() {
+        return proximoID++;
+    }
     // Getters
 
     public String getNome() {
