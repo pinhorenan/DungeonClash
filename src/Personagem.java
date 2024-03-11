@@ -6,6 +6,7 @@ public class Personagem {
     private final int ID;
     private int nivel, PE, tempoEspera;
     private float PVmax, PV, PMmax, PM;
+    private boolean morto;
 
     public Personagem(String nome, Classe classe) {
         this.nivel = 1;
@@ -18,6 +19,8 @@ public class Personagem {
         this.PMmax = this.nivel * classe.inteligencia + (this.nivel * ((float) classe.agilidade /3)); // Discrepância de tipo de dado.
         this.PV = this.PVmax;
         this.PM = this.PMmax;
+        this.morto = false;
+
     }
 
     // Métodos
@@ -44,23 +47,32 @@ public class Personagem {
         }
     }
 
-    public void morrer() {
+    public void morrer(Personagem defunto) {
         if(this.PV <= 0) {
-            this.setTempoEspera(999999999);
+            this.setMorte(defunto);
         }
     }
 
     public void atacarInimigo(Habilidade habilidade, Personagem inimigo) {
-        if(this.getTempoEspera()!=0) {
+        if (this.morto) {
+            System.out.println("Você está morto.");
+        } else if(this.getTempoEspera()!=0) {
             System.out.println("Você não pode atacar ainda.");
-        } else if(habilidade.calcularCustoMana(this.classe) > this.getPM()) {
+        } else if(habilidade.calcularCustoMana(this.getClasse()) > this.getPM()) {
             System.out.println("Você não tem mana.");
-        } else if(!this.classe.getHabilidades().contains(habilidade)) {
+        } else if(inimigo.morto) {
+            System.out.println(inimigo.getNome()+" já está morto.");
+        } else if(!this.getClasse().getHabilidades().contains(habilidade)) {
             System.out.println("Você não possui essa habilidade");
         } else {
-            inimigo.sofrerDano(habilidade.calcularDanoCausado(this.classe));
+            inimigo.sofrerDano(habilidade.calcularDanoCausado(this.getClasse()));
             this.setTempoEspera(habilidade.getTempoEspera());
-            System.out.println("Você utiliza "+ habilidade.getNome() + " contra " + inimigo.getNome() + ", causando " + habilidade.calcularDanoCausado(this.classe) + "de dano!");
+            this.setPM(this.getPM() - habilidade.calcularCustoMana(this.getClasse());
+            System.out.println("Você utiliza "+ habilidade.getNome() + " contra " + inimigo.getNome() + ", causando " + habilidade.calcularDanoCausado(this.classe) + " de dano!");
+            if (inimigo.getPV()==0) {
+                inimigo.morrer(inimigo);
+                System.out.println("Você MATOU VIOLENTAMENTE o " + inimigo.getNome() + "! Sinta-se orgulhoso!");
+            }
         }
     }
 
@@ -130,6 +142,10 @@ public class Personagem {
 
     public void setPM(float PM) {
         this.PM = PM;
+    }
+
+    public void setMorte(Personagem defunto) {
+        defunto.morto = true;
     }
 }
 
