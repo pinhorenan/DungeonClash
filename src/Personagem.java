@@ -60,7 +60,7 @@ public class Personagem {
         } else {
             inimigo.sofrerDano(habilidade.calcularDanoCausado(this.classe));
             this.setTempoEspera(habilidade.getTempoEspera());
-            System.out.println("Você utiliza "+ habilidade.getNome() + " contra " + inimigo.getNome() + ", causando " + habilidade.calcularDanoCausado(this.classe) );
+            System.out.println("Você utiliza "+ habilidade.getNome() + " contra " + inimigo.getNome() + ", causando " + habilidade.calcularDanoCausado(this.classe) + "de dano!");
         }
     }
 
