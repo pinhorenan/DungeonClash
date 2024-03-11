@@ -1,14 +1,20 @@
 import java.util.Set;
 
 public abstract class Classe {
-    // Atributos
+
+    // -------------------------------------------- ATRIBUTOS -------------------------------------------- //
     public int forca;
     public int agilidade;
     public int inteligencia;
     public Set<Habilidade> habilidades;
 
-    // Construtor padrão
-    public Classe() {}
+    // ------------------------------------------ CONSTRUTOR ------------------------------------------- //
+    public Classe() {
+    }
+
+    // -------------------------------------------- MÉTODOS -------------------------------------------- //
+    public void subirNivel() {
+    }
 
     // -------------------------------------------- GETTERS -------------------------------------------- //
 
@@ -27,4 +33,6 @@ public abstract class Classe {
     public Set<Habilidade> getHabilidades() {
         return habilidades;
     }
-}
+
+} // FECHAMENTO
+
