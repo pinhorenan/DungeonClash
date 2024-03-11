@@ -1,6 +1,6 @@
 public class Mago extends Classe{
 
-    public Mago(int nivel) // e quando um mago fosse instanciado, ele ia receber o getNivel() do personagem que o contém {
+    public Mago(int nivel)  { // e quando um mago fosse instanciado, ele ia receber o getNivel() do personagem que o contém
         this.forca = nivel;
         this.agilidade = nivel*2;
         this.inteligencia = nivel*3;
