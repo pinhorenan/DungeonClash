@@ -8,16 +8,17 @@ public class Personagem {
     private float PVmax, PV, PMmax, PM;
     // Talvez não possa ter os atributos PV e PM e teremos que achar outro método.
 
-
     public Personagem(String nome, Classe classe) {
         this.nivel = 1;
         this.PE = 0;
-        this.ID = gerarProximoID(); // implementando id do jeito decente. Depois a gente vê do jeito que é pedido
+        this.ID = gerarProximoID();
         this.tempoEspera = 0;
         this.nome = nome;
         this.classe = classe;
         this.PVmax = this.nivel * classe.forca + (this.nivel * ((float) classe.agilidade /2) ); // Discrepância de tipo de dado.
         this.PMmax = this.nivel * classe.inteligencia + (this.nivel * ((float) classe.agilidade /3)); // Discrepância de tipo de dado.
+        this.PV = this.PVmax;
+        this.PM = this.PMmax;
     }
 
     // Métodos
@@ -40,29 +41,33 @@ public class Personagem {
 
     public void sofrerDano(int dano) {
         if (this.PV > 0) {
-            this.PV -= dano;
+            this.setPV(this.getPV()-dano);
         }
     }
 
     public void morrer() {
         if(this.PV <= 0) {
-            // SE FUDEU
+            this.setTempoEspera(999999999);
         }
     }
 
     public void atacarInimigo(Habilidade habilidade) {
-        // Implementar
+        if(this.getTempoEspera()==0) {
+
+        } else System.out.println("Você não pode atacar ainda!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
     public void atacarGrupo(Habilidade habilidade) {
-        // Implementar
+        if(this.getTempoEspera()==0) {
+
+        } else System.out.println("Você não pode atacar ainda!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
     public void ganharPE(int PE) {
         this.PE =+ PE;
     }
 
-    // Getters
+    // -------------------------------------------- GETTERS -------------------------------------------- //
 
     public String getNome() {
         return this.nome;
@@ -73,7 +78,7 @@ public class Personagem {
     }
 
     public int getNivel() {
-        return nivel;
+        return this.nivel;
     }
 
     public int getPE() {
@@ -96,13 +101,17 @@ public class Personagem {
         return this.PM;
     }
 
-    // Setters
+    // -------------------------------------------- SETTERS -------------------------------------------- //
+
+    public void setTempoEspera(int tempoEspera) {
+        this.tempoEspera = tempoEspera;
+    }
 
     public void setPE(int PE) {
         this.PE = PE;
     }
 
-    public void setPv(float PV) {
+    public void setPV(float PV) {
         this.PV = PV;
     }
 
