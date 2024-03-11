@@ -10,95 +10,43 @@ public class Personagem {
 
 
     public Personagem(String nome, Classe classe) {
-        nivel = 1;
-        PE = 0;
+        this.nivel = 1;
+        this.PE = 0;
         this.ID = gerarProximoID(); // implementando id do jeito decente. Depois a gente vê do jeito que é pedido
-        tempoEspera = 0;
+        this.tempoEspera = 0;
         this.nome = nome;
         this.classe = classe;
-        PVmax = nivel * classe.forca + (nivel * (classe.agilidade/2) ); // Discrepância de tipo de dado.
-        PMmax = nivel * classe.inteligencia + (nivel * (classe.agilidade/3)); // Discrepância de tipo de dado.
+        this.PVmax = this.nivel * classe.forca + (this.nivel * ((float) classe.agilidade /2) ); // Discrepância de tipo de dado.
+        this.PMmax = this.nivel * classe.inteligencia + (this.nivel * ((float) classe.agilidade /3)); // Discrepância de tipo de dado.
     }
 
     // Métodos
 
     public void subirNivel() {
-        if (PE>=(nivel*25)) {  // PE necessário p/ subir de nível: nívelAtual * 25
-            int excessoPE = PE - (nivel*25);
-            nivel++;
-            PE = 0;
-            PE = excessoPE;
-            excessoPE = 0;
-            PVmax += nivel * classe.forca + (nivel * (classe.agilidade/2));
-            PMmax += nivel * classe.inteligencia + (nivel * (classe.agilidade/3));
+        if (this.PE>=(this.nivel * 25)) {
+            this.nivel++;
+            this.PVmax += this.nivel * this.classe.forca + (this.nivel * ((float) this.classe.agilidade /2));
+            this.PMmax += this.nivel * this.classe.inteligencia + (this.nivel * ((float) this.classe.agilidade /3));
+            this.classe.inteligencia *= this.nivel; // ta errado
+            this.classe.agilidade *= this.nivel; // ta errado
+            this.classe.forca *= this.nivel; // ta errado
+            this.PE = 0;
         }   // Revisar este código.
     }
 
     private static int gerarProximoID() {
         return proximoID++;
     }
-    // Getters
-
-    public String getNome() {
-        return nome;
-    }
-
-    public Classe getClasse() {
-        return classe;
-    }
-
-    public static int getNivel() {
-        return nivel;
-    }
-
-    public int getPE() {
-        return PE;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public int getTempoEspera() {
-        return tempoEspera;
-    }
-
-    public float getPV() {
-        return PV;
-    }
-
-    public float getPM() {
-        return PM;
-    }
-
-    // Setters
-
-    public void setPE(int PE) {
-        this.PE = PE;
-        // Nessa implementação o cálculo de acréscimo do PE deve ser feito antes.
-        // PoderÍamos substituir por um método incrementaPE()
-    }
-
-    public void setPV(float PV) {
-        this.PV = PV;
-        // Provavelmente seria utilizado para encher a vida após o final da batalha.
-    }
-
-    public void setPM(float PM) {
-        this.PM = PM;
-        // Provavelmente seria utilizado para encher a mana após o fina da batalha.
-    }
-
-    public void setTempoEspera(int tempoEspera) {
-        this.tempoEspera = tempoEspera;
-    }
-
-    // Métodos
 
     public void sofrerDano(int dano) {
-        // Implementar
         if (this.PV > 0) {
             this.PV -= dano;
+        }
+    }
+
+    public void morrer() {
+        if(this.PV <= 0) {
+            // SE FUDEU
         }
     }
 
@@ -111,12 +59,57 @@ public class Personagem {
     }
 
     public void ganharPE(int PE) {
-        // Implementar
+        this.PE =+ PE;
     }
 
-    public void subirNivel(int PE) {
-        // Implementar
+    // Getters
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public Classe getClasse() {
+        return this.classe;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public int getPE() {
+        return this.PE;
+    }
+
+    public int getID() {
+        return this.ID;
+    }
+
+    public int getTempoEspera() {
+        return this.tempoEspera;
+    }
+
+    public float getPV() {
+        return this.PV;
+    }
+
+    public float getPM() {
+        return this.PM;
+    }
+
+    // Setters
+
+    public void setPE(int PE) {
+        this.PE = PE;
+    }
+
+    public void setPv(float PV) {
+        this.PV = PV;
+    }
+
+    public void setPM(float PM) {
+        this.PM = PM;
     }
 }
+
 
 

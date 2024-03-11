@@ -8,7 +8,7 @@ public abstract class Classe {
     public Set<Habilidade> habilidades;
 
     // Construtor padrão
-    public Classe(int forca, int agilidade, int inteligencia) {}
+    public Classe() {}
 
     // Getters
 

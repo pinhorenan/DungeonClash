@@ -1,7 +1,7 @@
 public class PesosDeAtributos {
-   private double pesoForca;
-   private double pesoAgilidade;
-   private double pesoInteligencia;
+   private final double pesoForca;
+   private final double pesoAgilidade;
+   private final double pesoInteligencia;
 
    public PesosDeAtributos(double pesoForca, double pesoAgilidade, double pesoInteligencia) {
       this.pesoForca = pesoForca;

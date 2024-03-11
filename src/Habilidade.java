@@ -42,10 +42,6 @@ public class Habilidade {
 
     };
 
-    public void usarHabilidade(){
-
-    }
-
 
     // Getters
 
