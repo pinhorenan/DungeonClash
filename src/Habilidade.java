@@ -1,16 +1,19 @@
 public class Habilidade {
 
+    // -------------------------------------------- ATRIBUTOS -------------------------------------------- //
     private final String nome; // Nome da habilidade
-    private final PesosDeAtributos pesosDano;
-    private final PesosDeAtributos pesosMana;
-    private final int tempoEspera; // Tempo de espera associado a habilidade
+    private final PesosDeAtributos pesosDano; // Encapsulamento dos pesos para cálculo de dano das habilidades.
+    private final PesosDeAtributos pesosMana; // Encapsulamento dos pesos para cálculo de PM das habilidades.
+    private final int tempoEspera; // Tempo de espera adicionado ao personagem após uso da habilidade.
     private final boolean afetaGrupo; // Se afeta todos os personagens da equipe adversária
     private final boolean afetaAmigos; // Se pode ser utilizada em amigos
-    private int ID; // Identificador único da habilidade
-    private static int proximoID = 1;
+    private final int ID; // Identificador único da habilidade
+    private static int proximoID = 1; // Utilidade
 
+
+    // ------------------------------------------ CONSTRUTOR ------------------------------------------- //
     public Habilidade(String nome, PesosDeAtributos pesosDano, PesosDeAtributos pesosMana, int tempoEspera, boolean afetaAmigos, boolean afetaGrupo) {
-        this.ID = gerarProximoID();
+        ID = gerarProximoID();
         this.nome = nome;
         this.tempoEspera = tempoEspera;
         this.pesosDano = pesosDano;
@@ -19,26 +22,25 @@ public class Habilidade {
         this.afetaAmigos = afetaAmigos;
     }
 
-    // Métodos
-
-    public int calcularDanoCausado(Classe classe) {
+    // -------------------------------------------- MÉTODOS -------------------------------------------- //
+    public double calcularDanoCausado(Classe classe) { // Chamado pelo método "danoCausado()" de "Personagem"
         int agilidade = classe.getAgilidade();
         int inteligencia = classe.getInteligencia();
         int forca = classe.getForca();
         double pesoForca = pesosDano.getPesoForca();
         double pesoAgilidade = pesosDano.getPesoAgilidade();
         double pesoInteligencia = pesosDano.getPesoInteligencia();
-        return Personagem.getNivel()*Math.ceil((forca * pesoForca) + (agilidade * pesoAgilidade) + (inteligencia * pesoInteligencia));
+        return Math.ceil((forca * pesoForca) + (agilidade * pesoAgilidade) + (inteligencia * pesoInteligencia));
     }
 
-    public double calcularCustoMana(Classe classe) {
+    public double calcularCustoMana(Classe classe) { // Chamado pelo método "custoMagia()" de "Personagem"
         int agilidade = classe.getAgilidade();
         int inteligencia = classe.getInteligencia();
         int forca = classe.getForca();
         double pesoForca = pesosMana.getPesoForca();
         double pesoAgilidade = pesosMana.getPesoAgilidade();
         double pesoInteligencia = pesosMana.getPesoInteligencia();
-        return Personagem.getNivel()*Math.ceil((forca * pesoForca) + (agilidade * pesoAgilidade) + (inteligencia * pesoInteligencia));
+        return Math.ceil((forca * pesoForca) + (agilidade * pesoAgilidade) + (inteligencia * pesoInteligencia));
     }
 
     private static int gerarProximoID() {
@@ -46,7 +48,6 @@ public class Habilidade {
     }
 
     // -------------------------------------------- GETTERS -------------------------------------------- //
-
     public String getNome() {
         return nome;
     }
@@ -55,12 +56,16 @@ public class Habilidade {
         return tempoEspera;
     }
 
-    public boolean isAfetaGrupo() {
+    public boolean getIsAfetaGrupo() {
         return afetaGrupo;
     }
 
-    public boolean isAfetaAmigos() {
+    public boolean getIsAfetaAmigos() {
         return afetaAmigos;
+    }
+
+    public int getID() {
+        return ID;
     }
 }
 
