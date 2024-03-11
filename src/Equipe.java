@@ -16,7 +16,7 @@ public class Equipe {
 
     public void distribuirPE(int lvlInimigo) {
         for (Personagem integrante: integrantes) {
-            integrante // pera ai pera ai
+            integrante.ganharPE(lvlInimigo);
         }
     }
 
