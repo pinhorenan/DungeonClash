@@ -1,15 +1,15 @@
 public class Habilidade {
 
-    private String nome; // Nome da habilidade
-    private PesosDeAtributos pesosDano;
-    private PesosDeAtributos pesosMana; // Define pesos de dano e mana(magia) associados a habilidade
-    private int tempo; // Tempo de espera associado a habilidade
-    private boolean afetaGrupo; // Se afeta todos os personagens da equipe adversária
-    private boolean afetaAmigos; // Se pode ser utilizada em amigos
+    private final String nome; // Nome da habilidade
+    private final PesosDeAtributos pesosDano;
+    private final PesosDeAtributos pesosMana; // Define pesos de dano e mana(magia) associados a habilidade
+    private final int tempo; // Tempo de espera associado a habilidade
+    private final boolean afetaGrupo; // Se afeta todos os personagens da equipe adversária
+    private final boolean afetaAmigos; // Se pode ser utilizada em amigos
     private static int ID; // Identificador único da habilidade
 
-    public Habilidade(String nome, PesosDeAtributos new pesosDano, PesosDeAtributos new pesosMana, int tempo, boolean afetaAmigos, boolean afetaGrupo) {
-        this.ID = 0; // SUPER TEMPORÁRIO AO INVÉS DE 0 TEM QUE SER UM MÉTODO PRA GERAR NÚMEROS ALEATORIOS
+    public Habilidade(String nome, PesosDeAtributos pesosDano, PesosDeAtributos pesosMana, int tempo, boolean afetaAmigos, boolean afetaGrupo) {
+        ID = 0;
         this.nome = nome;
         this.tempo = tempo;
         this.pesosDano = pesosDano;
@@ -18,23 +18,39 @@ public class Habilidade {
         this.afetaAmigos = afetaAmigos;
     }
 
+    // Métodos
+
+    public double calculaDanoCausado(Classe classe) {
+        int agilidade = classe.getAgilidade();
+        int inteligencia = classe.getInteligencia();
+        int forca = classe.getForca();
+        double pesoForca = pesosDano.getPesoForca();
+        double pesoAgilidade = pesosDano.getPesoAgilidade();
+        double pesoInteligencia = pesosDano.getPesoInteligencia();
+        return Personagem.getNivel()*Math.ceil((forca * pesoForca) + (agilidade * pesoAgilidade) + (inteligencia * pesoInteligencia));
+
+    }
+
+    public double calculaCustoMana(Classe classe) {
+        int agilidade = classe.getAgilidade();
+        int inteligencia = classe.getInteligencia();
+        int forca = classe.getForca();
+        double pesoForca = pesosMana.getPesoForca();
+        double pesoAgilidade = pesosMana.getPesoAgilidade();
+        double pesoInteligencia = pesosMana.getPesoInteligencia();
+        return Personagem.getNivel()*Math.ceil((forca * pesoForca) + (agilidade * pesoAgilidade) + (inteligencia * pesoInteligencia));
+
+    };
+
+    public void usarHabilidade(){
+
+    }
+
 
     // Getters
 
     public String getNome() {
         return nome;
-    }
-
-    public double getPesoForca() {
-        return PesosDeAtributos.getPesoForca();
-    }
-
-    public double getPesoAgilidade() {
-        return PesosDeAtributos.getPesoAgilidade();
-    }
-
-    public double getPesoInteligencia() {
-        return PesosDeAtributos.getPesoInteligencia();
     }
 
     public int getTempo() {
@@ -48,24 +64,5 @@ public class Habilidade {
     public boolean isAfetaAmigos() {
         return afetaAmigos;
     }
-
-    // Setters
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setTempo(int tempo) {
-        this.tempo = tempo;
-    }
-
-    public void setAfetaGrupo(boolean afetaGrupo) {
-        this.afetaGrupo = afetaGrupo;
-    }
-
-    public void setAfetaAmigos(boolean afetaAmigos) {
-        this.afetaAmigos = afetaAmigos;
-    }
-
 }
 

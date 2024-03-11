@@ -12,7 +12,6 @@ public class Personagem {
     public Personagem(String nome, Classe classe) {
         nivel = 1;
         PE = 0;
-        Random random = new Random();
         this.ID = gerarProximoID(); // implementando id do jeito decente. Depois a gente vê do jeito que é pedido
         tempoEspera = 0;
         this.nome = nome;
@@ -48,7 +47,7 @@ public class Personagem {
         return classe;
     }
 
-    public int getNivel() {
+    public static int getNivel() {
         return nivel;
     }
 

@@ -1,9 +1,11 @@
 public class Monstro extends Classe {
 
     public Monstro() {
-        this.forca = getNivel() * 4;
-        this.agilidade = getNivel();
+        this.forca = Personagem.getNivel() * 4;
+        this.agilidade = Personagem.getNivel();
         this.inteligencia = 0;
-        this.habilidades = adicionarHabilidade(atirarFlecha);
+
+
+
     }
 }
