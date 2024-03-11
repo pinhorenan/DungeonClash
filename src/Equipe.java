@@ -4,4 +4,34 @@ public class Equipe {
     funcionalidades básicas, esta classe deve implementar métodos para adicionar e buscar personagens
     em uma equipe, retornar a equipe (coleção), computar pontos de experiência para a equipe,
     determinar o próximo atacante, atualizar o tempo de espera, entre outros. */
+    private List<Personagem> integrantes;
+
+    public Equipe() {
+        this.integrantes = new ArrayList<>();
+    }
+
+    public void addIntegrante(Personagem integrante) {
+        integrantes.add(integrante);
+    }
+
+    public void distribuirPE(int lvlInimigo) {
+        for (Personagem integrante: integrantes) {
+            integrante // pera ai pera ai
+        }
+    }
+
+    public Personagem searchID(int ID) {
+        for (Personagem integrante : integrantes) {
+            if (ID == personagem.getID) {
+                return personagem;
+            } else {
+                return null;
+            }
+        }
+    }
+
+    // getter
+    public List<Personagem> getIntegrantes() {
+        return integrantes;
+    }
 }
