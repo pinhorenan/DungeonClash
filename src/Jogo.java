@@ -20,4 +20,7 @@ diferente. */
   public void carregarEquipe() {
     
   }
+
+    public void iniciar() {
+    }
 }
