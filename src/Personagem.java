@@ -1,5 +1,6 @@
 public class Personagem {
 
+    // -------------------------------------------- ATRIBUTOS -------------------------------------------- //
     private final String nome;
     private final Classe classe;
     private static int proximoID = 1;
@@ -8,83 +9,87 @@ public class Personagem {
     private float PVmax, PV, PMmax, PM;
     private boolean morto;
 
+    // ------------------------------------------ CONSTRUTOR ------------------------------------------- //
     public Personagem(String nome, Classe classe) {
-        this.nivel = 1;
-        this.PE = 0;
-        this.ID = gerarProximoID();
-        this.tempoEspera = 0;
         this.nome = nome;
         this.classe = classe;
-        this.PVmax = this.nivel * classe.forca + (this.nivel * ((float) classe.agilidade /2) ); // Discrepância de tipo de dado.
-        this.PMmax = this.nivel * classe.inteligencia + (this.nivel * ((float) classe.agilidade /3)); // Discrepância de tipo de dado.
-        this.PV = this.PVmax;
-        this.PM = this.PMmax;
-        this.morto = false;
-
+        ID = gerarProximoID();
+        nivel = 1;
+        PE = 0;
+        tempoEspera = 0;
+        PVmax = classe.forca + ((float) this.classe.agilidade / 2);
+        PMmax = classe.inteligencia + ((float) this.classe.agilidade / 3);
+        PV = PVmax;
+        PM = PMmax;
+        morto = false;
     }
 
-    // Métodos
-
+    // -------------------------------------------- MÉTODOS -------------------------------------------- //
     public void subirNivel() {
-        if (this.getPE()>=(this.nivel * 25)) {
-            this.nivel++;
-            this.PVmax += this.nivel * this.classe.forca + (this.nivel * ((float) this.classe.agilidade /2));
-            this.PMmax += this.nivel * this.classe.inteligencia + (this.nivel * ((float) this.classe.agilidade /3));
-            this.classe.inteligencia *= this.nivel; // ta errado nao lembro pq
-            this.classe.agilidade *= this.nivel; // ta errado nao lembro pq
-            this.classe.forca *= this.nivel; // ta errado nao lembro pq
-            this.PE = 0; // subjetivo pq vai matar qualquer XP que sobrar
-        }   // Revisar este código.
-    }
+        if (PE >= (nivel * 25)) {
+            nivel++;
+            classe.subirNivel();
+            PVmax += nivel * classe.forca + (nivel * ((float) classe.agilidade / 2));
+            PMmax += nivel * classe.inteligencia + (nivel * ((float) classe.agilidade / 3));
+            PE = 0;
+        }
+    } // Será chamado após as batalhas
 
     private static int gerarProximoID() {
         return proximoID++;
-    }
+    } // Utilidade
 
     public void sofrerDano(int dano) {
-        if (this.PV > 0) {
-            this.setPV(this.getPV()-dano);
+        if (PV > 0) {
+            PV -= dano;
         }
+    } // Chamado pelos métodos "atacarInimigo()" e "atacarGrupo"
+
+    public int custoMana(Habilidade habilidade) {
+        return (int) (nivel * habilidade.calcularCustoMana(classe));
     }
 
-    public void morrer(Personagem defunto) {
-        if(this.PV <= 0) {
-            this.setMorte(defunto);
-        }
+    public int danoCausado(Habilidade habilidade) {
+        return (int) (nivel * habilidade.calcularDanoCausado(classe));
     }
 
     public void atacarInimigo(Habilidade habilidade, Personagem inimigo) {
-        if (this.morto) {
+        if (morto) {
             System.out.println("Você está morto.");
-        } else if(this.getTempoEspera()!=0) {
-            System.out.println("Você não pode atacar ainda.");
-        } else if(habilidade.calcularCustoMana(this.getClasse()) > this.getPM()) {
-            System.out.println("Você não tem mana.");
-        } else if(inimigo.morto) {
-            System.out.println(inimigo.getNome()+" já está morto.");
-        } else if(!this.getClasse().getHabilidades().contains(habilidade)) {
-            System.out.println("Você não possui essa habilidade");
+        } else
+            if(tempoEspera != 0) {
+                System.out.println("Você não pode atacar ainda.");
+        } else
+            if(custoMana(habilidade) > PM) {
+                System.out.println("Você não tem mana.");
+        } else
+            if(inimigo.morto) {
+                System.out.println(inimigo.nome + " já está morto.");
+        } else
+            if(!classe.getHabilidades().contains(habilidade)) {
+                System.out.println("Você não possui essa habilidade");
         } else {
-            inimigo.sofrerDano(habilidade.calcularDanoCausado(this.getClasse()));
-            this.setTempoEspera(habilidade.getTempoEspera());
-            this.setPM(this.getPM() - habilidade.calcularCustoMana(this.getClasse());
-            System.out.println("Você utiliza "+ habilidade.getNome() + " contra " + inimigo.getNome() + ", causando " + habilidade.calcularDanoCausado(this.classe) + " de dano!");
-            if (inimigo.getPV()==0) {
-                inimigo.morrer(inimigo);
-                System.out.println("Você MATOU VIOLENTAMENTE o " + inimigo.getNome() + "! Sinta-se orgulhoso!");
+                inimigo.sofrerDano(danoCausado(habilidade));
+                setTempoEspera(habilidade.getTempoEspera());
+                setPM(this.getPM() - custoMana(habilidade));
+                System.out.println("Você utiliza "+ habilidade.getNome() + " contra " + inimigo.getNome() + ", causando " + danoCausado(habilidade) + " de dano!");
+
+                if (inimigo.PV==0) {
+                    setMorto(inimigo);
+                    System.out.println("Você MATOU VIOLENTAMENTE o " + inimigo.getNome() + "! Sinta-se orgulhoso!");
+                }
             }
-        }
     }
 
     public void atacarGrupo(Habilidade habilidade, Equipe grupo) {
-        if(this.getTempoEspera()!=0) {
-            System.out.println("Você não pode atacar ainda.");
-        } else if(habilidade.calcularCustoMana(this.classe) > this.getPM()) {
+        if(tempoEspera != 0) {
+            System.out.println("Você não pode atacar ainda!");
+        } else if(habilidade.calcularCustoMana(classe) > PM) {
             System.out.println("Você não tem mana.");
-        } else if(!this.classe.getHabilidades().contains(habilidade)) {
-            System.out.println("Você não possui essa habilidade");
-        } else {
-
+        } else if(!classe.getHabilidades().contains(habilidade)) {
+            System.out.println("Você não possui essa habilidade!");
+        } else if(!habilidade.getIsAfetaGrupo()) {
+            System.out.println("Essa habilidade não pode ser usada contra um grupo!");
         }
     }
 
@@ -95,35 +100,35 @@ public class Personagem {
     // -------------------------------------------- GETTERS -------------------------------------------- //
 
     public String getNome() {
-        return this.nome;
+        return nome;
     }
 
     public Classe getClasse() {
-        return this.classe;
+        return classe;
     }
 
     public int getNivel() {
-        return this.nivel;
+        return nivel;
     }
 
     public int getPE() {
-        return this.PE;
+        return PE;
     }
 
     public int getID() {
-        return this.ID;
+        return ID;
     }
 
     public int getTempoEspera() {
-        return this.tempoEspera;
+        return tempoEspera;
     }
 
     public float getPV() {
-        return this.PV;
+        return PV;
     }
 
     public float getPM() {
-        return this.PM;
+        return PM;
     }
 
     // -------------------------------------------- SETTERS -------------------------------------------- //
@@ -144,8 +149,12 @@ public class Personagem {
         this.PM = PM;
     }
 
-    public void setMorte(Personagem defunto) {
-        defunto.morto = true;
+    public void setVivo(Personagem defunto) {
+        defunto.morto = false;
+    }
+
+    public void setMorto(Personagem personagem) {
+        personagem.morto = true;
     }
 }
 
