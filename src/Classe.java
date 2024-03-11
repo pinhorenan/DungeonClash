@@ -10,8 +10,7 @@ public abstract class Classe {
     // Construtor padrão
     public Classe() {}
 
-    // Getters
-
+    // -------------------------------------------- GETTERS -------------------------------------------- //
 
     public int getAgilidade() {
         return agilidade;
@@ -23,5 +22,9 @@ public abstract class Classe {
 
     public int getInteligencia() {
         return inteligencia;
+    }
+
+    public Set<Habilidade> getHabilidades() {
+        return habilidades;
     }
 }

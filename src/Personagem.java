@@ -2,11 +2,10 @@ public class Personagem {
 
     private final String nome;
     private final Classe classe;
-    private static int proximoID = 1; // Contador estático para gerar IDs únicos
+    private static int proximoID = 1;
     private final int ID;
     private int nivel, PE, tempoEspera;
     private float PVmax, PV, PMmax, PM;
-    // Talvez não possa ter os atributos PV e PM e teremos que achar outro método.
 
     public Personagem(String nome, Classe classe) {
         this.nivel = 1;
@@ -24,14 +23,14 @@ public class Personagem {
     // Métodos
 
     public void subirNivel() {
-        if (this.PE>=(this.nivel * 25)) {
+        if (this.getPE()>=(this.nivel * 25)) {
             this.nivel++;
             this.PVmax += this.nivel * this.classe.forca + (this.nivel * ((float) this.classe.agilidade /2));
             this.PMmax += this.nivel * this.classe.inteligencia + (this.nivel * ((float) this.classe.agilidade /3));
-            this.classe.inteligencia *= this.nivel; // ta errado
-            this.classe.agilidade *= this.nivel; // ta errado
-            this.classe.forca *= this.nivel; // ta errado
-            this.PE = 0;
+            this.classe.inteligencia *= this.nivel; // ta errado nao lembro pq
+            this.classe.agilidade *= this.nivel; // ta errado nao lembro pq
+            this.classe.forca *= this.nivel; // ta errado nao lembro pq
+            this.PE = 0; // subjetivo pq vai matar qualquer XP que sobrar
         }   // Revisar este código.
     }
 
@@ -51,16 +50,30 @@ public class Personagem {
         }
     }
 
-    public void atacarInimigo(Habilidade habilidade) {
-        if(this.getTempoEspera()==0) {
-
-        } else System.out.println("Você não pode atacar ainda!!!!!!!!!!!!!!!!!!!!!!!");
+    public void atacarInimigo(Habilidade habilidade, Personagem inimigo) {
+        if(this.getTempoEspera()!=0) {
+            System.out.println("Você não pode atacar ainda.");
+        } else if(habilidade.calcularCustoMana(this.classe) > this.getPM()) {
+            System.out.println("Você não tem mana.");
+        } else if(!this.classe.getHabilidades().contains(habilidade)) {
+            System.out.println("Você não possui essa habilidade");
+        } else {
+            inimigo.sofrerDano(habilidade.calcularDanoCausado(this.classe));
+            this.setTempoEspera(habilidade.getTempoEspera());
+            System.out.println("Você utiliza "+ habilidade.getNome() + " contra " + inimigo.getNome() + ", causando " + habilidade.calcularDanoCausado(this.classe) );
+        }
     }
 
-    public void atacarGrupo(Habilidade habilidade) {
-        if(this.getTempoEspera()==0) {
+    public void atacarGrupo(Habilidade habilidade, Equipe grupo) {
+        if(this.getTempoEspera()!=0) {
+            System.out.println("Você não pode atacar ainda.");
+        } else if(habilidade.calcularCustoMana(this.classe) > this.getPM()) {
+            System.out.println("Você não tem mana.");
+        } else if(!this.classe.getHabilidades().contains(habilidade)) {
+            System.out.println("Você não possui essa habilidade");
+        } else {
 
-        } else System.out.println("Você não pode atacar ainda!!!!!!!!!!!!!!!!!!!!!!!");
+        }
     }
 
     public void ganharPE(int PE) {

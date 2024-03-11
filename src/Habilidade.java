@@ -3,15 +3,16 @@ public class Habilidade {
     private final String nome; // Nome da habilidade
     private final PesosDeAtributos pesosDano;
     private final PesosDeAtributos pesosMana;
-    private final int tempo; // Tempo de espera associado a habilidade
+    private final int tempoEspera; // Tempo de espera associado a habilidade
     private final boolean afetaGrupo; // Se afeta todos os personagens da equipe adversária
     private final boolean afetaAmigos; // Se pode ser utilizada em amigos
-    private static int ID; // Identificador único da habilidade
+    private int ID; // Identificador único da habilidade
+    private static int proximoID = 1;
 
-    public Habilidade(String nome, PesosDeAtributos pesosDano, PesosDeAtributos pesosMana, int tempo, boolean afetaAmigos, boolean afetaGrupo) {
-        this.ID = 0;
+    public Habilidade(String nome, PesosDeAtributos pesosDano, PesosDeAtributos pesosMana, int tempoEspera, boolean afetaAmigos, boolean afetaGrupo) {
+        this.ID = gerarProximoID();
         this.nome = nome;
-        this.tempo = tempo;
+        this.tempoEspera = tempoEspera;
         this.pesosDano = pesosDano;
         this.pesosMana = pesosMana;
         this.afetaGrupo = afetaGrupo;
@@ -20,7 +21,7 @@ public class Habilidade {
 
     // Métodos
 
-    public double calcularDanoCausado(Classe classe) {
+    public int calcularDanoCausado(Classe classe) {
         int agilidade = classe.getAgilidade();
         int inteligencia = classe.getInteligencia();
         int forca = classe.getForca();
@@ -44,14 +45,14 @@ public class Habilidade {
         return proximoID++;
     }
 
-    // Getters
+    // -------------------------------------------- GETTERS -------------------------------------------- //
 
     public String getNome() {
         return nome;
     }
 
-    public int getTempo() {
-        return tempo;
+    public int getTempoEspera() {
+        return tempoEspera;
     }
 
     public boolean isAfetaGrupo() {
