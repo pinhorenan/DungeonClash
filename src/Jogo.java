@@ -1,4 +1,7 @@
+import java.io.IOException;
 import java.nio.file.*;
+import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.List;
 
@@ -12,22 +15,33 @@ public class Jogo {
     this.herois = new Equipe(false);
     this.inimigos = new Equipe(true);
     this.arquivo = Paths.get(caminhoArquivo);
-    try {
-      List<String> linhasArquivo = Files.readAllLines(arquivo);  // Leia todas as linhas do arquivo
+
+    if (!Files.exists(arquivo)) {
+      System.out.println("Arquivo não encontrado. Certifique-se de fornecer o caminho correto.");
+      System.exit(1);
+    }
+    /*try {
+      List<String> linhasArquivo = Files.readAllLines(arquivo);
     } catch (IOException e) {
       System.err.println("Erro ao ler o arquivo: " + e.getMessage());
-      System.exit(1); // Isso encerra o programa com código de erro 1.
-    }
+      System.exit(1);
+    }*/ // CÓDIGO DO PURO OSSO TA AQUI DENTRO
   }
-  
-  // comentário pra lembrar de implementar alguma forma de portar o arquivo .txt e transformar ele em string (espero q seja minimamente parecido com shell script)
 
   public void iniciar() {
+    carregarEquipe();
+    iniciarBatalha();
+  }
+
+    /* APOS ISSO, DEVE ABRIR O ARQUIVO E TRANSFORMAR SEU CONTEUDO EM FASES
+    A PRIMEIRA LINHA DA FASE DEVE SER PRINTADA
+    A SEGUNDA LINHA DEVE SER TRANSFORMADA NA EQUIPE INIMIGA, COM CADA ITEM SENDO UM INTEGRANTE
+    APOS UMA FASE ACABAR, A PROXIMA DEVE COMEÇAR (FAZER UM SET DE FASES???????????)*/ // COMENTÁRIO DO PURO OSSO??
+
+  public void carregarEquipe() {
     Scanner scanner = new Scanner(System.in);
     boolean criacaoPersonagens;
-    // ANOTAÇÕES
-    // "INICIAR" DEVE ABRIR UM MENU PRA CRIAÇÃO DE PERSONAGENS
-    
+
     for (int i = 1; i <= 3; ++i) {
       System.out.println("\nNome do " + i + "º Herói ou Heroína: ");
       String nomeHeroi = scanner.nextLine();
@@ -37,15 +51,15 @@ public class Jogo {
         try {
           int escolhaClasse = Integer.parseInt(scanner.nextLine());
         } catch (InputMismatchException e) {
-          System.out.println("Imput inválido! Tente de novo.");
+          System.out.println("Input inválido! Tente de novo.");
         }
-      } while (!escolhaClasse || escolhaClasse > 3 || escolhaClasse < 0);
+      } while (escolhaClasse || escolhaClasse > 3 || escolhaClasse < 0);
 
       Personagem novoHeroi = switch (escolhaClasse) {
-          case 1 -> new Personagem(nomeHeroi, new Guerreiro());
-          case 2 -> new Personagem(nomeHeroi, new Arqueiro());
-          case 3 -> new Personagem(nomeHeroi, new Mago());
-          default -> new Personagem(nomeHeroi, new Guerreiro());
+        case 1 -> new Personagem(nomeHeroi, new Guerreiro());
+        case 2 -> new Personagem(nomeHeroi, new Arqueiro());
+        case 3 -> new Personagem(nomeHeroi, new Mago());
+        default -> new Personagem(nomeHeroi, new Guerreiro());
       };
 
       herois.adicionarIntegrante(novoHeroi);
@@ -55,28 +69,58 @@ public class Jogo {
       do {
         try {
           criacaoPersonagens = new criacaoPersonagens.nextBoolean();
-          if (criacaoPersonagens == true) {
+          if (criacaoPersonagens) {
             System.out.println("Over 18");
-          } else if (criacaoPersonagens == false) {
+          } else if (!criacaoPersonagens) {
             i = 4;
           }
         } catch (InputMismatchException e) {
           System.out.println("Imput inválido! Tente de novo.");
         }
-      } while (!criacaoPersonagens);       
+      } while (!criacaoPersonagens);
+    }
   }
 
-    // APOS ISSO, DEVE ABRIR O ARQUIVO E TRANSFORMAR SEU CONTEUDO EM FASES
+  private void iniciarBatalha() {
+    Scanner scanner = new Scanner(System.in);
+    Random random = new Random();
+    int contadorTurnos = 0;
 
+    System.out.println("Iniciando batalha...");
 
-    // A PRIMEIRA LINHA DA FASE DEVE SER PRINTADA
-    // A SEGUNDA LINHA DEVE SER TRANSFORMADA NA EQUIPE INIMIGA, COM CADA ITEM SENDO UM INTEGRANTE
-    // APOS UMA FASE ACABAR, A PROXIMA DEVE COMEÇAR (FAZER UM SET DE FASES???????????)
+    // Sorteia quem ataca primeiro
+    Personagem primeiroAtacante = (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
+
+    // Inicia os turnos
+    while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
+      System.out.println("\n--- Turno " + contadorTurnos + " --- ");
+      System.out.println("É a vez de " + primeiroAtacante.getNome() + " atacar!");
+
+      // Exibe habilidades disponíveis do personagem que vai atacar
+      primeiroAtacante.exibirHabilidades();
+
+      // Escolhe uma habilidade
+      Habilidade habilidadeEscolhida = escolherHabilidade(primeiroAtacante);
+
+      // Escolhe um alvo
+      Personagem alvo = escolherAlvo(inimigos);
+
+      // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
+      primeiroAtacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
+
+      // Incrementa o contador de turnos
+      contadorTurnos++;
+
+      // Troca de atacante para o próximo turno
+      primeiroAtacante = (primeiroAtacante.getIsInimigos()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
+
+      // Exibe informações das equipes
+      exibirInformacoesEquipes(herois, inimigos);
+    }
+
+    // Exibe o resultado da batalha
+    exibirResultadoBatalha(herois, inimigos);
   }
 
-  public void carregarEquipe() {
-    // public void iniciar() { <---- redundância????????????
-    //}
-  }
 }
 
