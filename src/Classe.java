@@ -2,37 +2,36 @@ import java.util.Set;
 
 public abstract class Classe {
 
-    // -------------------------------------------- ATRIBUTOS -------------------------------------------- //
-    public int forca;
-    public int agilidade;
-    public int inteligencia;
-    public Set<Habilidade> habilidades;
+    protected int forca;
+    protected int agilidade;
+    protected int inteligencia;
+    protected Set<Habilidade> habilidades;
 
-    // ------------------------------------------ CONSTRUTOR ------------------------------------------- //
     public Classe() {
+        // Construtor padrão.
     }
 
-    // -------------------------------------------- MÉTODOS -------------------------------------------- //
     public void subirNivel() {
+        // Método abstrato que aumentará os atributos das classes.
     }
-
-    // -------------------------------------------- GETTERS -------------------------------------------- //
 
     public int getAgilidade() {
+        // Retorna a agilidade. Método padrão para todas classes herdam de Classe.
         return agilidade;
     }
 
     public int getForca() {
+        // Retorna a forca. Método padrão para todas classes herdam de Classe.
         return forca;
     }
 
     public int getInteligencia() {
+        // Retorna a inteligencia. Método padrão para todas classes herdam de Classe.
         return inteligencia;
     }
 
     public Set<Habilidade> getHabilidades() {
+        // Retorna o conjunto de Habilidades. Método padrão para todas classes herdam de Classe.
         return habilidades;
     }
-
-} // FECHAMENTO
-
+}
