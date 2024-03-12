@@ -53,9 +53,9 @@ public class Jogo {
         try {
           escolhaClasse = Integer.parseInt(scanner.nextLine());
           if (escolhaClasse <= 3 && escolhaClasse >= 1) {
-          break;         // Saia do loop se a entrada for válida
-        } else {
-          System.out.println("Escolha inválida! Tente novamente.");
+            break;         // Saia do loop se a entrada for válida
+          } else {
+            System.out.println("Escolha inválida! Tente novamente.");
           }
         } catch (NumberFormatException e) {
           System.out.println("Input inválido! Tente de novo.");
@@ -97,62 +97,51 @@ public class Jogo {
   private void iniciarBatalha() {
     System.out.println("Iniciando batalha...");
 
-    // Exibiremos as informações de todos os integrantes de cada time.
+    // Exibe informações iniciais das equipes
     exibirInformacoesEquipes(herois, inimigos);
 
     // Sorteia quem ataca primeiro
-    Personagem primeiroAtacante = sortearPrimeiroAtacante(herois, inimigos);
+    Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
 
     // Inicia os turnos
     while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-      System.out.println("\n--- Turno " + contadorTurnos + " --- ");
-      System.out.println("É a vez de " + primeiroAtacante.getNome() + " atacar!");
-
-      // Exibe habilidades disponíveis do personagem que vai atacar
-      exibirHabilidades(primeiroAtacante);
-
-      // Escolhe uma habilidade
-      Habilidade habilidadeEscolhida = escolherHabilidade(primeiroAtacante);
-
-      // Escolhe um alvo
-      Personagem alvo = escolherAlvo(inimigos);
-
-      // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
-      primeiroAtacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
-
-      // Incrementa o contador de turnos
-      contadorTurnos++;
-
-      // Troca de atacante para o próximo turno
-      primeiroAtacante = (primeiroAtacante.getIsInimigos()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
-
-      // Exibe informações das equipes
+      realizarTurno(herois, inimigos, atacante);
       exibirInformacoesEquipes(herois, inimigos);
+
+      // Trocar o atacante para o próximo turno
+      atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
     }
 
     // Exibe o resultado da batalha
     exibirResultadoBatalha(herois, inimigos);
   }
 
-  // MÉTODO FUNCIONA
-  private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
-    Random random = new Random();
-    return (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
+  //ok
+  private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
+    System.out.println("\n --- Turno " + contadorTurnos + " --- ");
+    System.out.println("É a vez de " + atacante.getNome() + " atacar!");
+
+    // Exibe habilidades disponíveis do personagem que vai atacar:
+    exibirHabilidades(atacante);
+
+    // Escolhe uma habilidade:
+    Habilidade habilidadeEscolhida = escolherHabilidade(atacante);
+
+    //  Escolha um alvo:
+    Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)). ? inimigos : herois;
+    Personagem alvo = escolherAlvo(equipeAlvo);
+
+    // Executa a habilidade no alvo
+    atacante.usarHabilidade(habilidadeEscolhida, alvo);
+
+    // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
+    atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
+
+    // Incrementa o contador de turnos
+    contadorTurnos++;
   }
 
-  private Habilidade escolherHabilidade(Personagem personagem) {
-    return null;
-  }
-
-  private Personagem escolherAlvo(Equipe inimigos, String nome) {
-    return null;
-  }
-
-  private Set<Personagem> escolherAlvo(Equipe equipe) {
-    return null;
-  }
-
-  // MÉTODO FUNCIONA
+  //ok
   public void exibirHabilidades(Personagem personagem) {
     System.out.println("Habilidades disponíveis para " + personagem.getNome() + ":");
 
@@ -161,7 +150,7 @@ public class Jogo {
     }
   }
 
-  // MÉTODO FUNCIONA
+  //ok
   public void exibirInformacoes(Equipe equipe) {
     for (Personagem integrante : equipe.getIntegrantes()) {
       System.out.println("ID: " + integrante.getID());
@@ -175,7 +164,7 @@ public class Jogo {
     }
   }
 
-  // MÉTODO FUNCIONA
+  //ok
   private void exibirInformacoesEquipes(Equipe herois, Equipe inimigos) {
     System.out.println("\n --- Informações das Equipes ---");
     System.out.println("\nHeróis: ");
@@ -184,27 +173,88 @@ public class Jogo {
     exibirInformacoes(inimigos);
   }
 
-  // PRECISA IMPLEMENTAR.
+  //ok
   private void exibirResultadoBatalha(Equipe herois, Equipe inimigos) {
-    // Implementar
+    if (!inimigos.peloMenosUmVivo()) {
+      System.out.println("Parabéns! Você venceu a batalha!");
+    } else {
+      System.out.println("Game over! Você foi derrotado!");
+    }
   }
 
-  // ELEPHANT IN THE ROOM
-  private void realizarTurno(Equipe herois, Equipe inimigos, Personagem primeiroAtacante) {
-    System.out.println("\n --- Turno " + contadorTurnos + " --- ");
-    System.out.println("É a vez de " + primeiroAtacante.getNome() + " atacar!");
+  //ok
+  private Habilidade escolherHabilidade(Personagem personagem) {
+    Scanner scanner = new Scanner(System.in);
 
-    // Exibe habilidades disponíveis do personagem que vai atacar
-    exibirHabilidades(primeiroAtacante);
+    // Mostra as habilidades disponíveis para o personagem
+    System.out.println("Escolha uma habilidade para " + personagem.getNome() + ":");
+    exibirHabilidades(personagem);
 
-    escolherHabilidade()
+    // Solicita a entrada do usuário até que uma habilidade válida seja escolhida
+    while (true) {
+      System.out.print("Digite o nome da habilidade: ");
+      String nomeHabilidade = scanner.nextLine();
 
-    // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
-    primeiroAtacante.atualizarTempoEspera(); // Implementar
+      // Verifica se a habilidade escolhida está na lista de habilidades do personagem
+      for (Habilidade habilidade : personagem.getClasse().getHabilidades()) {
+        if (habilidade.getNome().equalsIgnoreCase(nomeHabilidade)) {
+          return habilidade; // Retorna a habilidade escolhida
+        }
+      }
 
-    // Incrementa o contador de turnos
-    contadorTurnos++;
+      // Se o nome da habilidade não foi encontrado, exibe uma mensagem de erro
+      System.out.println("Habilidade inválida! Por favor, escolha uma habilidade da lista.");
+    }
   }
+
+  //ok
+  private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
+    Random random = new Random();
+    return (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
+  }
+  //ok
+  private Personagem escolherAlvo(Equipe equipe) {
+    Scanner scanner = new Scanner(System.in);
+    Set<Personagem> integrantes = equipe.getIntegrantes();
+
+    // Exibir lista de alvos disponíveis
+    System.out.println("Escolha um alvo:");
+    int index = 1;
+    for (Personagem integrante : integrantes) {
+      System.out.println(index + ". " + integrante.getNome());
+      index++;
+    }
+
+    // Solicitar ao jogador a escolha do alvo
+    int escolha = 0;
+    do {
+      System.out.print("Digite o número correspondente ao alvo: ");
+      try {
+        escolha = Integer.parseInt(scanner.nextLine());
+        if (escolha < 1 || escolha > integrantes.size()) {
+          System.out.println("Escolha inválida. Digite um número válido.");
+        } else {
+          break;
+        }
+      } catch (NumberFormatException e) {
+        System.out.println("Entrada inválida. Digite um número válido.");
+      }
+    } while (true);
+
+    // Retornar o alvo escolhido
+    int count = 1;
+    for (Personagem integrante : integrantes) {
+      if (count == escolha) {
+        return integrante;
+      }
+      count++;
+    }
+
+    // Caso algo inesperado ocorra, retornamos null
+    return null;
+  }
+
+  //not ok
+  //private Set<Personagem> escolherAlvo(Equipe equipe) { return null;}
 
 }
-
