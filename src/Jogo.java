@@ -1,5 +1,6 @@
 import java.nio.file.*;
 import java.util.Scanner;
+import java.util.List;
 
 public class Jogo {
 
@@ -11,13 +12,14 @@ public class Jogo {
     this.herois = new Equipe(false);
     this.inimigos = new Equipe(true);
     this.arquivo = Paths.get(caminhoArquivo);
-
-    // Verificação se o arquivo existe.
-    if (!Files.exists(arquivo)) {
-      System.out.println("Arquivo não encontrado. Certifique-se de fornecer o caminho correto.");
+    try {
+      List<String> linhasArquivo = Files.readAllLines(arquivo);  // Leia todas as linhas do arquivo
+    } catch (IOException e) {
+      System.err.println("Erro ao ler o arquivo: " + e.getMessage());
       System.exit(1); // Isso encerra o programa com código de erro 1.
     }
   }
+  
   // comentário pra lembrar de implementar alguma forma de portar o arquivo .txt e transformar ele em string (espero q seja minimamente parecido com shell script)
 
   public void iniciar() {
@@ -39,7 +41,7 @@ public class Jogo {
       };
 
         herois.adicionarIntegrante(novoHeroi);
-    }
+  }
 
     // APOS ISSO, DEVE ABRIR O ARQUIVO E TRANSFORMAR SEU CONTEUDO EM FASES
 
