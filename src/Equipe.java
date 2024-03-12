@@ -1,18 +1,18 @@
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
-import static java.lang.Math.random;
 
 public class Equipe {
 
-    // -------------------------------------------- ATRIBUTOS -------------------------------------------- //
-    private Set<Personagem> integrantes;
+    private final Set<Personagem> integrantes;
     private final boolean isInimigos;
 
-    // -------------------------------------------- CONSTRUTOR ------------------------------------------- //
+    // Construtor
     public Equipe(boolean isInimigos) {
-    this.isInimigos = isInimigos;
+        this.isInimigos = isInimigos;
+        this.integrantes = new HashSet<>();
     }
 
-    // -------------------------------------------- MÉTODOS -------------------------------------------- //
     public void adicionarIntegrante(Personagem personagem) {
         if(!getIsInimigos() && integrantes.size() >= 3) {
             System.out.println("Uma equipe de heróis não pode ter mais de 3 integrantes!");
@@ -22,6 +22,7 @@ public class Equipe {
     }
 
     public void removerIntegrante(Personagem integrante) {
+        // Verifica-se se o integrante a ser removido atualmente faz parte do conjunto de integrantes
         if(integrantes.contains(integrante)) {
             integrantes.remove(integrante);
         } else {
@@ -32,12 +33,36 @@ public class Equipe {
     public void distribuirPE(int ganhoPE) {
         for (Personagem personagem: integrantes) {
             personagem.ganharPE(ganhoPE);
+            personagem.subirNivel();
         }
     }
 
-    public void atualizarEspera() {
-        for(Personagem personagem : integrantes) {
-            personagem.setTempoEspera(personagem.getTempoEspera()-1);
+    public boolean peloMenosUmVivo() {
+        // Implementar
+        return true;
+    }
+
+    public void exibirInformacoes() {
+        // Implementar
+    }
+
+    private Set<Personagem> integrantes;
+    private final boolean isInimigos;
+
+    // Construtor
+    public Equipe(boolean isInimigos) {
+        this.isInimigos = isInimigos;
+        this.integrantes = new HashSet<>();
+    }
+
+
+    public void atacar(Equipe equipeAlvo, Personagem personagemAtacante, Habilidade habilidade) {
+        personagemAtacante.usarHabilidade(habilidade, equipeAlvo);
+    }
+
+    public void atacar(Personagem personagemAlvo, Habilidade habilidade) {
+        for (Personagem atacante : integrantes ) {
+            atacante.usarHabilidade(habilidade, personagemAlvo);
         }
     }
 
@@ -47,24 +72,10 @@ public class Equipe {
     }
 
     public Personagem getProximoAtacante() {
-        Personagem proximoAtacante = null;
-
-        for (Personagem personagem: integrantes) {
-            if (proximoAtacante == null) {
-                proximoAtacante = personagem;
-            } else if (personagem.getTempoEspera() < proximoAtacante.getTempoEspera()) {
-                proximoAtacante = personagem;
-            } else if (personagem.getTempoEspera() == proximoAtacante.getTempoEspera()) {
-                if (random() <0.5) {
-                    proximoAtacante = personagem;
-                }
-            }
-        }
-        return proximoAtacante;
+        return Collections.min(integrantes);
     }
 
     public boolean getIsInimigos() {
         return isInimigos;
     }
-
 }
