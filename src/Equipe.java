@@ -67,4 +67,4 @@ public class Equipe {
         return isInimigos;
     }
 
-} // FECHAMENTO
+}
