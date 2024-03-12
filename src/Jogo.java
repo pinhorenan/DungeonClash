@@ -1,4 +1,4 @@
-import java.io.FileReader
+import java.io.FileReader;
 
 public class Jogo {
 
