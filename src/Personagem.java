@@ -110,11 +110,11 @@ public class Personagem {
                 }
 
         }
-    }                    // Pronto
+    }
 
     public void ganharPE(int PE) {
         this.PE += PE;
-    }                                          // Pronto
+    }
 
     public void morrer() {
         setMorto();
@@ -124,35 +124,35 @@ public class Personagem {
 
     public String getNome() {
         return nome;
-    }                                                 // Pronto
+    }
 
     public Classe getClasse() {
         return classe;
-    }                                             // Pronto
+    }
 
     public int getNivel() {
         return nivel;
-    }                                                  // Pronto
+    }
 
     public int getPE() {
         return PE;
-        }                                                        // Pronto
+        }
 
     public int getID() {
         return ID;
-    }                                                        // Pronto
+    }
 
     public int getTempoEspera() {
         return tempoEspera;
-    }                                      // Pronto
+    }
 
     public float getPV() {
         return PV;
-    }                                                      // Pronto
+    }
 
     public float getPM() {
         return PM;
-    }                                                      // Pronto
+    }
 
     public boolean getMorto() {
         return morto;
@@ -161,23 +161,23 @@ public class Personagem {
 
     public void setTempoEspera(int tempoEspera) {
         this.tempoEspera = tempoEspera;
-    }          // Pronto
+    }
 
     public void setPE(int PE) {
         this.PE = PE;
-    }                                              // Pronto
+    }
 
     public void setPV(float PV) {
         this.PV = PV;
-    }                                            // Pronto
+    }
 
     public void setPM(float PM) {
         this.PM = PM;
-    }                                            // Pronto
+    }
 
     public void setVivo() {
         morto = false;
-    }                                            // Pronto
+    }
 
     public void setMorto() {
         morto = true;
