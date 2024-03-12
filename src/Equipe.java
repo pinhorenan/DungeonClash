@@ -5,20 +5,20 @@ public class Equipe {
 
     // -------------------------------------------- ATRIBUTOS -------------------------------------------- //
     private Set<Personagem> integrantes;
-    private boolean isInimigos;
+    private final boolean isInimigos;
 
     // -------------------------------------------- CONSTRUTOR ------------------------------------------- //
-    public Equipe() {
+    public Equipe(boolean isInimigos) {
+    this.isInimigos = isInimigos;
     }
 
     // -------------------------------------------- MÉTODOS -------------------------------------------- //
-    public void adicionarIntegrante(Personagem integrante) {
-        if(!isInimigos||integrantes.size()>=3) {
+    public void adicionarIntegrante(Personagem personagem) {
+        if(!getIsInimigos() && integrantes.size() >= 3) {
             System.out.println("Uma equipe de heróis não pode ter mais de 3 integrantes!");
         } else {
-            integrantes.add(integrante);
+            integrantes.add(personagem);
         }
-        // Necessário implementar condicional para garantir que uma equipe de heróis não tenha mais de 3 heróis.
     }
 
     public void removerIntegrante(Personagem integrante) {
@@ -29,15 +29,24 @@ public class Equipe {
         }
     }
 
-    public void computaPE() {
-    } // IMPLEMENTAR!!
+    public void distribuirPE(int ganhoPE) {
+        for (Personagem personagem: integrantes) {
+            personagem.ganharPE(ganhoPE);
+        }
+    }
+
+    public void atualizarEspera() {
+        for(Personagem personagem : integrantes) {
+            personagem.setTempoEspera(personagem.getTempoEspera()-1);
+        }
+    }
 
     // -------------------------------------------- GETTERS -------------------------------------------- //
     public Set<Personagem> getIntegrantes() {
         return integrantes;
     }
 
-    public Personagem getProximoAtacante() { // Estou retornando o próximo a atacar como sendo o personagem com o menor tempo de espera, o que não significa que ele irá atacar neste turno (caso o tempoEspera > 0) mas será o primeiro a atacar uma vez que tds turnos irão decrementar 1 do tempo de espera.
+    public Personagem getProximoAtacante() {
         Personagem proximoAtacante = null;
 
         for (Personagem personagem: integrantes) {
@@ -57,9 +66,5 @@ public class Equipe {
     public boolean getIsInimigos() {
         return isInimigos;
     }
-
-    public int atualizarEspera(Set<Habilidade> habilidades, String nome) {
-        return 0;
-    } // IMPLEMENTAR!!
 
 } // FECHAMENTO
