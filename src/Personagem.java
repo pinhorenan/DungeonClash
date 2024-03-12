@@ -37,6 +37,10 @@ public class Personagem {
         }
     }
 
+    public void atualizarTempoEspera() {
+        // Implementar
+    }
+
     private static int gerarProximoID() {
         return proximoID++;
     }
@@ -110,6 +114,10 @@ public class Personagem {
                 }
 
         }
+    }
+
+    public void exibirHabilidades() {
+        // Implementar
     }
 
     public void ganharPE(int PE) {
