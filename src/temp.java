@@ -144,16 +144,4 @@ public class temp {
             return escolherAlvo(equipe); // Chamada recursiva para permitir uma nova escolha
         }
     }
-
-    private void exibirInformacoesEquipes(Equipe herois, Equipe inimigos) {
-        System.out.println("\n --- Informações das Equipes ---");
-        System.out.println("\nHeróis: ");
-        herois.exibirInformacoes();
-        System.out.println("\nInimigos: ");
-        inimigos.exibirInformacoes();
-    }
-
-    private void exibirResultadoBatalha(Equipe herois, Equipe inimigos) {
-        // Implementar
-    }
 }

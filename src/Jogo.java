@@ -1,33 +1,36 @@
+import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
 public class Jogo {
 
-  private Equipe herois;
-  private Equipe inimigos;
-  private Path arquivo;
+  private final Equipe herois;
+  private final Equipe inimigos;
+  private final Path arquivo;
   private List<String> linhasArquivo;
   private int contadorTurnos;
 
 
   // Construtor
-  public Jogo(String caminhoArquivo) {
+  public Jogo(String caminhoArquivo) throws IOException {
     this.herois = new Equipe(false);
     this.inimigos = new Equipe(true);
     this.arquivo = Paths.get(caminhoArquivo);
     this.linhasArquivo = Files.readAllLines(arquivo);
     this.contadorTurnos = 0;
 
+
     if (!Files.exists(arquivo)) {
       System.out.println("Arquivo não encontrado. Certifique-se de fornecer o caminho correto.");
       System.exit(1);
     }
-    /*try {
-      List<String> linhasArquivo = Files.readAllLines(arquivo);
+
+    try {
+      this.linhasArquivo = Files.readAllLines(arquivo);
     } catch (IOException e) {
       System.err.println("Erro ao ler o arquivo: " + e.getMessage());
       System.exit(1);
-    }*/ // CÓDIGO DO PURO OSSO TA AQUI DENTRO
+    }
   }
 
   public void iniciar() {
@@ -35,14 +38,14 @@ public class Jogo {
     carregarHerois();
 
     // História
-    String procurarPor = "fase";
+    int i = 0;
     for (String linha : linhasArquivo){
-        if (linha.toLowerCase().contains(procurarPor)){;
-            iniciarBatalha();
-            for (Personagem p : inimigos){
-              inimigos.removerIntegrante(p);
+        if (linha.toLowerCase().contains(procurarPor.toLowerCase())){
+            if (i != 0){
+              iniciarBatalha();
             }
             System.out.println(linha.substring(4));
+            i++;
         } else {
             carregarInimigos(linha, i);
         }
@@ -65,7 +68,7 @@ public class Jogo {
       String nomeHeroi = scanner.nextLine();
       System.out.println("\nQual será a classe de " + nomeHeroi + "?");
       System.out.println("\n1- GUERREIRO\n2- ARQUEIRO\n3- MAGO");
-      int escolhaClasse = 0;
+      int escolhaClasse;
       do {
         try {
           escolhaClasse = Integer.parseInt(scanner.nextLine());
@@ -109,44 +112,55 @@ public class Jogo {
 
   public void carregarInimigos(String linha, int index) {
     String[] split = linha.split(" ", 3);
-    
+
     String nomeMonstro = split[0];
     String classeMonstro = split[1];
-    int nivelMonstro = integer.value0f(split[2]);
+    int nivelMonstro = Integer.parseInt(split[2]);
 
-    if (classeMonstro.toLowerCase == "guerreiro"){
-      Personagem novoMonstro = new Personagem(nomeMonstro, new Guerreiro(), nivelMonstro);
-    } else if (classeMonstro.toLowerCase == "arqueiro"){
-      Personagem novoMonstro = new Personagem(nomeMonstro, new Arqueiro(), nivelMonstro);
-    } else if (classeMonstro.toLowerCase == "mago"){
-      Personagem novoMonstro = new Personagem(nomeMonstro, new Mago(), nivelMonstro);
-    } else if (classeMonstro.toLowerCase == "monstro"){
-      Personagem novoMonstro = new Personagem(nomeMonstro, new Monstro(), nivelMonstro);
+    Personagem novoMonstro = null;
+    switch (classeMonstro.toLowerCase()) {
+      case "guerreiro":
+        novoMonstro = new Personagem(nomeMonstro, new Guerreiro());
+        break;
+      case "arqueiro":
+        novoMonstro = new Personagem(nomeMonstro, new Arqueiro());
+        break;
+      case "mago":
+        novoMonstro = new Personagem(nomeMonstro, new Mago());
+        break;
+      case "monstro":
+        novoMonstro = new Personagem(nomeMonstro, new Monstro());
+        break;
+      default:
+        // Lógica para tratamento de classe desconhecida
+        break;
     }
+
+    // Adicionar o novoMonstro à equipe inimiga, por exemplo:
+    // equipeInimiga.adicionarIntegrante(novoMonstro);
+  }
+
 
   private void iniciarBatalha() {
-    if (inimigos == NULL){
-    } else {  
-      System.out.println("Iniciando batalha...");
-  
-      // Exibe informações iniciais das equipes
+    System.out.println("Iniciando batalha...");
+
+    // Exibe informações iniciais das equipes
+    exibirInformacoesEquipes(herois, inimigos);
+
+    // Sorteia quem ataca primeiro
+    Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
+
+    // Inicia os turnos
+    while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
+      realizarTurno(herois, inimigos, atacante);
       exibirInformacoesEquipes(herois, inimigos);
-  
-      // Sorteia quem ataca primeiro
-      Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
-  
-      // Inicia os turnos
-      while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-        realizarTurno(herois, inimigos, atacante);
-        exibirInformacoesEquipes(herois, inimigos);
-  
-        // Trocar o atacante para o próximo turno
-        atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
-      }
-  
-      // Exibe o resultado da batalha
-      exibirResultadoBatalha(herois, inimigos);
+
+      // Trocar o atacante para o próximo turno
+      atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
     }
+
+    // Exibe o resultado da batalha
+    exibirResultadoBatalha(herois, inimigos);
   }
 
   //ok
@@ -161,7 +175,7 @@ public class Jogo {
     Habilidade habilidadeEscolhida = escolherHabilidade(atacante);
 
     //  Escolha um alvo:
-    Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)). ? inimigos : herois;
+    Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)) ? inimigos : herois;
     Personagem alvo = escolherAlvo(equipeAlvo);
 
     // Executa a habilidade no alvo
