@@ -1,6 +1,6 @@
 import java.util.Set;
 
-public class Personagem {
+public class Personagem implements Comparable<Personagem> {
 
     // -------------------------------------------- ATRIBUTOS -------------------------------------------- //
     private final String nome;
@@ -27,6 +27,12 @@ public class Personagem {
     }
 
     // -------------------------------------------- MÉTODOS -------------------------------------------- //
+
+    @Override
+    public int compareTo(Personagem outro) {
+        return Integer.compare(this.getTempoEspera(), outro.getTempoEspera());
+    }
+
     public void subirNivel() {
         if (PE >= (nivel * 25)) {
             nivel++;
