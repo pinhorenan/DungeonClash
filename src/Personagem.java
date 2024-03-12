@@ -43,8 +43,8 @@ public class Personagem implements Comparable<Personagem> {
         }
     }
 
-    public void atualizarTempoEspera() {
-        // Implementar
+    public void atualizarTempoEspera(int tempo) {
+        this.setTempoEspera(tempo);
     }
 
     private static int gerarProximoID() {
@@ -100,30 +100,29 @@ public class Personagem implements Comparable<Personagem> {
     public void usarHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
         if(tempoEspera != 0) {
                 System.out.println("Você não pode atacar ainda!");
-
         } else if(habilidade.calcularCustoMana(classe) > PM) {
                 System.out.println("Você não tem mana.");
-
         } else if(!classe.getHabilidades().contains(habilidade)) {
                 System.out.println("Você não possui essa habilidade!");
-
         } else if(!habilidade.getIsAfetaGrupo()) {
                 System.out.println("Essa habilidade não pode ser usada contra um grupo!");
         } else {
                 Set<Personagem> integrantes = grupoAlvo.getIntegrantes();
-
                 for(Personagem personagem: integrantes) {
                     personagem.sofrerDano(danoCausado(habilidade));
                     if (personagem.getPV() == 0){
                         personagem.setMorto();
                     }
                 }
-
         }
     }
 
     public void exibirHabilidades() {
-        // Implementar
+        System.out.println("Habilidades disponíveis para " + nome + ":");
+
+        for (Habilidade habilidade : classe.getHabilidades()) {
+            System.out.println(habilidade.getNome());
+        }
     }
 
     public void ganharPE(int PE) {
