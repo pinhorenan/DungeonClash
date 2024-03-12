@@ -19,8 +19,8 @@ public class Personagem {
         nivel = 1;
         PE = 0;
         tempoEspera = 0;
-        PVmax = classe.forca + ((float) this.classe.agilidade / 2);
-        PMmax = classe.inteligencia + ((float) this.classe.agilidade / 3);
+        PVmax = classe.forca + ((float) classe.agilidade / 2);
+        PMmax = classe.inteligencia + ((float) classe.agilidade / 3);
         PV = PVmax;
         PM = PMmax;
         morto = false;
@@ -35,27 +35,27 @@ public class Personagem {
             PMmax += nivel * classe.inteligencia + (nivel * ((float) classe.agilidade / 3));
             PE = 0;
         }
-    }                                                           // Pronto
+    }
 
     private static int gerarProximoID() {
         return proximoID++;
-    }                              // Pronto
+    }
 
     public void sofrerDano(int dano) {
         if (PV > 0) {
             PV -= dano;
         }
-    }                                                   // Pronto
+    }
 
     public int custoMana(Habilidade habilidade) {
         return (int) (nivel * habilidade.calcularCustoMana(classe));
-    }                                        // Pronto
+    }
 
     public int danoCausado(Habilidade habilidade) {
         return (int) (nivel * habilidade.calcularDanoCausado(classe));
-    }                                      // Pronto
+    }
 
-    public void atacarInimigo(Habilidade habilidade, Personagem inimigo) {
+    public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
         if (morto) {
             System.out.println("Você está morto.");
         } else
@@ -65,25 +65,29 @@ public class Personagem {
             if(custoMana(habilidade) > PM) {
                 System.out.println("Você não tem mana.");
         } else
-            if(inimigo.morto) {
-                System.out.println(inimigo.nome + " já está morto.");
+            if(alvo.morto) {
+                System.out.println(alvo.nome + " já está morto.");
         } else
             if(!classe.getHabilidades().contains(habilidade)) {
                 System.out.println("Você não possui essa habilidade");
         } else {
-                inimigo.sofrerDano(danoCausado(habilidade));
-                setTempoEspera(habilidade.getTempoEspera());
-                setPM(this.getPM() - custoMana(habilidade));
-                System.out.println("Você utiliza "+ habilidade.getNome() + " contra " + inimigo.getNome() + ", causando " + danoCausado(habilidade) + " de dano!");
+                if(habilidade.getIsAfetaAmigos()){
+                    alvo.setPV(alvo.getPV()+danoCausado(habilidade));
+                } else if (!habilidade.getIsAfetaAmigos()) {
+                    alvo.sofrerDano(danoCausado(habilidade));
+                }
+                    setTempoEspera(habilidade.getTempoEspera());
+                    setPM(this.getPM() - custoMana(habilidade));
+                    System.out.println("Você utiliza "+ habilidade.getNome() + " contra " + alvo.getNome() + ", causando " + danoCausado(habilidade) + " de dano!");
 
-                if (inimigo.PV==0) {
-                    inimigo.setMorto();
-                    System.out.println("Você MATOU VIOLENTAMENTE o " + inimigo.getNome() + "! Sinta-se orgulhoso!");
+                if (alvo.PV==0) {
+                    alvo.morrer();
+                    System.out.println("Você MATOU VIOLENTAMENTE o " + alvo.getNome() + "! Sinta-se orgulhoso!");
                 }
             }
-    }               // Pronto
+    }
 
-    public void atacarGrupo(Habilidade habilidade, Equipe grupo) {
+    public void usarHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
         if(tempoEspera != 0) {
                 System.out.println("Você não pode atacar ainda!");
 
@@ -96,7 +100,7 @@ public class Personagem {
         } else if(!habilidade.getIsAfetaGrupo()) {
                 System.out.println("Essa habilidade não pode ser usada contra um grupo!");
         } else {
-                Set<Personagem> integrantes = grupo.getIntegrantes();
+                Set<Personagem> integrantes = grupoAlvo.getIntegrantes();
 
                 for(Personagem personagem: integrantes) {
                     personagem.sofrerDano(danoCausado(habilidade));
@@ -106,11 +110,15 @@ public class Personagem {
                 }
 
         }
-    }                       // Pronto
+    }                    // Pronto
 
     public void ganharPE(int PE) {
         this.PE += PE;
     }                                          // Pronto
+
+    public void morrer() {
+        setMorto();
+    }
 
     // -------------------------------------------- GETTERS -------------------------------------------- //
 
@@ -146,6 +154,9 @@ public class Personagem {
         return PM;
     }                                                      // Pronto
 
+    public boolean getMorto() {
+        return morto;
+    }
     // -------------------------------------------- SETTERS -------------------------------------------- //
 
     public void setTempoEspera(int tempoEspera) {
