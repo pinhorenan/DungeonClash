@@ -77,7 +77,7 @@ public class Jogo {
         case 1 -> new Personagem(nomeHeroi, new Guerreiro());
         case 2 -> new Personagem(nomeHeroi, new Arqueiro());
         case 3 -> new Personagem(nomeHeroi, new Mago());
-        default -> new Personagem(nomeHeroi, new Guerreiro());
+          default -> throw new IllegalStateException("Valor inválido: " + escolhaClasse);
       };
 
       herois.adicionarIntegrante(novoHeroi);
@@ -153,7 +153,7 @@ public class Jogo {
       }
   
       // Exibe o resultado da batalha
-      exibirResultadoBatalha(herois, inimigos);
+      exibirResultadoBatalha(inimigos);
   }
 
   //ok
@@ -214,7 +214,7 @@ public class Jogo {
   }
 
   //ok
-  private void exibirResultadoBatalha(Equipe herois, Equipe inimigos) {
+  private void exibirResultadoBatalha(Equipe inimigos) {
     if (!inimigos.peloMenosUmVivo()) {
       System.out.println("Parabéns! Você venceu a batalha!");
     } else {
