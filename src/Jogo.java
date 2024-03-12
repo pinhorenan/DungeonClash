@@ -114,6 +114,16 @@ public class Jogo {
     String classeMonstro = split[1];
     int nivelMonstro = integer.value0f(split[2]);
 
+    if (classeMonstro.toLowerCase == "guerreiro"){
+      Personagem novoMonstro = new Personagem(nomeMonstro, new Guerreiro());
+    } else if (classeMonstro.toLowerCase == "arqueiro"){
+      Personagem novoMonstro = new Personagem(nomeMonstro, new Arqueiro());
+    } else if (classeMonstro.toLowerCase == "mago"){
+      Personagem novoMonstro = new Personagem(nomeMonstro, new Mago());
+    } else if (classeMonstro.toLowerCase == "monstro"){
+      Personagem novoMonstro = new Personagem(nomeMonstro, new Monstro());
+    }
+
   private void iniciarBatalha() {
     System.out.println("Iniciando batalha...");
 
