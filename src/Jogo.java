@@ -91,6 +91,7 @@ public class Jogo {
   private void iniciarBatalha() {
     System.out.println("Iniciando batalha...");
 
+    // Exibiremos as informações de todos os integrantes de cada time.
     exibirInformacoesEquipes(herois, inimigos);
 
     // Sorteia quem ataca primeiro
@@ -127,37 +128,14 @@ public class Jogo {
     exibirResultadoBatalha(herois, inimigos);
   }
 
-  private Habilidade escolherHabilidade(Personagem personagem) {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("Escolha uma habilidade para " + personagem.getNome() + ":");
-
-    // Exibindo as habilidades disponíveis para o personagem
-    int i = 1;
-    for (Habilidade habilidade : personagem.getClasse().getHabilidades()) {
-      System.out.println(i + ". " + habilidade.getNome());
-      i++;
-    }
-
-    // Capturando a escolha do usuário
-    int escolha = Integer.parseInt(scanner.nextLine());
-
-    // Convertendo a escolha do usuário para o índice do conjunto de habilidades
-    int indice = escolha - 1;
-
-    // Verificando se a escolha é válida
-    if (indice >= 0 && indice < personagem.getClasse().getHabilidades().size()) {
-      // Convertendo o conjunto de habilidades para um array para acessar o elemento pelo índice
-      Habilidade[] habilidadesArray = personagem.getClasse().getHabilidades().toArray(new Habilidade[0]);
-      return habilidadesArray[indice];
-    } else {
-      System.out.println("Escolha inválida. Por favor, escolha uma habilidade válida.");
-      return escolherHabilidade(personagem); // Chamada recursiva para permitir uma nova escolha
-    }
-  }
-
+  // MÉTODO FUNCIONA
   private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
     Random random = new Random();
     return (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
+  }
+
+  private Habilidade escolherHabilidade(Personagem personagem) {
+    return null;
   }
 
   private Personagem escolherAlvo(Equipe inimigos, String nome) {
@@ -168,6 +146,7 @@ public class Jogo {
     return null;
   }
 
+  // METODO FUNCIONA
   public void exibirHabilidades(Personagem personagem) {
     System.out.println("Habilidades disponíveis para " + personagem.getNome() + ":");
 
@@ -176,6 +155,7 @@ public class Jogo {
     }
   }
 
+  // METODO FUNCIONA
   public void exibirInformacoes(Equipe equipe) {
     for (Personagem integrante : equipe.getIntegrantes()) {
       System.out.println("ID: " + integrante.getID());
@@ -189,6 +169,7 @@ public class Jogo {
     }
   }
 
+  // METODO FUNCIONA
   private void exibirInformacoesEquipes(Equipe herois, Equipe inimigos) {
     System.out.println("\n --- Informações das Equipes ---");
     System.out.println("\nHeróis: ");
@@ -197,10 +178,12 @@ public class Jogo {
     exibirInformacoes(inimigos);
   }
 
+  // PRECISA IMPLEMENTAR.
   private void exibirResultadoBatalha(Equipe herois, Equipe inimigos) {
     // Implementar
   }
 
+  // ELEPHANT IN THE ROOM
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem primeiroAtacante) {
     System.out.println("\n --- Turno " + contadorTurnos + " --- ");
     System.out.println("É a vez de " + primeiroAtacante.getNome() + " atacar!");
