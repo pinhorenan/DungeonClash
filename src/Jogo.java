@@ -1,3 +1,5 @@
+import java.io.FileReader
+
 public class Jogo {
 
   private Equipe herois;
