@@ -38,17 +38,13 @@ public class Jogo {
     carregarHerois();
 
     // História
-    int i = 0;
     String procurarPor = "fase";
     for (String linha : linhasArquivo){
         if (linha.toLowerCase().contains(procurarPor.toLowerCase())){
-            if (i != 0){
-              iniciarBatalha();
-            }
+            iniciarBatalha();
             System.out.println(linha.substring(4));
-            i++;
         } else {
-            carregarInimigos(linha, i);
+            carregarInimigos(linha);
         }
     }
 
@@ -96,22 +92,25 @@ public class Jogo {
       System.out.println("\nPara NÃO digite 'False'\nPara SIM digite 'True'");
       criacaoPersonagens = false;
       Scanner scan = new Scanner(System.in);
-      do {
-        try {
-          criacaoPersonagens = scan.nextBoolean();
-          if (!criacaoPersonagens) {
-            i = 4;
+      if (i <= 2){
+        do {
+          try {
+            criacaoPersonagens = scan.nextBoolean();
+            if (!criacaoPersonagens) {
+              i = 4;
+            }
+          } catch (InputMismatchException e) {
+            System.out.println("Input inválido! Tente de novo.");
+            criacaoPersonagens = false;
+            scanner.nextLine();
           }
-        } catch (InputMismatchException e) {
-          System.out.println("Input inválido! Tente de novo.");
-          criacaoPersonagens = false;
-          scanner.nextLine();
-        }
-      } while (!criacaoPersonagens);
+        } while (!criacaoPersonagens);
+      }
+    System.out.println("\nEquipe criada!");
     }
   }
 
-  public void carregarInimigos(String linha, int index) {
+  public void carregarInimigos(String linha) {
     String[] split = linha.split(" ", 3);
 
     String nomeMonstro = split[0];
@@ -121,16 +120,16 @@ public class Jogo {
     Personagem novoMonstro = null;
     switch (classeMonstro.toLowerCase()) {
       case "guerreiro":
-        novoMonstro = new Personagem(nomeMonstro, new Guerreiro());
+        novoMonstro = new Personagem(nomeMonstro, new Guerreiro(), nivelMonstro);
         break;
       case "arqueiro":
-        novoMonstro = new Personagem(nomeMonstro, new Arqueiro());
+        novoMonstro = new Personagem(nomeMonstro, new Arqueiro(), nivelMonstro);
         break;
       case "mago":
-        novoMonstro = new Personagem(nomeMonstro, new Mago());
+        novoMonstro = new Personagem(nomeMonstro, new Mago(), nivelMonstro);
         break;
       case "monstro":
-        novoMonstro = new Personagem(nomeMonstro, new Monstro());
+        novoMonstro = new Personagem(nomeMonstro, new Monstro(), nivelMonstro);
         break;
       default:
         // Lógica para tratamento de classe desconhecida
@@ -143,25 +142,27 @@ public class Jogo {
 
 
   private void iniciarBatalha() {
-    System.out.println("Iniciando batalha...");
-
-    // Exibe informações iniciais das equipes
-    exibirInformacoesEquipes(herois, inimigos);
-
-    // Sorteia quem ataca primeiro
-    Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
-
-    // Inicia os turnos
-    while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-      realizarTurno(herois, inimigos, atacante);
+    if (inimigos != NULL){
+      System.out.println("Iniciando batalha...");
+  
+      // Exibe informações iniciais das equipes
       exibirInformacoesEquipes(herois, inimigos);
-
-      // Trocar o atacante para o próximo turno
-      atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+  
+      // Sorteia quem ataca primeiro
+      Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
+  
+      // Inicia os turnos
+      while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
+        realizarTurno(herois, inimigos, atacante);
+        exibirInformacoesEquipes(herois, inimigos);
+  
+        // Trocar o atacante para o próximo turno
+        atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+      }
+  
+      // Exibe o resultado da batalha
+      exibirResultadoBatalha(herois, inimigos);
     }
-
-    // Exibe o resultado da batalha
-    exibirResultadoBatalha(herois, inimigos);
   }
 
   //ok
