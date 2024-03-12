@@ -6,7 +6,6 @@ public class Jogo {
 
   private final Equipe herois;
   private final Equipe inimigos;
-  private final Path arquivo;
   private List<String> linhasArquivo;
   private int contadorTurnos;
 
@@ -15,7 +14,7 @@ public class Jogo {
   public Jogo(String caminhoArquivo) throws IOException {
     this.herois = new Equipe(false);
     this.inimigos = new Equipe(true);
-    this.arquivo = Paths.get(caminhoArquivo);
+    Path arquivo = Paths.get(caminhoArquivo);
     this.linhasArquivo = Files.readAllLines(arquivo);
     this.contadorTurnos = 0;
 
@@ -50,11 +49,6 @@ public class Jogo {
 
     // Epílogo
   }
-
-    /* APOS ISSO, DEVE ABRIR O ARQUIVO E TRANSFORMAR SEU CONTEUDO EM FASES
-    A PRIMEIRA LINHA DA FASE DEVE SER PRINTADA
-    A SEGUNDA LINHA DEVE SER TRANSFORMADA NA EQUIPE INIMIGA, COM CADA ITEM SENDO UM INTEGRANTE
-    APOS UMA FASE ACABAR, A PROXIMA DEVE COMEÇAR (FAZER UM SET DE FASES???????????)*/ // COMENTÁRIO DO PURO OSSO??
 
   public void carregarHerois() {
     Scanner scanner = new Scanner(System.in);
@@ -140,9 +134,7 @@ public class Jogo {
     // equipeInimiga.adicionarIntegrante(novoMonstro);
   }
 
-
   private void iniciarBatalha() {
-    if (inimigos != NULL){
       System.out.println("Iniciando batalha...");
   
       // Exibe informações iniciais das equipes
@@ -162,7 +154,6 @@ public class Jogo {
   
       // Exibe o resultado da batalha
       exibirResultadoBatalha(herois, inimigos);
-    }
   }
 
   //ok
