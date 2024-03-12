@@ -47,11 +47,11 @@ public class Personagem {
 
     public int custoMana(Habilidade habilidade) {
         return (int) (nivel * habilidade.calcularCustoMana(classe));
-    }
+    } // Chamado pelos métodos "atacarInimigo()" e "atacarGrupo()".
 
     public int danoCausado(Habilidade habilidade) {
         return (int) (nivel * habilidade.calcularDanoCausado(classe));
-    }
+    } // Chamado pelos métodos "atacarInimigo()" e "atacarGrupo()".
 
     public void atacarInimigo(Habilidade habilidade, Personagem inimigo) {
         if (morto) {
@@ -79,7 +79,7 @@ public class Personagem {
                     System.out.println("Você MATOU VIOLENTAMENTE o " + inimigo.getNome() + "! Sinta-se orgulhoso!");
                 }
             }
-    }
+    } // Pode precisar de revisão pois o tempoDeEspera deve ser definido por um método em "Equipe".
 
     public void atacarGrupo(Habilidade habilidade, Equipe grupo) {
         if(tempoEspera != 0) {
@@ -91,11 +91,11 @@ public class Personagem {
         } else if(!habilidade.getIsAfetaGrupo()) {
             System.out.println("Essa habilidade não pode ser usada contra um grupo!");
         }
-    }
+    } // Necessita finalizar implementação.
 
     public void ganharPE(int PE) {
-        this.PE =+ PE;
-    }
+        this.PE += PE;
+    } // Chamado pelo método "distribuirPE()" de "Equipe".
 
     // -------------------------------------------- GETTERS -------------------------------------------- //
 
@@ -135,23 +135,23 @@ public class Personagem {
 
     public void setTempoEspera(int tempoEspera) {
         this.tempoEspera = tempoEspera;
-    }
+    } // Deverá ser chamado em um método em "Equipe"
 
     public void setPE(int PE) {
         this.PE = PE;
-    }
+    } // Não tenho certeza se é necessário.
 
     public void setPV(float PV) {
         this.PV = PV;
-    }
+    } // Util para habilidades de cura e/ou encher a vida após a batalha.
 
     public void setPM(float PM) {
         this.PM = PM;
-    }
+    } // Chamada em "atacarInimigo()" e "atacarGrupo()".
 
     public void setVivo(Personagem defunto) {
         defunto.morto = false;
-    }
+    } // Não tenho certeza se haverá possibilidade de reviver.
 
     public void setMorto(Personagem personagem) {
         personagem.morto = true;
