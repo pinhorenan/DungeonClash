@@ -24,14 +24,22 @@ public class Jogo {
 
   public void iniciar() {
     Scanner scanner = new Scanner(System.in);
+    boolean criacaoPersonagens;
     // ANOTAÇÕES
     // "INICIAR" DEVE ABRIR UM MENU PRA CRIAÇÃO DE PERSONAGENS
+    
     for (int i = 1; i <= 3; ++i) {
       System.out.println("\nNome do " + i + "º Herói ou Heroína: ");
       String nomeHeroi = scanner.nextLine();
       System.out.println("\nQual será a classe de " + nomeHeroi + "?");
       System.out.println("\n1- GUERREIRO\n2- ARQUEIRO\n3- MAGO");
-      int escolhaClasse = Integer.parseInt(scanner.nextLine());
+      do {
+        try {
+          int escolhaClasse = Integer.parseInt(scanner.nextLine());
+        } catch (InputMismatchException e) {
+          System.out.println("Imput inválido! Tente de novo.");
+        }
+      } while (!escolhaClasse || escolhaClasse > 3 || escolhaClasse < 0);
 
       Personagem novoHeroi = switch (escolhaClasse) {
           case 1 -> new Personagem(nomeHeroi, new Guerreiro());
@@ -40,7 +48,22 @@ public class Jogo {
           default -> new Personagem(nomeHeroi, new Guerreiro());
       };
 
-        herois.adicionarIntegrante(novoHeroi);
+      herois.adicionarIntegrante(novoHeroi);
+
+      System.out.println("\nDeseja criar mais um personagem?");
+      System.out.println("\nPara NÃO digite 'False'\nPara SIM digite 'True'");
+      do {
+        try {
+          criacaoPersonagens = new criacaoPersonagens.nextBoolean();
+          if (criacaoPersonagens == true) {
+            System.out.println("Over 18");
+          } else if (criacaoPersonagens == false) {
+            i = 4;
+          }
+        } catch (InputMismatchException e) {
+          System.out.println("Imput inválido! Tente de novo.");
+        }
+      } while (!criacaoPersonagens);       
   }
 
     // APOS ISSO, DEVE ABRIR O ARQUIVO E TRANSFORMAR SEU CONTEUDO EM FASES
