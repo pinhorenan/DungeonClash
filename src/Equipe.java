@@ -26,7 +26,15 @@ public class Equipe {
             }
         }
     }
-
+    public int atualizarEspera(Set<Habilidade> habilidades, String nome) {
+        for(Habilidades habilidade: habilidades) {
+            if (habilidade.getNome() == nome) {
+                return habilidade.getTempoEspera();
+            } else {
+                return 0;
+            }
+        }
+    }
     // getter
     public Set<Personagem> getGrupo() {
         return grupo;
