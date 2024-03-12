@@ -4,7 +4,7 @@ import java.util.*;
 public class Jogo {
 
   private Equipe herois;
-  private Equipe[] inimigos;
+  private Equipe inimigos;
   private Path arquivo;
   private List<String> linhasArquivo;
   private int contadorTurnos;
@@ -35,14 +35,14 @@ public class Jogo {
     carregarHerois();
 
     // História
-    int i = 0;
+    String procurarPor = "fase";
     for (String linha : linhasArquivo){
-        if (linha.toLowerCase().contains(procurarPor.toLowerCase())){;
-            if (i != 0){
-              iniciarBatalha();
+        if (linha.toLowerCase().contains(procurarPor)){;
+            iniciarBatalha();
+            for (Personagem p : inimigos){
+              inimigos.removerIntegrante(p);
             }
             System.out.println(linha.substring(4));
-            i++;
         } else {
             carregarInimigos(linha, i);
         }
@@ -115,35 +115,38 @@ public class Jogo {
     int nivelMonstro = integer.value0f(split[2]);
 
     if (classeMonstro.toLowerCase == "guerreiro"){
-      Personagem novoMonstro = new Personagem(nomeMonstro, new Guerreiro());
+      Personagem novoMonstro = new Personagem(nomeMonstro, new Guerreiro(), nivelMonstro);
     } else if (classeMonstro.toLowerCase == "arqueiro"){
-      Personagem novoMonstro = new Personagem(nomeMonstro, new Arqueiro());
+      Personagem novoMonstro = new Personagem(nomeMonstro, new Arqueiro(), nivelMonstro);
     } else if (classeMonstro.toLowerCase == "mago"){
-      Personagem novoMonstro = new Personagem(nomeMonstro, new Mago());
+      Personagem novoMonstro = new Personagem(nomeMonstro, new Mago(), nivelMonstro);
     } else if (classeMonstro.toLowerCase == "monstro"){
-      Personagem novoMonstro = new Personagem(nomeMonstro, new Monstro());
+      Personagem novoMonstro = new Personagem(nomeMonstro, new Monstro(), nivelMonstro);
     }
 
   private void iniciarBatalha() {
-    System.out.println("Iniciando batalha...");
-
-    // Exibe informações iniciais das equipes
-    exibirInformacoesEquipes(herois, inimigos);
-
-    // Sorteia quem ataca primeiro
-    Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
-
-    // Inicia os turnos
-    while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-      realizarTurno(herois, inimigos, atacante);
+    if (inimigos == NULL){
+    } else {  
+      System.out.println("Iniciando batalha...");
+  
+      // Exibe informações iniciais das equipes
       exibirInformacoesEquipes(herois, inimigos);
-
-      // Trocar o atacante para o próximo turno
-      atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+  
+      // Sorteia quem ataca primeiro
+      Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
+  
+      // Inicia os turnos
+      while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
+        realizarTurno(herois, inimigos, atacante);
+        exibirInformacoesEquipes(herois, inimigos);
+  
+        // Trocar o atacante para o próximo turno
+        atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+      }
+  
+      // Exibe o resultado da batalha
+      exibirResultadoBatalha(herois, inimigos);
     }
-
-    // Exibe o resultado da batalha
-    exibirResultadoBatalha(herois, inimigos);
   }
 
   //ok
