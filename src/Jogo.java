@@ -3,7 +3,7 @@ import java.nio.file.*;
 import java.util.*;
 
 public class Jogo {
-
+  
   private Equipe herois;
   private Equipe inimigos;
   private Path arquivo;
@@ -26,21 +26,21 @@ public class Jogo {
       System.exit(1);
     }*/ // CÓDIGO DO PURO OSSO TA AQUI DENTRO
   }
-
+  
   public void iniciar() {
     carregarEquipe();
     iniciarBatalha();
   }
-
+  
     /* APOS ISSO, DEVE ABRIR O ARQUIVO E TRANSFORMAR SEU CONTEUDO EM FASES
     A PRIMEIRA LINHA DA FASE DEVE SER PRINTADA
     A SEGUNDA LINHA DEVE SER TRANSFORMADA NA EQUIPE INIMIGA, COM CADA ITEM SENDO UM INTEGRANTE
     APOS UMA FASE ACABAR, A PROXIMA DEVE COMEÇAR (FAZER UM SET DE FASES???????????)*/ // COMENTÁRIO DO PURO OSSO??
-
+  
   public void carregarEquipe() {
     Scanner scanner = new Scanner(System.in);
     boolean criacaoPersonagens;
-
+    
     for (int i = 1; i <= 3; ++i) {
       System.out.println("\nNome do " + i + "º Herói ou Heroína: ");
       String nomeHeroi = scanner.nextLine();
@@ -59,16 +59,16 @@ public class Jogo {
           System.out.println("Input inválido! Tente de novo.");
         }
       } while (true);
-
+      
       Personagem novoHeroi = switch (escolhaClasse) {
         case 1 -> new Personagem(nomeHeroi, new Guerreiro());
         case 2 -> new Personagem(nomeHeroi, new Arqueiro());
         case 3 -> new Personagem(nomeHeroi, new Mago());
         default -> new Personagem(nomeHeroi, new Guerreiro());
       };
-
+      
       herois.adicionarIntegrante(novoHeroi);
-
+      
       System.out.println("\nDeseja criar mais um personagem?");
       System.out.println("\nPara NÃO digite 'False'\nPara SIM digite 'True'");
       Boolean criacaoPersonagens = false;
@@ -88,12 +88,17 @@ public class Jogo {
     }
   }
 
-  private void iniciarBatalha() {
+private void iniciarBatalha() {
+    Scanner scanner = new Scanner(System.in);
+    Random random = new Random();
+    int contadorTurnos = 0;
+
     System.out.println("Iniciando batalha...");
 
     exibirInformacoesEquipes(herois, inimigos);
 
     // Sorteia quem ataca primeiro
+    Personagem primeiroAtacante = (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
     Personagem primeiroAtacante = sortearPrimeiroAtacante(herois, inimigos);;
 
     // Inicia os turnos
@@ -102,27 +107,22 @@ public class Jogo {
       System.out.println("É a vez de " + primeiroAtacante.getNome() + " atacar!");
 
       // Exibe habilidades disponíveis do personagem que vai atacar
+      primeiroAtacante.exibirHabilidades();
       exibirHabilidades();
 
       // Escolhe uma habilidade
       Habilidade habilidadeEscolhida = escolherHabilidade(primeiroAtacante);
-
       // Escolhe um alvo
       Personagem alvo = escolherAlvo(inimigos);
-
       // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
       primeiroAtacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
-
       // Incrementa o contador de turnos
       contadorTurnos++;
-
       // Troca de atacante para o próximo turno
       primeiroAtacante = (primeiroAtacante.getIsInimigos()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
-
       // Exibe informações das equipes
       exibirInformacoesEquipes(herois, inimigos);
     }
-
     // Exibe o resultado da batalha
     exibirResultadoBatalha(herois, inimigos);
   }
@@ -233,4 +233,3 @@ public class Jogo {
   }
 
 }
-
