@@ -1,3 +1,5 @@
+import java.util.Set;
+
 public class Personagem {
 
     // -------------------------------------------- ATRIBUTOS -------------------------------------------- //
@@ -33,25 +35,25 @@ public class Personagem {
             PMmax += nivel * classe.inteligencia + (nivel * ((float) classe.agilidade / 3));
             PE = 0;
         }
-    } // Será chamado após as batalhas
+    }                                                           // Pronto
 
     private static int gerarProximoID() {
         return proximoID++;
-    } // Utilidade
+    }                              // Pronto
 
     public void sofrerDano(int dano) {
         if (PV > 0) {
             PV -= dano;
         }
-    } // Chamado pelos métodos "atacarInimigo()" e "atacarGrupo"
+    }                                                   // Pronto
 
     public int custoMana(Habilidade habilidade) {
         return (int) (nivel * habilidade.calcularCustoMana(classe));
-    } // Chamado pelos métodos "atacarInimigo()" e "atacarGrupo()".
+    }                                        // Pronto
 
     public int danoCausado(Habilidade habilidade) {
         return (int) (nivel * habilidade.calcularDanoCausado(classe));
-    } // Chamado pelos métodos "atacarInimigo()" e "atacarGrupo()".
+    }                                      // Pronto
 
     public void atacarInimigo(Habilidade habilidade, Personagem inimigo) {
         if (morto) {
@@ -75,86 +77,99 @@ public class Personagem {
                 System.out.println("Você utiliza "+ habilidade.getNome() + " contra " + inimigo.getNome() + ", causando " + danoCausado(habilidade) + " de dano!");
 
                 if (inimigo.PV==0) {
-                    setMorto(inimigo);
+                    inimigo.setMorto();
                     System.out.println("Você MATOU VIOLENTAMENTE o " + inimigo.getNome() + "! Sinta-se orgulhoso!");
                 }
             }
-    } // Pode precisar de revisão pois o tempoDeEspera deve ser definido por um método em "Equipe".
+    }               // Pronto
 
     public void atacarGrupo(Habilidade habilidade, Equipe grupo) {
         if(tempoEspera != 0) {
-            System.out.println("Você não pode atacar ainda!");
+                System.out.println("Você não pode atacar ainda!");
+
         } else if(habilidade.calcularCustoMana(classe) > PM) {
-            System.out.println("Você não tem mana.");
+                System.out.println("Você não tem mana.");
+
         } else if(!classe.getHabilidades().contains(habilidade)) {
-            System.out.println("Você não possui essa habilidade!");
+                System.out.println("Você não possui essa habilidade!");
+
         } else if(!habilidade.getIsAfetaGrupo()) {
-            System.out.println("Essa habilidade não pode ser usada contra um grupo!");
+                System.out.println("Essa habilidade não pode ser usada contra um grupo!");
+        } else {
+                Set<Personagem> integrantes = grupo.getIntegrantes();
+
+                for(Personagem personagem: integrantes) {
+                    personagem.sofrerDano(danoCausado(habilidade));
+                    if (personagem.getPV() == 0){
+                        personagem.setMorto();
+                    }
+                }
+
         }
-    } // Necessita finalizar implementação.
+    }                       // Implementar
 
     public void ganharPE(int PE) {
         this.PE += PE;
-    } // Chamado pelo método "distribuirPE()" de "Equipe".
+    }                                          // Pronto
 
     // -------------------------------------------- GETTERS -------------------------------------------- //
 
     public String getNome() {
         return nome;
-    }
+    }                                                 // Pronto
 
     public Classe getClasse() {
         return classe;
-    }
+    }                                             // Pronto
 
     public int getNivel() {
         return nivel;
-    }
+    }                                                  // Pronto
 
     public int getPE() {
         return PE;
-    }
+        }                                                        // Pronto
 
     public int getID() {
         return ID;
-    }
+    }                                                        // Pronto
 
     public int getTempoEspera() {
         return tempoEspera;
-    }
+    }                                      // Pronto
 
     public float getPV() {
         return PV;
-    }
+    }                                                      // Pronto
 
     public float getPM() {
         return PM;
-    }
+    }                                                      // Pronto
 
     // -------------------------------------------- SETTERS -------------------------------------------- //
 
     public void setTempoEspera(int tempoEspera) {
         this.tempoEspera = tempoEspera;
-    } // Deverá ser chamado em um método em "Equipe"
+    }          // Pronto
 
     public void setPE(int PE) {
         this.PE = PE;
-    } // Não tenho certeza se é necessário.
+    }                                              // Pronto
 
     public void setPV(float PV) {
         this.PV = PV;
-    } // Util para habilidades de cura e/ou encher a vida após a batalha.
+    }                                            // Pronto
 
     public void setPM(float PM) {
         this.PM = PM;
-    } // Chamada em "atacarInimigo()" e "atacarGrupo()".
+    }                                            // Pronto
 
-    public void setVivo(Personagem defunto) {
-        defunto.morto = false;
-    } // Não tenho certeza se haverá possibilidade de reviver.
+    public void setVivo() {
+        morto = false;
+    }                                            // Pronto
 
-    public void setMorto(Personagem personagem) {
-        personagem.morto = true;
+    public void setMorto() {
+        morto = true;
     }
 }
 
