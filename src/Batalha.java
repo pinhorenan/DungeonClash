@@ -27,7 +27,7 @@ public class Batalha {
 
     private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
         Random random = new Random();
-        return (random.nextBoolean()) ? herois.getProximoAtacante() : inimigos.getProximoAtacante();
+        return (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
     }
 
     private void realizarTurno(Equipe herois, Equipe inimigos, Personagem primeiroAtacante) {

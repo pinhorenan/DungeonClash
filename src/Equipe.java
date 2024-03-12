@@ -13,6 +13,7 @@ public class Equipe {
         this.integrantes = new HashSet<>();
     }
 
+    // Métodos
     public void adicionarIntegrante(Personagem personagem) {
         if(!getIsInimigos() && integrantes.size() >= 3) {
             System.out.println("Uma equipe de heróis não pode ter mais de 3 integrantes!");
@@ -37,24 +38,9 @@ public class Equipe {
         }
     }
 
-    public boolean peloMenosUmVivo() {
-        // Implementar
-        return true;
-    }
-
     public void exibirInformacoes() {
         // Implementar
     }
-
-    private Set<Personagem> integrantes;
-    private final boolean isInimigos;
-
-    // Construtor
-    public Equipe(boolean isInimigos) {
-        this.isInimigos = isInimigos;
-        this.integrantes = new HashSet<>();
-    }
-
 
     public void atacar(Equipe equipeAlvo, Personagem personagemAtacante, Habilidade habilidade) {
         personagemAtacante.usarHabilidade(habilidade, equipeAlvo);
@@ -66,14 +52,21 @@ public class Equipe {
         }
     }
 
-    // -------------------------------------------- GETTERS -------------------------------------------- //
+    public Personagem definirProximoAtacante() {
+        return Collections.min(integrantes);
+    }
+
+    public boolean peloMenosUmVivo() {
+        // Implementar
+        return true;
+    }
+
+    // Getters
+
     public Set<Personagem> getIntegrantes() {
         return integrantes;
     }
 
-    public Personagem getProximoAtacante() {
-        return Collections.min(integrantes);
-    }
 
     public boolean getIsInimigos() {
         return isInimigos;
