@@ -1,7 +1,7 @@
 public class Guerreiro extends Classe {
 
-    // ------------------------------------------ CONSTRUTOR ------------------------------------------- //
     public Guerreiro() {
+        // Construtor pré-definido para Guerreiro
         this.forca = 4;
         this.agilidade = 1;
         this.inteligencia = 1;
@@ -10,11 +10,10 @@ public class Guerreiro extends Classe {
         habilidades.add(new Habilidade("Espada Flamejante", new PesosDeAtributos(0.3,0.5,0.4), new PesosDeAtributos(0.2,1, 1),7 , false, false));
     }
 
-    // -------------------------------------------- MÉTODOS -------------------------------------------- //
-    public void subirNivel() { // Implementação com valores correspondentes à progressão do Guerreiro.
+    public void subirNivel() {
+        // Implementação com valores correspondentes à progressão do Guerreiro.
         this.forca += 4;
         this.agilidade += 1;
         this.inteligencia += 1;
     }
-
-} // FECHAMENTO
+}

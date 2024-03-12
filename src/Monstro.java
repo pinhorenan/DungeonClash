@@ -1,7 +1,7 @@
 public class Monstro extends Classe {
 
-    // ------------------------------------------ CONSTRUTOR ------------------------------------------- //
     public Monstro() {
+        // Construtor pré-definido para Monstro
         this.forca = 4;
         this.agilidade = 1;
         this.inteligencia = 0;
@@ -10,11 +10,10 @@ public class Monstro extends Classe {
         habilidades.add(new Habilidade("Grito atordoante", new PesosDeAtributos(0.4, 0.2, 1), new PesosDeAtributos(0, 0, 0), 6, false, true));
     }
 
-    // -------------------------------------------- MÉTODOS -------------------------------------------- //
-    public void subirNivel() { // Implementação com valores correspondentes à progressão do Mostro.
+    public void subirNivel() {
+        // Implementação com valores correspondentes à progressão do Mostro.
         this.forca += 4;
         this.agilidade += 1;
         this.inteligencia = 0;
     }
-
-} // FECHAMENTO
+}

@@ -1,7 +1,7 @@
 public class Arqueiro extends Classe {
 
-    // ------------------------------------------ CONSTRUTOR ------------------------------------------- //
     public Arqueiro() {
+        // Construtor pré-definido para Arqueiro
         this.forca = 1;
         this.agilidade = 3;
         this.inteligencia = 2;
@@ -10,11 +10,10 @@ public class Arqueiro extends Classe {
         habilidades.add(new Habilidade("Flecha Encantada", new PesosDeAtributos(0.3, 0.5, 0.4), new PesosDeAtributos(1, 0.2, 1), 7, false, false));
     }
 
-    // -------------------------------------------- MÉTODOS -------------------------------------------- //
-    public void subirNivel() { // Implementação com valores correspondentes à progressão do Arqueiro.
+    public void subirNivel() {
+        // Implementação com valores correspondentes à progressão do Arqueiro.
         this.forca += 1;
         this.agilidade += 3;
         this.inteligencia += 2;
     }
-
-} // FECHAMENTO
+}

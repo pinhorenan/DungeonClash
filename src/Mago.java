@@ -1,7 +1,7 @@
 public class Mago extends Classe{
 
-    // ------------------------------------------ CONSTRUTOR ------------------------------------------- //
     public Mago()  {
+        // Construtor pré-definido para Mago
         this.forca = 1;
         this.agilidade = 2;
         this.inteligencia = 3;
@@ -10,11 +10,10 @@ public class Mago extends Classe{
         habilidades.add(new Habilidade("Cura Amigo", new PesosDeAtributos(0.5,0.2,0.8), new PesosDeAtributos(1,1,0.7), 4, true, false));
     }
 
-    // -------------------------------------------- MÉTODOS -------------------------------------------- //
-    public void subirNivel() { // Implementação com valores correspondentes à progressão do Mago.
+    public void subirNivel() {
+        // Implementação com valores correspondentes à progressão do Mago.
         this.forca += 1;
         this.agilidade += 2;
         this.inteligencia += 3;
     }
-
-} // FECHAMENTO
+}
