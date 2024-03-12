@@ -39,6 +39,7 @@ public class Jogo {
 
     // História
     int i = 0;
+    String procurarPor = "fase";
     for (String linha : linhasArquivo){
         if (linha.toLowerCase().contains(procurarPor.toLowerCase())){
             if (i != 0){
