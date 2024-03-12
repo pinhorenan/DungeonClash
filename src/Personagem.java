@@ -25,6 +25,21 @@ public class Personagem implements Comparable<Personagem> {
         atordoado = false;
     }
 
+    public Personagem(String nome, Classe classe, int nivel) {
+        // Construtor. Deverá passar o nome (String) e uma classe, a classe deverá ser criada no campo de parâmetro
+        this.nome = nome;
+        this.classe = classe;
+        ID = gerarProximoID();
+        this.nivel = nivel;
+        PE = 0;
+        tempoEspera = 0;
+        PVmax = classe.forca + ((float) classe.agilidade / 2);
+        PMmax = classe.inteligencia + ((float) classe.agilidade / 3);
+        PV = PVmax;
+        PM = PMmax;
+        atordoado = false;
+    }
+
     @Override
     public int compareTo(Personagem outro) {
         // Define um método de comparação entre instâncias de Personagens para comparar seus tempoEspera. Chamado para definir o próximoAtacante.
