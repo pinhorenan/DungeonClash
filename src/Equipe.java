@@ -39,7 +39,16 @@ public class Equipe {
     }
 
     public void exibirInformacoes() {
-        // Implementar
+        for (Personagem integrante : integrantes) {
+            System.out.println("ID: " + integrante.getID());
+            System.out.println("Nome: " + integrante.getNome());
+            System.out.println("Classe: " + integrante.getClasse());
+            System.out.println("PV: " + integrante.getPV());
+            System.out.println("PM: " + integrante.getPM());
+            System.out.println("Nível: " + integrante.getNivel());
+            System.out.println("Tempo de Espera: " + integrante.getTempoEspera());
+            System.out.println("---------------------------------------");
+        }
     }
 
     public void atacar(Equipe equipeAlvo, Personagem personagemAtacante, Habilidade habilidade) {
@@ -57,8 +66,12 @@ public class Equipe {
     }
 
     public boolean peloMenosUmVivo() {
-        // Implementar
-        return true;
+        for (Personagem integrante : integrantes) {
+            if (!integrante.getMorto()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Getters
