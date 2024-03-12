@@ -165,42 +165,29 @@ public class Jogo {
   }
 
   private Set<Personagem> escolherAlvo(Equipe equipe) {
-    System.out.println("Escolha um alvo:");
+    return null;
+  }
 
-    // Exibindo os integrantes da equipe disponíveis como alvos
-    int i = 1;
-    for (Personagem personagem : equipe.getIntegrantes()) {
-      System.out.println(i + ". " + personagem.getNome());
-      i++;
-    }
+  public void exibirHabilidades(Personagem personagem) {
+    System.out.println("Habilidades disponíveis para " + personagem.getNome() + ":");
 
-    // Capturando a escolha do usuário
-    int escolha = Integer.parseInt(scanner.nextLine());
-
-    // Convertendo a escolha do usuário para o índice do conjunto de integrantes da equipe
-    int indice = escolha - 1;
-
-    // Verificando se a escolha é válida
-    if (indice >= 0 && indice < equipe.getIntegrantes().size()) {
-      // Convertendo o conjunto de integrantes para um array para acessar o elemento pelo índice
-      Personagem[] integrantesArray = equipe.getIntegrantes().toArray(new Personagem[0]);
-      return integrantesArray[indice];
-    } else {
-      System.out.println("Escolha inválida. Por favor, escolha um alvo válido.");
-      return escolherAlvo(equipe); // Chamada recursiva para permitir uma nova escolha
+    for (Habilidade habilidade : personagem.getClasse().getHabilidades()) {
+      System.out.println(habilidade.getNome());
     }
   }
 
-  private void exibirHabilidades(Personagem personagem) {
-    for (Habilidade habilidades : personagem) {
-
+  public void exibirInformacoes(Equipe equipe) {
+    for (Personagem integrante : equipe.getIntegrantes()) {
+      System.out.println("ID: " + integrante.getID());
+      System.out.println("Nome: " + integrante.getNome());
+      System.out.println("Classe: " + integrante.getClasse());
+      System.out.println("PV: " + integrante.getPV());
+      System.out.println("PM: " + integrante.getPM());
+      System.out.println("Nível: " + integrante.getNivel());
+      System.out.println("Tempo de Espera: " + integrante.getTempoEspera());
+      System.out.println("---------------------------------------");
     }
-
   }
-
-  private void exibirInformacoes(Equipe herois) {
-  }
-
 
   private void exibirInformacoesEquipes(Equipe herois, Equipe inimigos) {
     System.out.println("\n --- Informações das Equipes ---");
@@ -209,8 +196,6 @@ public class Jogo {
     System.out.println("\nInimigos: ");
     exibirInformacoes(inimigos);
   }
-
-
 
   private void exibirResultadoBatalha(Equipe herois, Equipe inimigos) {
     // Implementar
