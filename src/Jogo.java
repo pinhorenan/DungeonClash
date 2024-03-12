@@ -1,20 +1,19 @@
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.InputMismatchException;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.List;
+import java.util.*;
 
 public class Jogo {
 
   private Equipe herois;
   private Equipe inimigos;
   private Path arquivo;
+  private int contadorTurnos;
 
   public Jogo(String caminhoArquivo) {
     this.herois = new Equipe(false);
     this.inimigos = new Equipe(true);
     this.arquivo = Paths.get(caminhoArquivo);
+    this.contadorTurnos = 0;
 
     if (!Files.exists(arquivo)) {
       System.out.println("Arquivo não encontrado. Certifique-se de fornecer o caminho correto.");
@@ -82,14 +81,12 @@ public class Jogo {
   }
 
   private void iniciarBatalha() {
-    Scanner scanner = new Scanner(System.in);
-    Random random = new Random();
-    int contadorTurnos = 0;
-
     System.out.println("Iniciando batalha...");
 
+    exibirInformacoesEquipes(herois, inimigos);
+
     // Sorteia quem ataca primeiro
-    Personagem primeiroAtacante = (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
+    Personagem primeiroAtacante = sortearPrimeiroAtacante(herois, inimigos);;
 
     // Inicia os turnos
     while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
@@ -97,7 +94,7 @@ public class Jogo {
       System.out.println("É a vez de " + primeiroAtacante.getNome() + " atacar!");
 
       // Exibe habilidades disponíveis do personagem que vai atacar
-      primeiroAtacante.exibirHabilidades();
+      exibirHabilidades();
 
       // Escolhe uma habilidade
       Habilidade habilidadeEscolhida = escolherHabilidade(primeiroAtacante);
@@ -120,6 +117,111 @@ public class Jogo {
 
     // Exibe o resultado da batalha
     exibirResultadoBatalha(herois, inimigos);
+  }
+
+  private Habilidade escolherHabilidade(Personagem personagem) {
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Escolha uma habilidade para " + personagem.getNome() + ":");
+
+    // Exibindo as habilidades disponíveis para o personagem
+    int i = 1;
+    for (Habilidade habilidade : personagem.getClasse().getHabilidades()) {
+      System.out.println(i + ". " + habilidade.getNome());
+      i++;
+    }
+
+    // Capturando a escolha do usuário
+    int escolha = Integer.parseInt(scanner.nextLine());
+
+    // Convertendo a escolha do usuário para o índice do conjunto de habilidades
+    int indice = escolha - 1;
+
+    // Verificando se a escolha é válida
+    if (indice >= 0 && indice < personagem.getClasse().getHabilidades().size()) {
+      // Convertendo o conjunto de habilidades para um array para acessar o elemento pelo índice
+      Habilidade[] habilidadesArray = personagem.getClasse().getHabilidades().toArray(new Habilidade[0]);
+      return habilidadesArray[indice];
+    } else {
+      System.out.println("Escolha inválida. Por favor, escolha uma habilidade válida.");
+      return escolherHabilidade(personagem); // Chamada recursiva para permitir uma nova escolha
+    }
+  }
+
+  private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
+    Random random = new Random();
+    return (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
+  }
+
+  private Personagem escolherAlvo(Equipe inimigos, String nome) {
+    return null;
+  }
+
+  private Set<Personagem> escolherAlvo(Equipe equipe) {
+    System.out.println("Escolha um alvo:");
+
+    // Exibindo os integrantes da equipe disponíveis como alvos
+    int i = 1;
+    for (Personagem personagem : equipe.getIntegrantes()) {
+      System.out.println(i + ". " + personagem.getNome());
+      i++;
+    }
+
+    // Capturando a escolha do usuário
+    int escolha = Integer.parseInt(scanner.nextLine());
+
+    // Convertendo a escolha do usuário para o índice do conjunto de integrantes da equipe
+    int indice = escolha - 1;
+
+    // Verificando se a escolha é válida
+    if (indice >= 0 && indice < equipe.getIntegrantes().size()) {
+      // Convertendo o conjunto de integrantes para um array para acessar o elemento pelo índice
+      Personagem[] integrantesArray = equipe.getIntegrantes().toArray(new Personagem[0]);
+      return integrantesArray[indice];
+    } else {
+      System.out.println("Escolha inválida. Por favor, escolha um alvo válido.");
+      return escolherAlvo(equipe); // Chamada recursiva para permitir uma nova escolha
+    }
+  }
+
+  private void exibirHabilidades(Personagem personagem) {
+    for (Habilidade habilidades : personagem) {
+
+    }
+
+  }
+
+  private void exibirInformacoes(Equipe herois) {
+  }
+
+
+  private void exibirInformacoesEquipes(Equipe herois, Equipe inimigos) {
+    System.out.println("\n --- Informações das Equipes ---");
+    System.out.println("\nHeróis: ");
+    exibirInformacoes(herois);
+    System.out.println("\nInimigos: ");
+    exibirInformacoes(inimigos);
+  }
+
+
+
+  private void exibirResultadoBatalha(Equipe herois, Equipe inimigos) {
+    // Implementar
+  }
+
+  private void realizarTurno(Equipe herois, Equipe inimigos, Personagem primeiroAtacante) {
+    System.out.println("\n --- Turno " + contadorTurnos + " --- ");
+    System.out.println("É a vez de " + primeiroAtacante.getNome() + " atacar!");
+
+    // Exibe habilidades disponíveis do personagem que vai atacar
+    exibirHabilidades(); // Implementar
+
+    // Implementar lógica pra escolher a habilidade e o alvo.
+
+    // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
+    primeiroAtacante.atualizarTempoEspera(); // Implementar
+
+    // Incrementa o contador de turnos
+    contadorTurnos++;
   }
 
 }
