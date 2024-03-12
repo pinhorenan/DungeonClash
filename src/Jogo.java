@@ -46,13 +46,19 @@ public class Jogo {
       String nomeHeroi = scanner.nextLine();
       System.out.println("\nQual será a classe de " + nomeHeroi + "?");
       System.out.println("\n1- GUERREIRO\n2- ARQUEIRO\n3- MAGO");
+      int escolhaClasse = 0;
       do {
         try {
-          int escolhaClasse = Integer.parseInt(scanner.nextLine());
-        } catch (InputMismatchException e) {
+          escolhaClasse = Integer.parseInt(scanner.nextLine());
+          if (escolhaClasse <= 3 && escolhaClasse >= 1) {
+          break;         // Saia do loop se a entrada for válida
+        } else {
+          System.out.println("Escolha inválida! Tente novamente.");
+          }
+        } catch (NumberFormatException e) {
           System.out.println("Input inválido! Tente de novo.");
         }
-      } while (escolhaClasse || escolhaClasse > 3 || escolhaClasse < 0);
+      } while (true);
 
       Personagem novoHeroi = switch (escolhaClasse) {
         case 1 -> new Personagem(nomeHeroi, new Guerreiro());
@@ -65,18 +71,20 @@ public class Jogo {
 
       System.out.println("\nDeseja criar mais um personagem?");
       System.out.println("\nPara NÃO digite 'False'\nPara SIM digite 'True'");
+      Boolean criacaoPersonagens = false;
+      Scanner scan = new Scanner(System.in)
       do {
         try {
-          criacaoPersonagens = new criacaoPersonagens.nextBoolean();
-          if (criacaoPersonagens) {
-            System.out.println("Over 18");
-          } else if (!criacaoPersonagens) {
+          criacaoPersonagens = scan.nextBoolean();
+          if (!criacaoPersonagens) {
             i = 4;
           }
         } catch (InputMismatchException e) {
-          System.out.println("Imput inválido! Tente de novo.");
+          System.out.println("Input inválido! Tente de novo.");
+          criacaoPersonagens = false;
+          scanner.nextLine();
         }
-      } while (!criacaoPersonagens);
+      } while (criacaoPersonagens != false);
     }
   }
 
