@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
@@ -9,6 +8,8 @@ public class Jogo {
   private Path arquivo;
   private int contadorTurnos;
 
+
+  // Construtor
   public Jogo(String caminhoArquivo) {
     this.herois = new Equipe(false);
     this.inimigos = new Equipe(true);
@@ -28,7 +29,8 @@ public class Jogo {
   }
 
   public void iniciar() {
-    carregarEquipe();
+    carregarHerois();
+    carregarInimigos();
     iniciarBatalha();
   }
 
@@ -37,7 +39,7 @@ public class Jogo {
     A SEGUNDA LINHA DEVE SER TRANSFORMADA NA EQUIPE INIMIGA, COM CADA ITEM SENDO UM INTEGRANTE
     APOS UMA FASE ACABAR, A PROXIMA DEVE COMEÇAR (FAZER UM SET DE FASES???????????)*/ // COMENTÁRIO DO PURO OSSO??
 
-  public void carregarEquipe() {
+  public void carregarHerois() {
     Scanner scanner = new Scanner(System.in);
     boolean criacaoPersonagens;
 
@@ -71,8 +73,8 @@ public class Jogo {
 
       System.out.println("\nDeseja criar mais um personagem?");
       System.out.println("\nPara NÃO digite 'False'\nPara SIM digite 'True'");
-      Boolean criacaoPersonagens = false;
-      Scanner scan = new Scanner(System.in)
+      criacaoPersonagens = false;
+      Scanner scan = new Scanner(System.in);
       do {
         try {
           criacaoPersonagens = scan.nextBoolean();
@@ -84,8 +86,12 @@ public class Jogo {
           criacaoPersonagens = false;
           scanner.nextLine();
         }
-      } while (criacaoPersonagens != false);
+      } while (!criacaoPersonagens);
     }
+  }
+
+  public void carregarInimigos(String linha) {
+
   }
 
   private void iniciarBatalha() {
@@ -95,7 +101,7 @@ public class Jogo {
     exibirInformacoesEquipes(herois, inimigos);
 
     // Sorteia quem ataca primeiro
-    Personagem primeiroAtacante = sortearPrimeiroAtacante(herois, inimigos);;
+    Personagem primeiroAtacante = sortearPrimeiroAtacante(herois, inimigos);
 
     // Inicia os turnos
     while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
@@ -103,7 +109,7 @@ public class Jogo {
       System.out.println("É a vez de " + primeiroAtacante.getNome() + " atacar!");
 
       // Exibe habilidades disponíveis do personagem que vai atacar
-      exibirHabilidades();
+      exibirHabilidades(primeiroAtacante);
 
       // Escolhe uma habilidade
       Habilidade habilidadeEscolhida = escolherHabilidade(primeiroAtacante);
@@ -146,7 +152,7 @@ public class Jogo {
     return null;
   }
 
-  // METODO FUNCIONA
+  // MÉTODO FUNCIONA
   public void exibirHabilidades(Personagem personagem) {
     System.out.println("Habilidades disponíveis para " + personagem.getNome() + ":");
 
@@ -155,7 +161,7 @@ public class Jogo {
     }
   }
 
-  // METODO FUNCIONA
+  // MÉTODO FUNCIONA
   public void exibirInformacoes(Equipe equipe) {
     for (Personagem integrante : equipe.getIntegrantes()) {
       System.out.println("ID: " + integrante.getID());
@@ -169,7 +175,7 @@ public class Jogo {
     }
   }
 
-  // METODO FUNCIONA
+  // MÉTODO FUNCIONA
   private void exibirInformacoesEquipes(Equipe herois, Equipe inimigos) {
     System.out.println("\n --- Informações das Equipes ---");
     System.out.println("\nHeróis: ");
@@ -189,9 +195,9 @@ public class Jogo {
     System.out.println("É a vez de " + primeiroAtacante.getNome() + " atacar!");
 
     // Exibe habilidades disponíveis do personagem que vai atacar
-    exibirHabilidades(); // Implementar
+    exibirHabilidades(primeiroAtacante);
 
-    // Implementar lógica pra escolher a habilidade e o alvo.
+    escolherHabilidade()
 
     // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
     primeiroAtacante.atualizarTempoEspera(); // Implementar
