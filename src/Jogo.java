@@ -4,8 +4,9 @@ import java.util.*;
 public class Jogo {
 
   private Equipe herois;
-  private Equipe inimigos;
+  private Equipe[] inimigos;
   private Path arquivo;
+  private List<String> linhasArquivo;
   private int contadorTurnos;
 
 
@@ -14,6 +15,7 @@ public class Jogo {
     this.herois = new Equipe(false);
     this.inimigos = new Equipe(true);
     this.arquivo = Paths.get(caminhoArquivo);
+    this.linhasArquivo = Files.readAllLines(arquivo);
     this.contadorTurnos = 0;
 
     if (!Files.exists(arquivo)) {
@@ -29,9 +31,24 @@ public class Jogo {
   }
 
   public void iniciar() {
+    // Prólogo
     carregarHerois();
-    carregarInimigos();
-    iniciarBatalha();
+
+    // História
+    int i = 0;
+    for (String linha : linhasArquivo){
+        if (linha.toLowerCase().contains(procurarPor.toLowerCase())){;
+            if (i != 0){
+              iniciarBatalha();
+            }
+            System.out.println(linha.substring(4));
+            i++;
+        } else {
+            carregarInimigos(linha, i);
+        }
+    }
+
+    // Epílogo
   }
 
     /* APOS ISSO, DEVE ABRIR O ARQUIVO E TRANSFORMAR SEU CONTEUDO EM FASES
@@ -90,9 +107,12 @@ public class Jogo {
     }
   }
 
-  public void carregarInimigos(String linha) {
-
-  }
+  public void carregarInimigos(String linha, int index) {
+    String[] split = linha.split(" ", 3);
+    
+    String nomeMonstro = split[0];
+    String classeMonstro = split[1];
+    int nivelMonstro = integer.value0f(split[2]);
 
   private void iniciarBatalha() {
     System.out.println("Iniciando batalha...");
