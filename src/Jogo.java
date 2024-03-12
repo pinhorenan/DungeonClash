@@ -89,20 +89,70 @@ public class Jogo {
   }
 
   private void iniciarBatalha() {
+    System.out.println("Iniciando batalha...");
+
     exibirInformacoesEquipes(herois, inimigos);
 
-    // Sortear quem ataca primeiro
-    //codigo aqui
+    // Sorteia quem ataca primeiro
+    Personagem primeiroAtacante = sortearPrimeiroAtacante(herois, inimigos);;
 
     // Inicia os turnos
     while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-      realizarTurno(herois, inimigos, primeiroAtacante);
+      System.out.println("\n--- Turno " + contadorTurnos + " --- ");
+      System.out.println("É a vez de " + primeiroAtacante.getNome() + " atacar!");
+
+      // Exibe habilidades disponíveis do personagem que vai atacar
+      exibirHabilidades();
+
+      // Escolhe uma habilidade
+      Habilidade habilidadeEscolhida = escolherHabilidade(primeiroAtacante);
+
+      // Escolhe um alvo
+      Personagem alvo = escolherAlvo(inimigos);
+
+      // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
+      primeiroAtacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
+
+      // Incrementa o contador de turnos
+      contadorTurnos++;
+
+      // Troca de atacante para o próximo turno
+      primeiroAtacante = (primeiroAtacante.getIsInimigos()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
+
+      // Exibe informações das equipes
       exibirInformacoesEquipes(herois, inimigos);
     }
+
+    // Exibe o resultado da batalha
+    exibirResultadoBatalha(herois, inimigos);
   }
 
   private Habilidade escolherHabilidade(Personagem personagem) {
-    return null;
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Escolha uma habilidade para " + personagem.getNome() + ":");
+
+    // Exibindo as habilidades disponíveis para o personagem
+    int i = 1;
+    for (Habilidade habilidade : personagem.getClasse().getHabilidades()) {
+      System.out.println(i + ". " + habilidade.getNome());
+      i++;
+    }
+
+    // Capturando a escolha do usuário
+    int escolha = Integer.parseInt(scanner.nextLine());
+
+    // Convertendo a escolha do usuário para o índice do conjunto de habilidades
+    int indice = escolha - 1;
+
+    // Verificando se a escolha é válida
+    if (indice >= 0 && indice < personagem.getClasse().getHabilidades().size()) {
+      // Convertendo o conjunto de habilidades para um array para acessar o elemento pelo índice
+      Habilidade[] habilidadesArray = personagem.getClasse().getHabilidades().toArray(new Habilidade[0]);
+      return habilidadesArray[indice];
+    } else {
+      System.out.println("Escolha inválida. Por favor, escolha uma habilidade válida.");
+      return escolherHabilidade(personagem); // Chamada recursiva para permitir uma nova escolha
+    }
   }
 
   private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
@@ -115,29 +165,42 @@ public class Jogo {
   }
 
   private Set<Personagem> escolherAlvo(Equipe equipe) {
-    return null;
+    System.out.println("Escolha um alvo:");
+
+    // Exibindo os integrantes da equipe disponíveis como alvos
+    int i = 1;
+    for (Personagem personagem : equipe.getIntegrantes()) {
+      System.out.println(i + ". " + personagem.getNome());
+      i++;
+    }
+
+    // Capturando a escolha do usuário
+    int escolha = Integer.parseInt(scanner.nextLine());
+
+    // Convertendo a escolha do usuário para o índice do conjunto de integrantes da equipe
+    int indice = escolha - 1;
+
+    // Verificando se a escolha é válida
+    if (indice >= 0 && indice < equipe.getIntegrantes().size()) {
+      // Convertendo o conjunto de integrantes para um array para acessar o elemento pelo índice
+      Personagem[] integrantesArray = equipe.getIntegrantes().toArray(new Personagem[0]);
+      return integrantesArray[indice];
+    } else {
+      System.out.println("Escolha inválida. Por favor, escolha um alvo válido.");
+      return escolherAlvo(equipe); // Chamada recursiva para permitir uma nova escolha
+    }
   }
 
   private void exibirHabilidades(Personagem personagem) {
-    System.out.println("Habilidades disponíveis para " + personagem.getNome() + ":");
+    for (Habilidade habilidades : personagem) {
 
-    for (Habilidade habilidade : personagem.getClasse().getHabilidades()) {
-      System.out.println(habilidade.getNome());
     }
+
   }
 
-  private void exibirInformacoes(Equipe equipe) {
-    for (Personagem integrante : equipe.getIntegrantes()) {
-      System.out.println("ID: " + integrante.getID());
-      System.out.println("Nome: " + integrante.getNome());
-      System.out.println("Classe: " + integrante.getClasse());
-      System.out.println("PV: " + integrante.getPV());
-      System.out.println("PM: " + integrante.getPM());
-      System.out.println("Nível: " + integrante.getNivel());
-      System.out.println("Tempo de Espera: " + integrante.getTempoEspera());
-      System.out.println("---------------------------------------");
-    }
+  private void exibirInformacoes(Equipe herois) {
   }
+
 
   private void exibirInformacoesEquipes(Equipe herois, Equipe inimigos) {
     System.out.println("\n --- Informações das Equipes ---");
@@ -146,6 +209,8 @@ public class Jogo {
     System.out.println("\nInimigos: ");
     exibirInformacoes(inimigos);
   }
+
+
 
   private void exibirResultadoBatalha(Equipe herois, Equipe inimigos) {
     // Implementar
