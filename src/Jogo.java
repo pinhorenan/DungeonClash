@@ -1,5 +1,3 @@
-import java.io.FileReader;
-
 public class Jogo {
 
   private Equipe herois;
@@ -10,9 +8,9 @@ public class Jogo {
     this.inimigos = new Equipe();
   }
 
-// comentario pra lembrar de implementar alguma forma de portar o arquivo .txt e transformar ele em string (espero q seja minimamente parecido com shell script)
+// comentário pra lembrar de implementar alguma forma de portar o arquivo .txt e transformar ele em string (espero q seja minimamente parecido com shell script)
 
-  public void iniciar(String arquivo) {
+  public void iniciar() {
     
   }
 
