@@ -106,7 +106,7 @@ public class Personagem {
                 }
 
         }
-    }                       // Implementar
+    }                       // Pronto
 
     public void ganharPE(int PE) {
         this.PE += PE;
