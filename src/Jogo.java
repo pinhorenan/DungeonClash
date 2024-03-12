@@ -1,56 +1,57 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.nio.file.*;
+import java.util.Scanner;
 
 public class Jogo {
 
   private Equipe herois;
   private Equipe inimigos;
-  private File arquivo;
+  private Path arquivo;
 
-  public Jogo(File arquivo) {
-    this.herois = new Equipe();
-    this.inimigos = new Equipe();
-    this.arquivo = new arquivo;
+  public Jogo(String caminhoArquivo) {
+    this.herois = new Equipe(false);
+    this.inimigos = new Equipe(true);
+    this.arquivo = Paths.get(caminhoArquivo);
+
+    // Verificação se o arquivo existe.
+    if (!Files.exists(arquivo)) {
+      System.out.println("Arquivo não encontrado. Certifique-se de fornecer o caminho correto.");
+      System.exit(1); // Isso encerra o programa com código de erro 1.
+    }
   }
-
-// comentário pra lembrar de implementar alguma forma de portar o arquivo .txt e transformar ele em string (espero q seja minimamente parecido com shell script)
+  // comentário pra lembrar de implementar alguma forma de portar o arquivo .txt e transformar ele em string (espero q seja minimamente parecido com shell script)
 
   public void iniciar() {
+    Scanner scanner = new Scanner(System.in);
     // ANOTAÇÕES
     // "INICIAR" DEVE ABRIR UM MENU PRA CRIAÇÃO DE PERSONAGENS
-    for (int i = 1; i <=3; ++i){
+    for (int i = 1; i <= 3; ++i) {
       System.out.println("\nNome do " + i + "º Herói ou Heroína: ");
       String nomeHeroi = scanner.nextLine();
       System.out.println("\nQual será a classe de " + nomeHeroi + "?");
       System.out.println("\n1- GUERREIRO\n2- ARQUEIRO\n3- MAGO");
-      int escolhaClasse = scanner.nextLine();
-      switch (escolhaClasse) {
-        case 1:
-            Personagem novoHeroi = new Personagem(nomeHeroi, new Guerreiro());
-        case 2:
-            Personagem novoHeroi = new Personagem(nomeHeroi, new Arqueiro());
-        case 3:
-            Personagem novoHeroi = new Personagem(nomeHeroi, new Mago());
-        default:
-            Personagem novoHeroi = new Personagem(nomeHeroi, new Guerreiro());
-      }
+      int escolhaClasse = Integer.parseInt(scanner.nextLine());
 
-      herois.adicionarIntegrante(novoHeroi);
+      Personagem novoHeroi = switch (escolhaClasse) {
+          case 1 -> new Personagem(nomeHeroi, new Guerreiro());
+          case 2 -> new Personagem(nomeHeroi, new Arqueiro());
+          case 3 -> new Personagem(nomeHeroi, new Mago());
+          default -> new Personagem(nomeHeroi, new Guerreiro());
+      };
+
+        herois.adicionarIntegrante(novoHeroi);
     }
-    
+
     // APOS ISSO, DEVE ABRIR O ARQUIVO E TRANSFORMAR SEU CONTEUDO EM FASES
 
-    
+
     // A PRIMEIRA LINHA DA FASE DEVE SER PRINTADA
     // A SEGUNDA LINHA DEVE SER TRANSFORMADA NA EQUIPE INIMIGA, COM CADA ITEM SENDO UM INTEGRANTE
     // APOS UMA FASE ACABAR, A PROXIMA DEVE COMEÇAR (FAZER UM SET DE FASES???????????)
   }
 
   public void carregarEquipe() {
-    
-  }
-
-   // public void iniciar() { <---- redundância????????????
+    // public void iniciar() { <---- redundância????????????
     //}
+  }
 }
+
