@@ -26,8 +26,8 @@ public class Jogo {
 
     try {
       this.linhasArquivo = Files.readAllLines(arquivo);
-    } catch (IOException e) {
-      System.err.println("Erro ao ler o arquivo: " + e.getMessage());
+    } catch (IOException excecao) {
+      System.err.println("Erro ao ler o arquivo: " + excecao.getMessage());
       System.exit(1);
     }
   }
