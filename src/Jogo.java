@@ -55,7 +55,7 @@ public class Jogo {
     // Epílogo
   }
 
-  public void carregarHerois() {
+  private void carregarHerois() {
     Scanner scanner = new Scanner(System.in);
     boolean criacaoPersonagens;
 
@@ -107,7 +107,7 @@ public class Jogo {
   System.out.println("\nEquipe criada!");
 }
 
-  public void carregarInimigos(String linha) {
+  private void carregarInimigos(String linha) {
     String[] split = linha.split(" ", 3);
 
     String nomeMonstro = split[0];
@@ -177,9 +177,9 @@ public class Jogo {
     int ganhoPE = atacante.usarHabilidade(habilidadeEscolhida, alvo);
 
     // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno.
-    if(equipeAlvo == herois) {
-      inimigos.distribuirPE(ganhoPE);
-    } else herois.distribuirPE((ganhoPE));  // OLHA ESSA ABERRAÇÃO QUE TA ACONTECENDO AQUI!!!!!!
+    if(equipeAlvo == inimigos) {
+      herois.distribuirPE(ganhoPE);
+    }
 
     // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
     atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
@@ -192,15 +192,15 @@ public class Jogo {
     contadorTurnos++;
   }
 
-  public void exibirHabilidades(Personagem personagem) {
+  private void exibirHabilidades(Personagem personagem) {
     System.out.println("Habilidades disponíveis para " + personagem.getNome() + ":");
 
     for (Habilidade habilidade : personagem.getClasse().getHabilidades()) {
-      System.out.println(habilidade.getNome());
+      System.out.println(habilidade.getNome() + " (PM Necessário: " + habilidade.calcularCustoMana(personagem.getClasse())+", Dano: " + habilidade.calcularDanoCausado(personagem.getClasse()) +")");
     }
   }
 
-  public void exibirInformacoes(Equipe equipe) {
+  private void exibirInformacoes(Equipe equipe) {
     for (Personagem integrante : equipe.getIntegrantes()) {
       System.out.println("ID: " + integrante.getID());
       System.out.println("Nome: " + integrante.getNome());
