@@ -87,8 +87,7 @@ public class Jogo {
 
       herois.adicionarIntegrante(novoHeroi);
 
-      criacaoPersonagens = false;
-      Scanner scan = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
       
       while (i <= 2) {
         System.out.println("\nDeseja criar mais um personagem?");
@@ -97,10 +96,8 @@ public class Jogo {
           criacaoPersonagens = scan.nextBoolean();
           if (!criacaoPersonagens) {
             i = 4;
-            break;
-          } else {
-            break;
           }
+            break;
         } catch (InputMismatchException e) {
           System.out.println("Input inválido! Tente de novo.");
           scan.nextLine(); // Clear the input buffer
