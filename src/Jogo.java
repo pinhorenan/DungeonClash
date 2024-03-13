@@ -38,12 +38,17 @@ public class Jogo {
 
     // História
     String procurarPor = "fase";
+    Boolean verificacao;
     for (String linha : linhasArquivo){
         if (!(linha.toLowerCase().contains(procurarPor.toLowerCase()))){
           carregarInimigos(linha);
+          verificacao = true;
         } else {
-          System.out.println(linha.substring(4));
-          iniciarBatalha();
+          System.out.println("\n" + linha.substring(5));
+          if (true){
+            iniciarBatalha();
+            verificacao = false;
+          }
         }
     }
 
@@ -82,7 +87,6 @@ public class Jogo {
 
       herois.adicionarIntegrante(novoHeroi);
 
-      System.out.println("\nDeseja criar mais um personagem?");
       criacaoPersonagens = false;
       Scanner scan = new Scanner(System.in);
       
@@ -102,8 +106,8 @@ public class Jogo {
           scan.nextLine(); // Clear the input buffer
         }
     }
-    System.out.println("\nEquipe criada!");
   }
+  System.out.println("\nEquipe criada!");
 }
 
   public void carregarInimigos(String linha) {
