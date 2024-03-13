@@ -132,7 +132,7 @@ public class Jogo {
         // Lógica para tratamento de classe desconhecida
         break;
     }
-    
+
     inimigos.adicionarIntegrante(novoMonstro);
 
     // Adicionar o novoMonstro à equipe inimiga, por exemplo:
@@ -160,6 +160,14 @@ public class Jogo {
       // Exibe o resultado da batalha
       exibirResultadoBatalha(inimigos);
   }
+  
+  public void verificarPV (Personagem p){
+    for (Personagem p){
+      if (p.getPV() == 0){
+        System.out.println(p + " morreu.");
+      }
+    }
+  }
 
   //ok
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
@@ -182,6 +190,10 @@ public class Jogo {
     // Decrementa o tempo de espera de todos os personagens ao final do turno.
     herois.decrementaTempoEspera();
     inimigos.decrementaTempoEspera();
+
+    // Verificando os PVs das equipes
+    herois.verificarPV(p);
+    inimigos.verificarPV(p);
 
     // Incrementa o contador de turnos
     contadorTurnos++;
