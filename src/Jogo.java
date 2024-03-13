@@ -38,14 +38,14 @@ public class Jogo {
 
     // História
     String procurarPor = "fase";
-    boolean verificacao;
+    boolean verificacao = false;
     for (String linha : linhasArquivo){
         if (!(linha.toLowerCase().contains(procurarPor.toLowerCase()))){
           carregarInimigos(linha);
           verificacao = true;
         } else {
           System.out.println("\n" + linha.substring(5));
-          if (verificacao == true){
+          if (verificacao){
             iniciarBatalha();
             verificacao = false;
           }
