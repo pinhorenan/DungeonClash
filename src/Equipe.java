@@ -81,17 +81,4 @@ public class Equipe {
             personagem.setTempoEspera(personagem.getTempoEspera()-1);
         }
     }
-
-    public void verificarPV (){
-        for (Personagem personagem : integrantes){
-            if (personagem.getPV() == 0) {
-                int nivelParaPE = personagem.getNivel()*5;
-                personagem.setAtordoado(true);
-                distribuirPE(nivelParaPE);
-
-            }
-                );
-            }
-        }
-    }
 }
