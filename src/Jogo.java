@@ -88,7 +88,7 @@ public class Jogo {
       herois.adicionarIntegrante(novoHeroi);
 
         Scanner scan = new Scanner(System.in);
-      
+
       while (i <= 2) {
         System.out.println("\nDeseja criar mais um personagem?");
         try {
@@ -113,7 +113,7 @@ public class Jogo {
     String nomeMonstro = split[0];
     String classeMonstro = split[1];
     int nivelMonstro = Integer.parseInt(split[2]);
-    
+
     Personagem novoMonstro = null;
     switch (classeMonstro.toLowerCase()) {
       case "guerreiro":
@@ -134,12 +134,9 @@ public class Jogo {
     }
 
     inimigos.adicionarIntegrante(novoMonstro);
-
-    // Adicionar o novoMonstro à equipe inimiga, por exemplo:
-    // equipeInimiga.adicionarIntegrante(novoMonstro);
   }
 
-  private boolean notTurnoSilencioso(Equipe herois, Equipe inimigos) {
+  /*private boolean notTurnoSilencioso(Equipe herois, Equipe inimigos) {
     for (Personagem personagem : herois.getIntegrantes())
       if (personagem.getTempoEspera() == 0) {
         return true;
@@ -151,61 +148,69 @@ public class Jogo {
     }
     return false;
   }
+  */
 
   private void iniciarBatalha() {
       System.out.println("Iniciando batalha...");
-  
+
         // Exibe informações iniciais das equipes
       exibirInformacoesEquipes(herois, inimigos);
-  
-      // Sorteia de quem ataca
-      Personagem atacante = herois.definirProximoAtacante();
+
+
+        // Sorteia de quem ataca
+      Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
+
       while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-        if (notTurnoSilencioso(herois, inimigos)){
-          while (true){
-              assert false;
-              if (!(atacante.getTempoEspera() > 0)) break;
-              atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
-              realizarTurno(herois, inimigos, atacante);
-          }
-        } else {
-          System.out.println("Turno sem ação.");
-        }
+        realizarTurno(herois, inimigos, atacante);
         exibirInformacoesEquipes(herois, inimigos);
+
+        // Trocar o atacante para o próximo turno
+        atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
       }
-  
+
         // Exibe o resultado da batalha
       exibirResultadoBatalha(inimigos);
   }
 
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
     System.out.println("\n --- Turno " + contadorTurnos + " --- ");
-    System.out.println("É a vez de " + atacante.getNome() + " atacar!");
 
-      // Escolhe uma habilidade:
-    Habilidade habilidadeEscolhida = escolherHabilidade(atacante);
+    // Verifica se o atacante possui tempo de espera
+    if (atacante.getTempoEspera() > 0) {
+      System.out.println("É a vez de " + atacante.getNome() + ", mas está esperando.");
+    } else {
+      System.out.println("É a vez de " + atacante.getNome() + " atacar!");
 
-      //  Escolha um alvo:
-    Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)) ? inimigos : herois;
-    Personagem alvo = escolherAlvo(equipeAlvo);
+      // Escolhe uma habilidade
+      Habilidade habilidadeEscolhida = escolherHabilidade(atacante);
+
+      // Escolhe um alvo
+      Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)) ? inimigos : herois;
+      Personagem alvo = escolherAlvo(equipeAlvo);
 
       // Executa a habilidade no alvo
-    atacante.usarHabilidade(habilidadeEscolhida, alvo);
-    int ganhoPE = atacante.usarHabilidade(habilidadeEscolhida, alvo);
+      int ganhoPE = 0;
+      if (alvo != null) {
+        atacante.usarHabilidade(habilidadeEscolhida, alvo);
+        ganhoPE = atacante.usarHabilidade(habilidadeEscolhida, alvo);
+      } else {
+        System.out.println("Nenhum alvo válido encontrado.");
+      }
 
-      // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno.
-    if(equipeAlvo == inimigos) {
-      herois.distribuirPE(ganhoPE);
+      // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno
+      if (equipeAlvo == inimigos) {
+        herois.distribuirPE(ganhoPE);
+      }
+
+      // Atualiza o tempo de espera de maneira correspondente a sua habilidade
+      atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
     }
 
-      // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
-    atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
-
-      // Decrementa o tempo de espera de todos os personagens ao final do turno.
+    // Decrementa o tempo de espera de todos os personagens ao final do turno
     herois.decrementaTempoEspera();
     inimigos.decrementaTempoEspera();
 
-      // Incrementa o contador de turnos
+    // Incrementa o contador de turnos
     contadorTurnos++;
   }
 
@@ -272,6 +277,11 @@ public class Jogo {
     }
   }
 
+  private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
+    Random random = new Random();
+    return (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
+  }
+
   private Personagem escolherAlvo(Equipe equipe) {
     Scanner scanner = new Scanner(System.in);
     Set<Personagem> integrantes = equipe.getIntegrantes();
@@ -315,5 +325,4 @@ public class Jogo {
 
   //not ok
   //private Set<Personagem> escolherAlvo(Equipe equipe) { return null;}
-
 }
