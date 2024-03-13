@@ -113,6 +113,10 @@ public class Jogo {
     String classeMonstro = split[1];
     int nivelMonstro = Integer.parseInt(split[2]);
 
+    if (inimigos == null) {
+      inimigos = new HashSet<>(); 
+    }
+    
     Personagem novoMonstro = null;
     switch (classeMonstro.toLowerCase()) {
       case "guerreiro":
@@ -131,6 +135,8 @@ public class Jogo {
         // Lógica para tratamento de classe desconhecida
         break;
     }
+    
+    inimigos.adicionarIntegrante(novoMonstro);
 
     // Adicionar o novoMonstro à equipe inimiga, por exemplo:
     // equipeInimiga.adicionarIntegrante(novoMonstro);
