@@ -159,9 +159,9 @@ public class Jogo {
       exibirInformacoesEquipes(herois, inimigos);
   
       // Sorteia de quem ataca
-      Personagem atacante = herois.definirProximoAtacante()
+      Personagem atacante = herois.definirProximoAtacante();
       while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-        if (notTurnoSilencioso(herois, inimigos)){     ;
+        if (notTurnoSilencioso(herois, inimigos)){
           while (true){
               assert false;
               if (!(atacante.getTempoEspera() > 0)) break;
@@ -171,8 +171,6 @@ public class Jogo {
         } else {
           System.out.println("Turno sem ação.");
         }
-
-
         exibirInformacoesEquipes(herois, inimigos);
       }
   
