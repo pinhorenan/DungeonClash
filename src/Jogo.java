@@ -179,6 +179,10 @@ public class Jogo {
     // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
     atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
 
+    // Decrementa o tempo de espera de todos os personagens ao final do turno.
+    herois.decrementaTempoEspera();
+    inimigos.decrementaTempoEspera();
+
     // Incrementa o contador de turnos
     contadorTurnos++;
   }
