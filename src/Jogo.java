@@ -173,6 +173,7 @@ public class Jogo {
     Personagem alvo = escolherAlvo(equipeAlvo);
 
     // Executa a habilidade no alvo
+    atacante.usarHabilidade(habilidadeEscolhida, alvo);
     int ganhoPE = atacante.usarHabilidade(habilidadeEscolhida, alvo);
 
     // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno.

@@ -78,7 +78,9 @@ public class Equipe {
     public void decrementaTempoEspera(){
         // Decrementa o tempo de espera de cada personagem da equipe. Será chamada pelas duas equipes no final de cada turno.
         for(Personagem personagem : integrantes) {
-            personagem.setTempoEspera(personagem.getTempoEspera()-1);
+            if (personagem.getTempoEspera() >0 ) {
+                personagem.setTempoEspera(personagem.getTempoEspera() - 1);
+            }
         }
     }
 }

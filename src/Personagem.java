@@ -127,7 +127,7 @@ public class Personagem implements Comparable<Personagem> {
             alvo.setPV(alvo.getPV() + danoCausado(habilidade));
         } else {
             alvo.sofrerDano(danoCausado(habilidade));
-            if (alvo.PV == 0) {
+            if (alvo.PV <= 0) {
                 alvo.atordoar();
                 return (alvo.getNivel()*5);
             }
