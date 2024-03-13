@@ -143,8 +143,20 @@ public class Personagem implements Comparable<Personagem> {
     private void aplicarEfeitoHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
         // Método que aplica os efeitos de uma habilidade usada, é chamado por "usarHabilidade()"; Versão para ataque em Equipes.
         Set<Personagem> integrantes = grupoAlvo.getIntegrantes();
-        for (Personagem personagem : integrantes) {
-            personagem.sofrerDano(danoCausado(habilidade));
+        for (Personagem alvo : integrantes) {
+            if (habilidade.getIsAfetaAmigos()) {
+                alvo.setPV(alvo.getPV() + danoCausado(habilidade));
+            } else {
+                alvo.sofrerDano(danoCausado(habilidade));
+                if (alvo.PV <= 0) {
+                    alvo.atordoar();
+                    return (alvo.getNivel()*5);
+                }
+            }
+            setPM(this.getPM() - custoMana(habilidade));
+            return 0;
+            alvo.sofrerDano(danoCausado(habilidade));
+
         }
     }
 
