@@ -155,6 +155,11 @@ public class Jogo {
 
         // Exibe o resultado da batalha
       exibirResultadoBatalha(inimigos);
+
+        // Remover inimigos no fim da batalha
+      for (Personagem personagem : inimigos) {
+        inimigos.removerIntegrante(personagem);
+      }
   }
 
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
