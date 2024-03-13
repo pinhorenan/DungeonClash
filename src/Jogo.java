@@ -112,10 +112,6 @@ public class Jogo {
     String nomeMonstro = split[0];
     String classeMonstro = split[1];
     int nivelMonstro = Integer.parseInt(split[2]);
-
-    if (inimigos == null) {
-      inimigos = new HashSet<>(); 
-    }
     
     Personagem novoMonstro = null;
     switch (classeMonstro.toLowerCase()) {
