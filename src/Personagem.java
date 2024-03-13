@@ -33,8 +33,8 @@ public class Personagem implements Comparable<Personagem> {
         this.nivel = nivel;
         PE = 0;
         tempoEspera = 0;
-        PVmax = classe.forca + ((float) classe.agilidade / 2);
-        PMmax = classe.inteligencia + ((float) classe.agilidade / 3);
+        PVmax = nivel * classe.forca + (nivel * ((float)  classe.agilidade / 2));
+        PMmax = nivel * classe.inteligencia + (nivel * ((float) classe.agilidade / 3));
         PV = PVmax;
         PM = PMmax;
         atordoado = false;
