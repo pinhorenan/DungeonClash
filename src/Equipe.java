@@ -91,4 +91,12 @@ public class Equipe {
             personagem.setTempoEspera(personagem.getTempoEspera()-1);
         }
     }
+
+    public void verificarPV (Personagem p){
+        for (Personagem p){
+            if (p.getPV() == 0){
+                System.out.println(p + " morreu.");
+            }
+        }
+    }
 }
