@@ -87,9 +87,9 @@ public class Jogo {
       criacaoPersonagens = false;
       String criacaoPersonagem = scanner.nextLine();
       
-      if (criacaoPersonagem.toLowerCase() == 'sim'){
+      if (criacaoPersonagem.toLowerCase() == "sim"){
         criacaoPersonagens = true;
-      } else if (criacaoPersonagem.toLowerCase() == 'nao'){
+      } else if (criacaoPersonagem.toLowerCase() == "nao"){
         criacaoPersonagens = false;
       }
       
