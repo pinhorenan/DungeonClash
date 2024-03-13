@@ -187,7 +187,6 @@ public class Jogo {
     contadorTurnos++;
   }
 
-  //ok
   public void exibirHabilidades(Personagem personagem) {
     System.out.println("Habilidades disponíveis para " + personagem.getNome() + ":");
 
@@ -196,7 +195,6 @@ public class Jogo {
     }
   }
 
-  //ok
   public void exibirInformacoes(Equipe equipe) {
     for (Personagem integrante : equipe.getIntegrantes()) {
       System.out.println("ID: " + integrante.getID());
