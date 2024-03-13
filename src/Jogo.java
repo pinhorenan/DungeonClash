@@ -155,30 +155,31 @@ public class Jogo {
   private void iniciarBatalha() {
       System.out.println("Iniciando batalha...");
   
-      // Exibe informações iniciais das equipes
+        // Exibe informações iniciais das equipes
       exibirInformacoesEquipes(herois, inimigos);
   
-      // Sorteia quem ataca primeiro
+        // Sorteia quem ataca primeiro
       Personagem atacante = null;
   
-      // Inicia os turnos
+        // Inicia os turnos
       while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
 
         if (notTurnoSilencioso(herois, inimigos)){
           while (true){
-              assert atacante != null;
+              assert false;
               if (!(atacante.getTempoEspera() > 0)) break;
               atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+              realizarTurno(herois, inimigos, atacante);
           }
         } else {
           System.out.println("Turno sem ação.");
         }
 
-        realizarTurno(herois, inimigos, atacante);
+
         exibirInformacoesEquipes(herois, inimigos);
       }
   
-      // Exibe o resultado da batalha
+        // Exibe o resultado da batalha
       exibirResultadoBatalha(inimigos);
   }
 
@@ -186,30 +187,30 @@ public class Jogo {
     System.out.println("\n --- Turno " + contadorTurnos + " --- ");
     System.out.println("É a vez de " + atacante.getNome() + " atacar!");
 
-    // Escolhe uma habilidade:
+      // Escolhe uma habilidade:
     Habilidade habilidadeEscolhida = escolherHabilidade(atacante);
 
-    //  Escolha um alvo:
+      //  Escolha um alvo:
     Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)) ? inimigos : herois;
     Personagem alvo = escolherAlvo(equipeAlvo);
 
-    // Executa a habilidade no alvo
+      // Executa a habilidade no alvo
     atacante.usarHabilidade(habilidadeEscolhida, alvo);
     int ganhoPE = atacante.usarHabilidade(habilidadeEscolhida, alvo);
 
-    // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno.
+      // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno.
     if(equipeAlvo == inimigos) {
       herois.distribuirPE(ganhoPE);
     }
 
-    // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
+      // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
     atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
 
-    // Decrementa o tempo de espera de todos os personagens ao final do turno.
+      // Decrementa o tempo de espera de todos os personagens ao final do turno.
     herois.decrementaTempoEspera();
     inimigos.decrementaTempoEspera();
 
-    // Incrementa o contador de turnos
+      // Incrementa o contador de turnos
     contadorTurnos++;
   }
 
