@@ -72,6 +72,9 @@ public class Personagem implements Comparable<Personagem> {
         if (PV > 0) {
             PV -= dano;
         }
+        if (PV < 0){
+            PV = 0;
+        }
     }
 
     public int custoMana(Habilidade habilidade) {
