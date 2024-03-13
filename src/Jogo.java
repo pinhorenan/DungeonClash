@@ -173,8 +173,12 @@ public class Jogo {
     Personagem alvo = escolherAlvo(equipeAlvo);
 
     // Executa a habilidade no alvo
-    atacante.usarHabilidade(habilidadeEscolhida, alvo);
+    int ganhoPE = atacante.usarHabilidade(habilidadeEscolhida, alvo);
 
+    // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno.
+    if(equipeAlvo == herois) {
+      inimigos.distribuirPE(ganhoPE);
+    } else herois.distribuirPE((ganhoPE));  // OLHA ESSA ABERRAÇÃO QUE TA ACONTECENDO AQUI!!!!!!
 
     // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
     atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
