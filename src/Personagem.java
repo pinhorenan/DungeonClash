@@ -74,6 +74,7 @@ public class Personagem implements Comparable<Personagem> {
         }
         if (PV < 0){
             PV = 0;
+            atordoar();
         }
     }
 
