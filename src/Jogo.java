@@ -9,7 +9,6 @@ public class Jogo {
   private List<String> linhasArquivo;
   private int contadorTurnos;
 
-
   // Construtor
   public Jogo(String caminhoArquivo) throws IOException {
     this.herois = new Equipe(false);
@@ -136,20 +135,6 @@ public class Jogo {
     inimigos.adicionarIntegrante(novoMonstro);
   }
 
-  /*private boolean notTurnoSilencioso(Equipe herois, Equipe inimigos) {
-    for (Personagem personagem : herois.getIntegrantes())
-      if (personagem.getTempoEspera() == 0) {
-        return true;
-      }
-    for (Personagem personagem : inimigos.getIntegrantes()){
-      if (personagem.getTempoEspera() == 0){
-        return true;
-      }
-    }
-    return false;
-  }
-  */
-
   private void iniciarBatalha() {
       System.out.println("Iniciando batalha...");
 
@@ -175,35 +160,39 @@ public class Jogo {
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
     System.out.println("\n --- Turno " + contadorTurnos + " --- ");
 
+    int acumuloPE;
+
     // Verifica se o atacante possui tempo de espera
-    if (atacante.getTempoEspera() > 0) {
-      System.out.println("É a vez de " + atacante.getNome() + ", mas está esperando.");
-    } else {
-      System.out.println("É a vez de " + atacante.getNome() + " atacar!");
+    if(!turnoSilencioso(herois, inimigos)) {
+        // Imprime
+        System.out.println("É a vez de " + atacante.getNome() + " atacar!");
 
-      // Escolhe uma habilidade
-      Habilidade habilidadeEscolhida = escolherHabilidade(atacante);
+        // Escolhe uma habilidade
+        Habilidade habilidadeEscolhida = escolherHabilidade(atacante);
 
-      // Escolhe um alvo
-      Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)) ? inimigos : herois;
-      Personagem alvo = escolherAlvo(equipeAlvo);
+        // Escolhe um alvo
+        Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)) ? inimigos : herois;
+        Personagem alvo = escolherAlvo(equipeAlvo);
 
-      // Executa a habilidade no alvo
-      int ganhoPE = 0;
-      if (alvo != null) {
-        atacante.usarHabilidade(habilidadeEscolhida, alvo);
-        ganhoPE = atacante.usarHabilidade(habilidadeEscolhida, alvo);
-      } else {
-        System.out.println("Nenhum alvo válido encontrado.");
-      }
+        // Executa a habilidade no alvo
+        if (alvo != null) {
+          atacante.usarHabilidade(habilidadeEscolhida, alvo);
+          acumuloPE = atacante.usarHabilidade(habilidadeEscolhida, alvo);
+        } else {
+          acumuloPE = 0;
+          System.out.println("Nenhum alvo válido encontrado.");
+        }
 
-      // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno
-      if (equipeAlvo == inimigos) {
-        herois.distribuirPE(ganhoPE);
-      }
+        // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno
+        if (equipeAlvo == inimigos) {
+          herois.distribuirPE(acumuloPE);
+        } else if(turnoSilencioso(herois, inimigos)) {
+          System.out.println("Não há ninguém que possa atacar neste turno.");
+        }
 
-      // Atualiza o tempo de espera de maneira correspondente a sua habilidade
-      atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
+        // Atualiza o tempo de espera de maneira correspondente a sua habilidade
+        atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
+
     }
 
     // Decrementa o tempo de espera de todos os personagens ao final do turno
@@ -251,6 +240,19 @@ public class Jogo {
       System.out.println("Game over! Você foi derrotado!");
       System.exit(1);
     }
+  }
+
+  private boolean turnoSilencioso(Equipe herois, Equipe inimigos) {
+    for (Personagem personagem : herois.getIntegrantes())
+      if (personagem.getTempoEspera() == 0) {
+        return false;
+      }
+    for (Personagem personagem : inimigos.getIntegrantes()){
+      if (personagem.getTempoEspera() == 0){
+        return false;
+      }
+    }
+    return true;
   }
 
   private Habilidade escolherHabilidade(Personagem personagem) {
