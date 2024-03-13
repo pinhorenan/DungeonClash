@@ -209,7 +209,6 @@ public class Jogo {
     }
   }
 
-  //ok
   private void exibirInformacoesEquipes(Equipe herois, Equipe inimigos) {
     System.out.println("\n --- Informações das Equipes ---");
     System.out.println("\nHeróis: ");
@@ -218,7 +217,6 @@ public class Jogo {
     exibirInformacoes(inimigos);
   }
 
-  //ok
   private void exibirResultadoBatalha(Equipe inimigos) {
     if (!inimigos.peloMenosUmVivo()) {
       System.out.println("Parabéns! Você venceu a batalha!");
@@ -227,7 +225,6 @@ public class Jogo {
     }
   }
 
-  //ok
   private Habilidade escolherHabilidade(Personagem personagem) {
     Scanner scanner = new Scanner(System.in);
 
@@ -252,12 +249,11 @@ public class Jogo {
     }
   }
 
-  //ok
   private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
     Random random = new Random();
     return (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
   }
-  //ok
+
   private Personagem escolherAlvo(Equipe equipe) {
     Scanner scanner = new Scanner(System.in);
     Set<Personagem> integrantes = equipe.getIntegrantes();
@@ -271,7 +267,7 @@ public class Jogo {
     }
 
     // Solicitar ao jogador a escolha do alvo
-    int escolha = 0;
+    int escolha;
     do {
       System.out.print("Digite o número correspondente ao alvo: ");
       try {
