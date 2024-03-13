@@ -158,13 +158,10 @@ public class Jogo {
         // Exibe informações iniciais das equipes
       exibirInformacoesEquipes(herois, inimigos);
   
-        // Sorteia quem ataca primeiro
-      Personagem atacante = null;
-  
-        // Inicia os turnos
+      // Sorteia de quem ataca
+      Personagem atacante = herois.definirProximoAtacante()
       while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-
-        if (notTurnoSilencioso(herois, inimigos)){
+        if (notTurnoSilencioso(herois, inimigos)){     ;
           while (true){
               assert false;
               if (!(atacante.getTempoEspera() > 0)) break;
