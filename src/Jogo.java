@@ -39,11 +39,11 @@ public class Jogo {
     // História
     String procurarPor = "fase";
     for (String linha : linhasArquivo){
-        if (linha.toLowerCase().contains(procurarPor.toLowerCase())){
-            iniciarBatalha();
-            System.out.println(linha.substring(4));
+        if (!(linha.toLowerCase().contains(procurarPor.toLowerCase()))){
+          carregarInimigos(linha);
         } else {
-            carregarInimigos(linha);
+          System.out.println(linha.substring(4));
+          iniciarBatalha();
         }
     }
 
