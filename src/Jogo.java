@@ -93,13 +93,15 @@ public class Jogo {
             criacaoPersonagens = scan.nextBoolean();
             if (!criacaoPersonagens) {
               i = 4;
+              break;
+            } else if (criacaoPersonagem) {
+              break;
             }
           } catch (InputMismatchException e) {
             System.out.println("Input inválido! Tente de novo.");
-            criacaoPersonagens = false;
             scanner.nextLine();
           }
-        } while (!criacaoPersonagens);
+        } while (true);
       }
     System.out.println("\nEquipe criada!");
     }
