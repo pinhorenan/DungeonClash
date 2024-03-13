@@ -126,11 +126,13 @@ public class Personagem implements Comparable<Personagem> {
             alvo.setPV(alvo.getPV() + danoCausado(habilidade));
         } else {
             alvo.sofrerDano(danoCausado(habilidade));
+            if (alvo.PV == 0) {
+                alvo.atordoar();
+                int ganhoPE = (alvo.getNivel()*5);
+            }
         }
         setPM(this.getPM() - custoMana(habilidade));
-        if (alvo.PV == 0) {
-            alvo.atordoar();
-        }
+
     }
 
     private void aplicarEfeitoHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
