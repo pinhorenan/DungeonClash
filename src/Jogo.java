@@ -77,30 +77,39 @@ public class Jogo {
         case 1 -> new Personagem(nomeHeroi, new Guerreiro());
         case 2 -> new Personagem(nomeHeroi, new Arqueiro());
         case 3 -> new Personagem(nomeHeroi, new Mago());
-          default -> throw new IllegalStateException("Valor inválido: " + escolhaClasse);
+        default -> throw new IllegalStateException("Valor inválido: " + escolhaClasse);
       };
 
       herois.adicionarIntegrante(novoHeroi);
 
       System.out.println("\nDeseja criar mais um personagem?");
-      System.out.println("\nPara NÃO digite 'False'\nPara SIM digite 'True'");
+      System.out.println("\nDigite 'sim' ou 'nao': ");
       criacaoPersonagens = false;
-      Scanner scan = new Scanner(System.in);
+      String criacaoPersonagem = scanner.nextLine();
+      
+      if (criacaoPersonagem.toLowerCase() == 'sim'){
+        criacaoPersonagens = true;
+      } else if (criacaoPersonagem.toLowerCase() == 'nao'){
+        criacaoPersonagens = false;
+      }
+      
       if (i <= 2){
         do {
           try {
-            criacaoPersonagens = scan.nextBoolean();
+            criacaoPersonagens = scanner.nextLine();
             if (!criacaoPersonagens) {
               i = 4;
+              break;
+            } else if (criacaoPersonagem){
+              break;
             }
           } catch (InputMismatchException e) {
             System.out.println("Input inválido! Tente de novo.");
             criacaoPersonagens = false;
-            scanner.nextLine();
           }
         } while (!criacaoPersonagens);
       }
-    System.out.println("\nEquipe criada!");
+    System.out.println("\nEquipe criada!\n");
     }
   }
 
