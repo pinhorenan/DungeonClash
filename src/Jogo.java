@@ -166,9 +166,6 @@ public class Jogo {
     System.out.println("\n --- Turno " + contadorTurnos + " --- ");
     System.out.println("É a vez de " + atacante.getNome() + " atacar!");
 
-    // Exibe habilidades disponíveis do personagem que vai atacar:
-    exibirHabilidades(atacante);
-
     // Escolhe uma habilidade:
     Habilidade habilidadeEscolhida = escolherHabilidade(atacante);
 
