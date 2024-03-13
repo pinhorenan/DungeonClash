@@ -87,6 +87,7 @@ public class Jogo {
       Scanner scan = new Scanner(System.in);
       
       while (i <= 2) {
+        System.out.println("\nDeseja criar mais um personagem?");
         try {
           System.out.println("Digite 'true' se deseja criar mais um personagem ou 'false' para sair:");
           criacaoPersonagens = scan.nextBoolean();
