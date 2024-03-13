@@ -83,7 +83,6 @@ public class Jogo {
       herois.adicionarIntegrante(novoHeroi);
 
       System.out.println("\nDeseja criar mais um personagem?");
-      System.out.println("\nPara NÃO digite 'False'\nPara SIM digite 'True'");
       criacaoPersonagens = false;
       Scanner scan = new Scanner(System.in);
       
