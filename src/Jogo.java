@@ -195,11 +195,12 @@ public class Jogo {
     for (Personagem integrante : equipe.getIntegrantes()) {
       System.out.println("ID: " + integrante.getID());
       System.out.println("Nome: " + integrante.getNome());
-      System.out.println("Classe: " + integrante.getClasse());
+      System.out.println("Classe: " + integrante.getNomeClasse());
       System.out.println("PV: " + integrante.getPV());
       System.out.println("PM: " + integrante.getPM());
       System.out.println("Nível: " + integrante.getNivel());
       System.out.println("Tempo de Espera: " + integrante.getTempoEspera());
+
       System.out.println("---------------------------------------");
     }
   }

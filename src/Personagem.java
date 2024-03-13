@@ -162,6 +162,11 @@ public class Personagem implements Comparable<Personagem> {
         return classe;
     }
 
+    public String getNomeClasse() {
+        // Retorna o nome simples da classe associada ao Personagem.
+        return classe.getName();
+    }
+
     public int getNivel() {
         // Retorna o nível do Personagem.
         return nivel;
