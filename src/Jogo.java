@@ -87,25 +87,24 @@ public class Jogo {
       criacaoPersonagens = false;
       Scanner scan = new Scanner(System.in);
       
-      if (i <= 2){
-        do {
-          try {
-            criacaoPersonagens = scan.nextBoolean();
-            if (!criacaoPersonagens) {
-              i = 4;
-              break;
-            } else if (criacaoPersonagem) {
-              break;
-            }
-          } catch (InputMismatchException e) {
-            System.out.println("Input inválido! Tente de novo.");
-            scanner.nextLine();
+      while (i <= 2) {
+        try {
+          System.out.println("Digite 'true' se deseja criar mais um personagem ou 'false' para sair:");
+          criacaoPersonagens = scan.nextBoolean();
+          if (!criacaoPersonagens) {
+            i = 4;
+            break;
+          } else {
+            break;
           }
-        } while (true);
-      }
-    System.out.println("\nEquipe criada!");
+        } catch (InputMismatchException e) {
+          System.out.println("Input inválido! Tente de novo.");
+          scan.nextLine(); // Clear the input buffer
+        }
     }
+    System.out.println("\nEquipe criada!");
   }
+}
 
   public void carregarInimigos(String linha) {
     String[] split = linha.split(" ", 3);
