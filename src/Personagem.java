@@ -151,7 +151,6 @@ public class Personagem implements Comparable<Personagem> {
         setAtordoado(true);
     }
 
-
     public String getNome() {
         // Retorna o nome do Personagem.
         return nome;
@@ -170,11 +169,6 @@ public class Personagem implements Comparable<Personagem> {
     public int getNivel() {
         // Retorna o nível do Personagem.
         return nivel;
-    }
-
-    public int getPE() {
-        // Retorna os Pontos de Experiência do Personagem.
-        return PE;
     }
 
     public int getID() {
@@ -205,11 +199,6 @@ public class Personagem implements Comparable<Personagem> {
     public void setTempoEspera(int tempoEspera) {
         // Altera o Tempo de Espera do Personagem.
         this.tempoEspera = tempoEspera;
-    }
-
-    public void setPE(int PE) {
-        // Altera os Pontos de Experiência do Personagem.
-        this.PE = PE;
     }
 
     public void setPV(float PV) {
