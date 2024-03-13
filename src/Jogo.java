@@ -139,6 +139,19 @@ public class Jogo {
     // equipeInimiga.adicionarIntegrante(novoMonstro);
   }
 
+  private boolean notTurnoSilencioso(Equipe herois, Equipe inimigos) {
+    for (Personagem personagem : herois.getIntegrantes())
+      if (personagem.getTempoEspera() == 0) {
+        return true;
+      }
+    for (Personagem personagem : inimigos.getIntegrantes()){
+      if (personagem.getTempoEspera() == 0){
+        return true;
+      }
+    }
+    return false;
+  }
+
   private void iniciarBatalha() {
       System.out.println("Iniciando batalha...");
   
@@ -146,31 +159,21 @@ public class Jogo {
       exibirInformacoesEquipes(herois, inimigos);
   
       // Sorteia quem ataca primeiro
-      Personagem atacante;
-      int podeAtacar;
+      Personagem atacante = null;
   
       // Inicia os turnos
       while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-        //  Tornar Método
-        for (Personagem personagem : herois){
-          if (p.getTempoEspera() = 0){
-            podeAtacar++;
-          }
-        }
-        for (Personagem personagem : inimigos){
-          if (p.getTempoEspera() = 0){
-            podeAtacar++;
-          }
-        }
 
-        if (podeAtacar > 0){
-          while (atacante.getTempoEspera() > 0){
-            atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+        if (notTurnoSilencioso(herois, inimigos)){
+          while (true){
+              assert atacante != null;
+              if (!(atacante.getTempoEspera() > 0)) break;
+              atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
           }
         } else {
           System.out.println("Turno sem ação.");
         }
-        
+
         realizarTurno(herois, inimigos, atacante);
         exibirInformacoesEquipes(herois, inimigos);
       }
