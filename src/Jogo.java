@@ -161,7 +161,6 @@ public class Jogo {
       exibirResultadoBatalha(inimigos);
   }
 
-  //ok
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
     System.out.println("\n --- Turno " + contadorTurnos + " --- ");
     System.out.println("É a vez de " + atacante.getNome() + " atacar!");
@@ -176,16 +175,13 @@ public class Jogo {
     // Executa a habilidade no alvo
     atacante.usarHabilidade(habilidadeEscolhida, alvo);
 
+
     // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
     atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
 
     // Decrementa o tempo de espera de todos os personagens ao final do turno.
     herois.decrementaTempoEspera();
     inimigos.decrementaTempoEspera();
-
-    // Verificando os PVs das equipes
-    herois.verificarPV(p);
-    inimigos.verificarPV(p);
 
     // Incrementa o contador de turnos
     contadorTurnos++;

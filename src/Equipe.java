@@ -47,16 +47,6 @@ public class Equipe {
         }
     }
 
-    public void atacar(Equipe equipeAlvo, Personagem personagemAtacante, Habilidade habilidade) {
-        personagemAtacante.usarHabilidade(habilidade, equipeAlvo);
-    }
-
-    public void atacar(Personagem personagemAlvo, Habilidade habilidade) {
-        for (Personagem atacante : integrantes ) {
-            atacante.usarHabilidade(habilidade, personagemAlvo);
-        }
-    }
-
     public Personagem definirProximoAtacante() {
         // Compara os tempoEspera entre integrantes para retornar o com o menor valor, que será o próximo atacante. Em caso de valores iguais a escolha é feita aleatóriamente.
         if (integrantes.isEmpty()) {
@@ -92,10 +82,15 @@ public class Equipe {
         }
     }
 
-    public void verificarPV (Personagem p){
-        for (Personagem p){
-            if (p.getPV() == 0){
-                System.out.println(p + " morreu.");
+    public void verificarPV (){
+        for (Personagem personagem : integrantes){
+            if (personagem.getPV() == 0) {
+                int nivelParaPE = personagem.getNivel()*5;
+                personagem.setAtordoado(true);
+                distribuirPE(nivelParaPE);
+
+            }
+                );
             }
         }
     }
