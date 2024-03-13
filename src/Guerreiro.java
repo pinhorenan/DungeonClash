@@ -19,4 +19,5 @@ public class Guerreiro extends Classe {
         this.agilidade += 1;
         this.inteligencia += 1;
     }
+
 }

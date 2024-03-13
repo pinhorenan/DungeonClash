@@ -15,6 +15,10 @@ public abstract class Classe {
         // Método abstrato que aumentará os atributos das classes.
     }
 
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
+
     public int getAgilidade() {
         // Retorna a agilidade. Método padrão para todas classes herdam de Classe.
         return agilidade;

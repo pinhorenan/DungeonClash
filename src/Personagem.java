@@ -151,6 +151,7 @@ public class Personagem implements Comparable<Personagem> {
         setAtordoado(true);
     }
 
+
     public String getNome() {
         // Retorna o nome do Personagem.
         return nome;
@@ -158,7 +159,7 @@ public class Personagem implements Comparable<Personagem> {
 
     public Classe getClasse() {
         // Retorna a instância de classe do Personagem.
-        return classe.class.getSimpleName();
+        return classe;
     }
 
     public int getNivel() {
