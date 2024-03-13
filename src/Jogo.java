@@ -83,33 +83,25 @@ public class Jogo {
       herois.adicionarIntegrante(novoHeroi);
 
       System.out.println("\nDeseja criar mais um personagem?");
-      System.out.println("\nDigite 'sim' ou 'nao': ");
+      System.out.println("\nPara NÃO digite 'False'\nPara SIM digite 'True'");
       criacaoPersonagens = false;
-      String criacaoPersonagem = scanner.nextLine();
-      
-      if (criacaoPersonagem.toLowerCase() == "sim"){
-        criacaoPersonagens = true;
-      } else if (criacaoPersonagem.toLowerCase() == "nao"){
-        criacaoPersonagens = false;
-      }
+      Scanner scan = new Scanner(System.in);
       
       if (i <= 2){
         do {
           try {
-            criacaoPersonagens = scanner.nextLine();
+            criacaoPersonagens = scan.nextBoolean();
             if (!criacaoPersonagens) {
               i = 4;
-              break;
-            } else if (criacaoPersonagem){
-              break;
             }
           } catch (InputMismatchException e) {
             System.out.println("Input inválido! Tente de novo.");
             criacaoPersonagens = false;
+            scanner.nextLine();
           }
         } while (!criacaoPersonagens);
       }
-    System.out.println("\nEquipe criada!\n");
+    System.out.println("\nEquipe criada!");
     }
   }
 
