@@ -160,14 +160,6 @@ public class Jogo {
       // Exibe o resultado da batalha
       exibirResultadoBatalha(inimigos);
   }
-  
-  public void verificarPV (Personagem p){
-    for (Personagem p){
-      if (p.getPV() == 0){
-        System.out.println(p + " morreu.");
-      }
-    }
-  }
 
   //ok
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
