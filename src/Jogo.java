@@ -227,6 +227,7 @@ public class Jogo {
       System.out.println("Parabéns! Você venceu a batalha!");
     } else {
       System.out.println("Game over! Você foi derrotado!");
+      exit(1);
     }
   }
 
