@@ -59,6 +59,9 @@ public class Equipe {
 
     public Personagem definirProximoAtacante() {
         // Compara os tempoEspera entre integrantes para retornar o com o menor valor, que será o próximo atacante. Em caso de valores iguais a escolha é feita aleatóriamente.
+        if (integrantes.isEmpty()) {
+            return null; // Luis, você pode tentar tratar de outra forma as exceções, já que você manja.
+        }
         return Collections.min(integrantes);
     }
 
