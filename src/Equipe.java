@@ -84,4 +84,11 @@ public class Equipe {
         // Retorna um valor true ou false para IsInimigo. Quando IsInimigo == True as equipes podem ter um número indeterminado de integrantes.
         return isInimigos;
     }
+
+    public void decrementaTempoEspera(){
+        // Decrementa o tempo de espera de cada personagem da equipe. Será chamada pelas duas equipes no final de cada turno.
+        for(Personagem personagem : integrantes) {
+            personagem.setTempoEspera(personagem.getTempoEspera()-1);
+        }
+    }
 }
