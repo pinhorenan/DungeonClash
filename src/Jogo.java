@@ -277,11 +277,6 @@ public class Jogo {
     }
   }
 
-  private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
-    Random random = new Random();
-    return (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
-  }
-
   private Personagem escolherAlvo(Equipe equipe) {
     Scanner scanner = new Scanner(System.in);
     Set<Personagem> integrantes = equipe.getIntegrantes();
