@@ -179,6 +179,20 @@ public class Jogo {
     // Atualiza o tempo de espera de maneira correspondente a sua habilidade.
     atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
 
+    // Verificar PV de todos e conceder XP
+    for (Personagem p : herois){
+      if (p.getPV() == 0){
+        System.out.println(p + " morreu.");
+        herois.removerIntegrante(p);
+      }
+    }
+    for (Personagem p : inimigos){
+      if (p.getPV() == 0){
+        System.out.println(p + " morreu.");
+        herois.removerIntegrante(p);
+        distribuirPE(herois);
+    }
+    
     // Incrementa o contador de turnos
     contadorTurnos++;
   }
