@@ -9,14 +9,13 @@ public class Jogo {
   private List<String> linhasArquivo;
   private int contadorTurnos;
 
-  // Construtor
   public Jogo(String caminhoArquivo) throws IOException {
+      // Construtor
     this.herois = new Equipe(false);
     this.inimigos = new Equipe(true);
     Path arquivo = Paths.get(caminhoArquivo);
     this.linhasArquivo = Files.readAllLines(arquivo);
     this.contadorTurnos = 0;
-
 
     if (!Files.exists(arquivo)) {
       System.out.println("Arquivo não encontrado. Certifique-se de fornecer o caminho correto.");
@@ -32,10 +31,10 @@ public class Jogo {
   }
 
   public void iniciar() {
-    // Prólogo
+      // Prólogo
     carregarHerois();
 
-    // História
+      // História
     String procurarPor = "fase";
     boolean verificacao = false;
     for (String linha : linhasArquivo){
@@ -50,11 +49,11 @@ public class Jogo {
           }
         }
     }
-
-    // Epílogo
+      // Epílogo
   }
 
   private void carregarHerois() {
+      // Utilizada para receber a entrada do usuário na hora de criar heróis. Chamada no inicio do jogo.
     Scanner scanner = new Scanner(System.in);
     boolean criacaoPersonagens;
 
@@ -157,7 +156,7 @@ public class Jogo {
       exibirResultadoBatalha(inimigos);
 
         // Remover inimigos no fim da batalha
-      for (Personagem personagem : inimigos) {
+      for (Personagem personagem : inimigos.getIntegrantes()) {
         inimigos.removerIntegrante(personagem);
       }
   }
