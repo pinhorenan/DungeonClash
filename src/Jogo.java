@@ -42,11 +42,11 @@ public class Jogo {
           carregarInimigos(linha);
           verificacao = true;
         } else {
-          System.out.println("\n" + linha.substring(5));
           if (verificacao){
             iniciarBatalha();
             verificacao = false;
           }
+          System.out.println("\n" + linha.substring(5));
         }
     }
       // Epílogo
