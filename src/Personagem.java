@@ -158,7 +158,7 @@ public class Personagem implements Comparable<Personagem> {
 
     public Classe getClasse() {
         // Retorna a instância de classe do Personagem.
-        return classe;
+        return classe.class.getSimpleName();
     }
 
     public int getNivel() {
