@@ -97,11 +97,12 @@ public class Personagem implements Comparable<Personagem> {
         return 0;
     }
 
-    public void usarHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
+    public int usarHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
         // Método para usar a Habilidade. Primeiro irá verificar se quem chamou cumpre os requisitos e então aplica os efeitos no grupoAlvo.
         if (verificarRestricoes(habilidade)) {
-            aplicarEfeitoHabilidade(habilidade, grupoAlvo);
+            return(aplicarEfeitoHabilidade(habilidade, grupoAlvo));
         }
+        return 0;
     }
 
     private boolean verificarRestricoes(Habilidade habilidade) {
@@ -141,7 +142,7 @@ public class Personagem implements Comparable<Personagem> {
         return 0;
     }
 
-    private void aplicarEfeitoHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
+    private int aplicarEfeitoHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
         // Método que aplica os efeitos de uma habilidade usada, é chamado por "usarHabilidade()"; Versão para ataque em Equipes.
         Set<Personagem> integrantes = grupoAlvo.getIntegrantes();
         for (Personagem alvo : integrantes) {
@@ -156,9 +157,8 @@ public class Personagem implements Comparable<Personagem> {
             }
             setPM(this.getPM() - custoMana(habilidade));
             return 0;
-            alvo.sofrerDano(danoCausado(habilidade));
-
         }
+        return 0;
     }
 
     public void ganharPE(int PE) {
