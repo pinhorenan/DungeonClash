@@ -217,15 +217,17 @@ public class Jogo {
 
   private void exibirInformacoes(Equipe equipe) {
     for (Personagem integrante : equipe.getIntegrantes()) {
-      System.out.println("ID: " + integrante.getID());
-      System.out.println("Nome: " + integrante.getNome());
-      System.out.println("Classe: " + integrante.getNomeClasse());
-      System.out.println("PV: " + integrante.getPV());
-      System.out.println("PM: " + integrante.getPM());
-      System.out.println("Nível: " + integrante.getNivel());
-      System.out.println("Tempo de Espera: " + integrante.getTempoEspera());
+      if(!integrante.getAtordoado()) {
+        System.out.println("ID: " + integrante.getID());
+        System.out.println("Nome: " + integrante.getNome());
+        System.out.println("Classe: " + integrante.getNomeClasse());
+        System.out.println("PV: " + integrante.getPV());
+        System.out.println("PM: " + integrante.getPM());
+        System.out.println("Nível: " + integrante.getNivel());
+        System.out.println("Tempo de Espera: " + integrante.getTempoEspera());
 
-      System.out.println("---------------------------------------");
+        System.out.println("---------------------------------------");
+      }
     }
   }
 
@@ -294,10 +296,13 @@ public class Jogo {
 
     // Exibir lista de alvos disponíveis
     System.out.println("Escolha um alvo:");
+
     int index = 1;
     for (Personagem integrante : integrantes) {
-      System.out.println(index + ". " + integrante.getNome());
-      index++;
+      if (!integrante.getAtordoado()) {
+        System.out.println(index + ". " + integrante.getNome());
+        index++;
+      }
     }
 
     // Solicitar ao jogador a escolha do alvo
@@ -306,6 +311,8 @@ public class Jogo {
       System.out.print("Digite o número correspondente ao alvo: ");
       try {
         escolha = Integer.parseInt(scanner.nextLine());
+
+        // Verifica se a escolha é válida
         if (escolha < 1 || escolha > integrantes.size()) {
           System.out.println("Escolha inválida. Digite um número válido.");
         } else {
@@ -319,10 +326,12 @@ public class Jogo {
     // Retornar o alvo escolhido
     int count = 1;
     for (Personagem integrante : integrantes) {
-      if (count == escolha) {
-        return integrante;
+      if(!integrante.getAtordoado()) {
+        if (count == escolha) {
+          return integrante;
+        }
+        count++;
       }
-      count++;
     }
 
     // Caso algo inesperado ocorra, retornamos null
