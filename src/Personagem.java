@@ -74,8 +74,8 @@ public class Personagem implements Comparable<Personagem> {
         }
         if (PV <= 0){
             PV = 0;
-            System.out.println("\n" + nome + " morreu.");
-            atordoado = true;
+            System.out.println("\n" + nome + " foi atordoado.");
+            atordoar();
         }
     }
 
@@ -89,12 +89,12 @@ public class Personagem implements Comparable<Personagem> {
         return nivel * habilidade.calcularDanoCausado(classe);
     }
 
-    public int usarHabilidade(Habilidade habilidade, Personagem alvo) {
+    public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
         // Método para usar a Habilidade. Primeiro irá verificar se quem chamou cumpre os requisitos e então aplica os efeitos no Alvo.
         if (verificarRestricoes(habilidade, alvo) && verificarRestricoes(habilidade)) {
-            return(aplicarEfeitoHabilidade(habilidade, alvo));
+            aplicarEfeitoHabilidade(habilidade, alvo);
         }
-        return 0;
+        ;
     }
 
     public void usarHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
@@ -126,7 +126,7 @@ public class Personagem implements Comparable<Personagem> {
         return verificarRestricoes(habilidade);
     }
 
-    private int aplicarEfeitoHabilidade(Habilidade habilidade, Personagem alvo) {
+    private void aplicarEfeitoHabilidade(Habilidade habilidade, Personagem alvo) {
         // Método que aplica os efeitos de uma habilidade usada, é chamado por "usarHabilidade()"; Versão para ataque em Personagens.
         if (habilidade.getIsAfetaAmigos()) {
             // Habilidades direcionadas à aliados irão curar.
@@ -135,7 +135,6 @@ public class Personagem implements Comparable<Personagem> {
             alvo.sofrerDano(danoCausado(habilidade));
         }
         setPM(this.getPM() - custoMana(habilidade));
-        return 0;
     }
 
     public void calcularPE(Personagem alvo) {
