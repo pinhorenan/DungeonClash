@@ -7,7 +7,7 @@ public class Jogo {
   private final Equipe herois;
   private final Equipe inimigos;
   private List<String> linhasArquivo;
-  private int contadorTurnos;
+  private int contadorTurnos = 1;
 
   public Jogo(String caminhoArquivo) throws IOException {
       // Construtor
@@ -15,9 +15,8 @@ public class Jogo {
     this.inimigos = new Equipe(true);
     Path arquivo = Paths.get(caminhoArquivo);
     this.linhasArquivo = Files.readAllLines(arquivo);
-    this.contadorTurnos = 0;
 
-    if (!Files.exists(arquivo)) {
+      if (!Files.exists(arquivo)) {
       System.out.println("Arquivo não encontrado. Certifique-se de fornecer o caminho correto.");
       System.exit(1);
     }
@@ -49,7 +48,6 @@ public class Jogo {
           System.out.println("\n" + linha.substring(5));
         }
     }
-      // Epílogo
   }
 
   private void carregarHerois() {
@@ -137,28 +135,23 @@ public class Jogo {
   private void iniciarBatalha() {
       System.out.println("Iniciando batalha...");
 
-        // Exibe informações iniciais das equipes
-      exibirInformacoesEquipes(herois, inimigos);
-
-
         // Sorteia de quem ataca
       Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
 
       while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-        realizarTurno(herois, inimigos, atacante);
         exibirInformacoesEquipes(herois, inimigos);
+        realizarTurno(herois, inimigos, atacante);
 
         // Trocar o atacante para o próximo turno
-        atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+        do {
+            atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+        }
+        while (atacante.getAtordoado() || atacante.getTempoEspera() > 0);
       }
 
         // Exibe o resultado da batalha
       exibirResultadoBatalha(inimigos);
-
-        // Remover inimigos no fim da batalha
-      for (Personagem personagem : inimigos.getIntegrantes()) {
-        inimigos.removerIntegrante(personagem);
-      }
+      contadorTurnos = 1;
   }
 
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
