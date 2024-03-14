@@ -7,7 +7,7 @@ public class Jogo {
   private final Equipe herois;
   private final Equipe inimigos;
   private List<String> linhasArquivo;
-  private int contadorTurnos = 1;
+  private int contadorTurnos;
 
   public Jogo(String caminhoArquivo) throws IOException {
       // Construtor
