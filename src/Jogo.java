@@ -140,7 +140,6 @@ public class Jogo {
         // Exibe informações iniciais das equipes
       exibirInformacoesEquipes(herois, inimigos);
 
-
         // Sorteia de quem ataca
       Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
 
