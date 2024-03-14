@@ -89,12 +89,15 @@ public class Personagem implements Comparable<Personagem> {
         return nivel * habilidade.calcularDanoCausado(classe);
     }
 
+    public void calcularPE(Personagem alvo) {
+        this.PE += alvo.getNivel() * 5;
+    }
+
     public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
         // Método para usar a Habilidade. Primeiro irá verificar se quem chamou cumpre os requisitos e então aplica os efeitos no Alvo.
         if (verificarRestricoes(habilidade, alvo) && verificarRestricoes(habilidade)) {
             aplicarEfeitoHabilidade(habilidade, alvo);
         }
-        ;
     }
 
     public void usarHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
@@ -130,28 +133,34 @@ public class Personagem implements Comparable<Personagem> {
         // Método que aplica os efeitos de uma habilidade usada, é chamado por "usarHabilidade()"; Versão para ataque em Personagens.
         if (habilidade.getIsAfetaAmigos()) {
             // Habilidades direcionadas à aliados irão curar.
-            alvo.setPV(alvo.getPV() + danoCausado(habilidade));
+            float cura = danoCausado(habilidade);
+            System.out.println(this.getNome() + " usou " + habilidade.getNome() + " para curar " + alvo.getNome() + " em " + cura + " pontos de vida.");
+            alvo.setPV(alvo.getPV() + cura);
         } else {
-            alvo.sofrerDano(danoCausado(habilidade));
+            float dano = danoCausado(habilidade);
+            System.out.println(this.getNome() + " usou " + habilidade.getNome() + " contra " + alvo.getNome() + " e causou " + dano + " de dano.");
+            alvo.sofrerDano(dano);
         }
         setPM(this.getPM() - custoMana(habilidade));
     }
 
-    public void calcularPE(Personagem alvo) {
-        this.PE += alvo.getNivel()*5;
-    }
     private void aplicarEfeitoHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
         // Método que aplica os efeitos de uma habilidade usada, é chamado por "usarHabilidade()"; Versão para ataque em Equipes.
         Set<Personagem> integrantes = grupoAlvo.getIntegrantes();
         for (Personagem personagem : integrantes) {
-            personagem.sofrerDano(danoCausado(habilidade));
+            if (habilidade.getIsAfetaAmigos()) {
+                // Habilidades direcionadas à aliados irão curar.
+                float cura = danoCausado(habilidade);
+                System.out.println(this.getNome() + " usou " + habilidade.getNome() + " para curar " + personagem.getNome() + " em " + cura + " pontos de vida.");
+                personagem.setPV(personagem.getPV() + cura);
+            } else {
+                float dano = danoCausado(habilidade);
+                System.out.println(this.getNome() + " usou " + habilidade.getNome() + " contra " + personagem.getNome() + " e causou " + dano + " de dano.");
+                personagem.sofrerDano(dano);
+            }
         }
+        setPM(this.getPM() - custoMana(habilidade));
     }
-
-    /* public void ganharPE(int PE) {
-        // Incrementa Pontos de Experiência ao Personagem.
-        this.PE += PE;
-    } */
 
     public void atordoar() {
         // Define o Personagem como Atordoado.
