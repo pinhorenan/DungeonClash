@@ -46,6 +46,10 @@ public class Personagem implements Comparable<Personagem> {
         return Integer.compare(this.getTempoEspera(), outro.getTempoEspera());
     }
 
+    public void ganharPE(int somaPE) {
+        PE += somaPE;
+    }
+
     public void subirNivel() {
         // Incrementa o nível do Personagem que chamar. Também irá "aumentar o nível" da instância de classe desse Personagem. Os PE são zerados após a subida de nível e qualquer excesso é desperdiçado.
         if (PE >= (nivel * 25)) {
@@ -89,8 +93,16 @@ public class Personagem implements Comparable<Personagem> {
         return nivel * habilidade.calcularDanoCausado(classe);
     }
 
-    public void calcularPE(Personagem alvo) {
-        this.PE += alvo.getNivel() * 5;
+    public void ganharPEBaseadoEmNivelDoAlvo(Personagem alvo) {
+        int PEganho = alvo.getNivel() * 5;
+        this.ganharPE(PEganho);
+        if (this.PE >= (this.nivel * 25)) {
+            this.subirNivel();
+        }
+    }
+
+    public int calcularPE(Personagem alvo) {
+        return alvo.getNivel() * 5;
     }
 
     public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
@@ -239,6 +251,8 @@ public class Personagem implements Comparable<Personagem> {
     public float getPMmax() {
         return PMmax;
     }
+
+
 }
 
 
