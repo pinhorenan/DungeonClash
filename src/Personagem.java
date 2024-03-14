@@ -93,14 +93,6 @@ public class Personagem implements Comparable<Personagem> {
         return nivel * habilidade.calcularDanoCausado(classe);
     }
 
-    public void ganharPEBaseadoEmNivelDoAlvo(Personagem alvo) {
-        int PEganho = alvo.getNivel() * 5;
-        this.ganharPE(PEganho);
-        if (this.PE >= (this.nivel * 25)) {
-            this.subirNivel();
-        }
-    }
-
     public int calcularPE(Personagem alvo) {
         return alvo.getNivel() * 5;
     }
@@ -108,14 +100,22 @@ public class Personagem implements Comparable<Personagem> {
     public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
         // Método para usar a Habilidade. Primeiro irá verificar se quem chamou cumpre os requisitos e então aplica os efeitos no Alvo.
         if (verificarRestricoes(habilidade, alvo) && verificarRestricoes(habilidade)) {
+            // Aplica de fato o efeito da habilidade no alvo.
             aplicarEfeitoHabilidade(habilidade, alvo);
+
+            // Atualiza o tempo de espera do personagem que utilizou a habilidade (aumenta).
+            atualizarTempoEspera(habilidade.getTempoEspera());
         }
     }
 
     public void usarHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
         // Método para usar a Habilidade. Primeiro irá verificar se quem chamou cumpre os requisitos e então aplica os efeitos no grupoAlvo.
         if (verificarRestricoes(habilidade)) {
+            // Aplica de fato o efeito da habilidade no grupo alvo.
             aplicarEfeitoHabilidade(habilidade, grupoAlvo);
+
+            // Atualiza o tempo de espera do personagem que utilizou a habilidade (aumenta).
+            atualizarTempoEspera(habilidade.getTempoEspera());
         }
     }
 
