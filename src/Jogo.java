@@ -150,8 +150,13 @@ public class Jogo {
     }
 
     // Exibe o resultado da batalha
-    exibirResultadoBatalha(inimigos);
-    contadorTurnos = 1;
+    if(exibirResultadoBatalha(inimigos)) {
+      contadorTurnos = 1;
+      for(Personagem personagem : herois.getIntegrantes()){
+        personagem.setPV(personagem.getPVmax());
+        personagem.setPM(personagem.getPMmax());
+      }
+    } else System.exit(1);
   }
 
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
@@ -239,12 +244,13 @@ public class Jogo {
     exibirInformacoes(inimigos);
   }
 
-  private void exibirResultadoBatalha(Equipe inimigos) {
+  private boolean exibirResultadoBatalha(Equipe inimigos) {
     if (!inimigos.peloMenosUmVivo()) {
       System.out.println("Parabéns! Você venceu a batalha!");
+      return true;
     } else {
       System.out.println("Game over! Você foi derrotado!");
-      System.exit(1);
+      return false;
     }
   }
 
