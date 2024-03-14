@@ -184,36 +184,45 @@ public class Jogo {
 
     // Verifica se o atacante possui tempo de espera
     if(!turnoSilencioso(herois, inimigos)) {
-      // Imprime o nome do atacante
-        System.out.println("É a vez de " + atacante.getNome() + " atacar!");
+      System.out.println("É a vez de " + atacante.getNome() + " atacar!");
 
-        // Escolhe uma habilidade
-        Habilidade habilidadeEscolhida = escolherHabilidade(atacante);
+      // Escolhe uma habilidade
+      Habilidade habilidadeEscolhida = escolherHabilidade(atacante);
 
-        // Escolhe um alvo
-        Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)) ? inimigos : herois;
+      // Escolhe um alvo
+      Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)) ? inimigos : herois;
+
+      // Verifica se a habilidade afeta grupos
+      if (habilidadeEscolhida.getIsAfetaGrupo()) {
+        // Se afeta grupos atacará/curará todos os integrantes do grupo.
+        atacante.usarHabilidade(habilidadeEscolhida, equipeAlvo);
+
+        // Calcula a soma total de PE ganho pelos inimigos atordoados
+        int somaPE = 0;
+        for (Personagem inimigo : inimigos.getIntegrantes()) {
+          if (inimigo.getAtordoado() && herois.getIntegrantes().contains(atacante)) {
+            int PEganho = atacante.calcularPE(inimigo);
+            somaPE += PEganho;
+            System.out.println("Todos os heróis ganhou " + PEganho + " PE devido à morte de " + inimigo.getNome() + ".");
+          } // Necessita de revisão.
+        }
+
+        // Distribui a soma total de PE para todos os heróis
+        herois.distribuirPE(somaPE);
+      } else {
+        // Se não afeta grupos atacará/curará apenas o alvo.
         Personagem alvo = escolherAlvo(equipeAlvo);
-
-      // Usa a habilidade escolhida
-      atacante.usarHabilidade(habilidadeEscolhida, alvo);
+        atacante.usarHabilidade(habilidadeEscolhida, alvo);
 
         // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno
-      if (alvo.getAtordoado() && herois.getIntegrantes().contains(atacante)) {
-        System.out.println("Devido à morte do inimigo, todos os heróis recebem PE.");
-        for (Personagem personagem : herois.getIntegrantes()) {
-          int nivelAntes = personagem.getNivel();
-          personagem.calcularPE(alvo);
-          int nivelDepois = personagem.getNivel();
-          if (nivelDepois > nivelAntes) {
-            System.out.println(personagem.getNome() + " subiu para o nível " + nivelDepois + "!");
-          }
+        if (alvo.getAtordoado() && herois.getIntegrantes().contains(atacante)) {
+          int PEganho = atacante.calcularPE(alvo);
+          System.out.println("Devido ao atordoamento de " + alvo.getNome() + " todos os heróis recebem " + alvo.getNome() + "PE");
+          herois.distribuirPE(PEganho);
+        } else {
+          System.out.println("Nenhum alvo válido encontrado.");
         }
-      } else {
-        System.out.println("Nenhum alvo válido encontrado.");
-        }
-
-        // Atualiza o tempo de espera de maneira correspondente a sua habilidade
-        atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
+      }
     }
 
     // Decrementa o tempo de espera de todos os personagens ao final do turno
