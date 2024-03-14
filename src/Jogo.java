@@ -60,7 +60,6 @@ public class Jogo {
   private void carregarHerois() {
       // Utilizada para receber a entrada do usuário na hora de criar heróis. Chamada no inicio do jogo.
     Scanner scanner = new Scanner(System.in);
-    boolean criacaoPersonagens;
 
     for (int i = 1; i <= 3; ++i) {
       String nomeHeroi;
@@ -224,7 +223,7 @@ public class Jogo {
     System.out.println("Habilidades disponíveis para " + personagem.getNome() + ":");
 
     for (Habilidade habilidade : personagem.getClasse().getHabilidades()) {
-      System.out.println(habilidade.getNome() + " (PM Necessário: " + habilidade.calcularCustoMana(personagem.getClasse())+", Dano: " + habilidade.calcularDanoCausado(personagem.getClasse()) +")");
+      System.out.println(habilidade.getNome() + " (PM Necessário: " + habilidade.calcularCustoMana(personagem.getClasse()) + ", Dano: " + habilidade.calcularDanoCausado(personagem.getClasse()) + " Cooldown: " + habilidade.getTempoEspera() + " turnos)");
     }
   }
 
