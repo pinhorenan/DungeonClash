@@ -290,6 +290,11 @@ public class Jogo {
     return true;
   }
 
+  private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
+    Random random = new Random();
+    return (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
+  }
+
   private Habilidade escolherHabilidade(Personagem personagem) {
     Scanner scanner = new Scanner(System.in);
 
@@ -312,11 +317,6 @@ public class Jogo {
       // Se o nome da habilidade não foi encontrado, exibe uma mensagem de erro
       System.out.println("Habilidade inválida! Por favor, escolha uma habilidade da lista.");
     }
-  }
-
-  private Personagem sortearPrimeiroAtacante(Equipe herois, Equipe inimigos) {
-    Random random = new Random();
-    return (random.nextBoolean()) ? herois.definirProximoAtacante() : inimigos.definirProximoAtacante();
   }
 
   private Personagem escolherAlvo(Equipe equipe) {
