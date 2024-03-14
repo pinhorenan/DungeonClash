@@ -9,6 +9,9 @@ public class Habilidade {
     private final int ID;
     private static int proximoID = 1;
 
+
+    // Construtor
+
     public Habilidade(String nome, PesosDeAtributos pesosDano, PesosDeAtributos pesosMana, int tempoEspera, boolean afetaAmigos, boolean afetaGrupo) {
         // Construtor completo da Habilidade. Deverá ser chamado no momento de instanciamento de uma classe herdeira de "Classe".
         ID = gerarProximoID();
@@ -19,6 +22,8 @@ public class Habilidade {
         this.afetaGrupo = afetaGrupo;
         this.afetaAmigos = afetaAmigos;
     }
+
+    // Métodos
 
     public float calcularDanoCausado(Classe classe) {
         // Retorna a "formula" de calculo de dano da Habilidade. Chamado pelo método "danoCausado()" de "Personagem".
@@ -47,9 +52,16 @@ public class Habilidade {
         return proximoID++;
     }
 
+    // Getters
+
     public String getNome() {
         // Retorna o nome da Habilidade.
         return nome;
+    }
+
+    public int getID() {
+        // Retorna o ID da Habilidade. Até então não foi utilizado, mas pode ser útil para futuras implementações.
+        return ID;
     }
 
     public int getTempoEspera() {
@@ -67,8 +79,5 @@ public class Habilidade {
         return afetaAmigos;
     }
 
-    public int getID() {
-        // Retorna o ID da Habilidade.
-        return ID;
-    }
+
 }
