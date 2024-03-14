@@ -20,26 +20,26 @@ public class Habilidade {
         this.afetaAmigos = afetaAmigos;
     }
 
-    public double calcularDanoCausado(Classe classe) {
+    public float calcularDanoCausado(Classe classe) {
         // Retorna a "formula" de calculo de dano da Habilidade. Chamado pelo método "danoCausado()" de "Personagem".
-        int agilidade = classe.getAgilidade();
-        int inteligencia = classe.getInteligencia();
-        int forca = classe.getForca();
-        double pesoForca = pesosDano.getPesoForca();
-        double pesoAgilidade = pesosDano.getPesoAgilidade();
-        double pesoInteligencia = pesosDano.getPesoInteligencia();
-        return Math.ceil((forca * pesoForca) + (agilidade * pesoAgilidade) + (inteligencia * pesoInteligencia));
+        float agilidade = (float)classe.getAgilidade();
+        float inteligencia = (float)classe.getInteligencia();
+        float forca = (float)classe.getForca();
+        float pesoForca = (float)pesosDano.getPesoForca();
+        float pesoAgilidade = (float)pesosDano.getPesoAgilidade();
+        float pesoInteligencia = (float)pesosDano.getPesoInteligencia();
+        return (float) Math.ceil((forca * pesoForca) + (agilidade * pesoAgilidade) + (inteligencia * pesoInteligencia));
     }
 
-    public double calcularCustoMana(Classe classe) {
+    public float calcularCustoMana(Classe classe) {
         // Retorna a "formula" de calculo de custo de mana da Habilidade. Chamado pelo método "custoMagia()" de "Personagem".
-        int agilidade = classe.getAgilidade();
-        int inteligencia = classe.getInteligencia();
-        int forca = classe.getForca();
-        double pesoForca = pesosMana.getPesoForca();
-        double pesoAgilidade = pesosMana.getPesoAgilidade();
-        double pesoInteligencia = pesosMana.getPesoInteligencia();
-        return Math.ceil((forca * pesoForca) + (agilidade * pesoAgilidade) + (inteligencia * pesoInteligencia));
+        float agilidade = (float)classe.getAgilidade();
+        float inteligencia = (float)classe.getInteligencia();
+        float forca = (float)classe.getForca();
+        float pesoForca = (float)pesosMana.getPesoForca();
+        float pesoAgilidade = (float)pesosMana.getPesoAgilidade();
+        float pesoInteligencia = (float)pesosMana.getPesoInteligencia();
+        return (float)Math.ceil((forca * pesoForca) + (agilidade * pesoAgilidade) + (inteligencia * pesoInteligencia));
     }
 
     private static int gerarProximoID() {

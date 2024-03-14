@@ -67,7 +67,7 @@ public class Personagem implements Comparable<Personagem> {
         return proximoID++;
     }
 
-    public void sofrerDano(int dano) {
+    public void sofrerDano(float dano) {
         // Subtrai o PV do Personagem que chamar pelo int Dano. Chamado durante uso de habilidades.
         if (PV > 0) {
             PV -= dano;
@@ -79,14 +79,14 @@ public class Personagem implements Comparable<Personagem> {
         }
     }
 
-    public int custoMana(Habilidade habilidade) {
-        // Retorna o custo em PE ao usar uma habilidade dependendo do nível do personagem que chamar.
-        return (int) (nivel * habilidade.calcularCustoMana(classe));
+    public float custoMana(Habilidade habilidade) {
+        // Retorna o custo em PM ao usar uma habilidade dependendo do nível do personagem que chamar.
+        return (nivel * habilidade.calcularCustoMana(classe));
     }
 
-    public int danoCausado(Habilidade habilidade) {
+    public float danoCausado(Habilidade habilidade) {
         // Retorna o dano em PV ao usar uma habilidade dependendo do nível do personagem que chamar.
-        return (int) (nivel * habilidade.calcularDanoCausado(classe));
+        return nivel * habilidade.calcularDanoCausado(classe);
     }
 
     public int usarHabilidade(Habilidade habilidade, Personagem alvo) {
@@ -129,6 +129,7 @@ public class Personagem implements Comparable<Personagem> {
     private int aplicarEfeitoHabilidade(Habilidade habilidade, Personagem alvo) {
         // Método que aplica os efeitos de uma habilidade usada, é chamado por "usarHabilidade()"; Versão para ataque em Personagens.
         if (habilidade.getIsAfetaAmigos()) {
+            // Habilidades direcionadas à aliados irão curar.
             alvo.setPV(alvo.getPV() + danoCausado(habilidade));
         } else {
             alvo.sofrerDano(danoCausado(habilidade));
