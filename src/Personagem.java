@@ -139,7 +139,7 @@ public class Personagem implements Comparable<Personagem> {
     }
 
     public void calcularPE(Personagem alvo) {
-        this.PE += alvo.getNivel()*30;
+        this.PE += alvo.getNivel()*5;
     }
     private void aplicarEfeitoHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
         // Método que aplica os efeitos de uma habilidade usada, é chamado por "usarHabilidade()"; Versão para ataque em Equipes.
