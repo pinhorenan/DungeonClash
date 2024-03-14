@@ -46,18 +46,13 @@ public class Equipe {
         } return null;
     }
 
-    /* public void distribuirPE(int ganhoPE) {
+    public void distribuirPE(int ganhoPE) {
             // Incrementa PE à todos integrantes da Equipe e faz realiza a checa se algum integrante deve subir de nível.
         for (Personagem personagem: integrantes) {
             personagem.ganharPE(ganhoPE);
             personagem.subirNivel();
         }
-    } */
-
-    /*public Personagem definirProximoAtacante() {
-            // Compara os tempoEspera entre integrantes para retornar o com o menor valor, que será o próximo atacante. Em caso de valores iguais a escolha é feita aleatóriamente.
-        return Collections.min(integrantes);
-    }*/
+    }
 
     public Personagem definirProximoAtacante() {
         if (integrantes.isEmpty()) {
@@ -84,7 +79,6 @@ public class Equipe {
 
         return proximoAtacante;
     }
-
 
     public boolean peloMenosUmVivo() {
             // Verifica se há pelo menos um integrante não atordoado na Equipe. Quando todos integrantes de uma equipe forem atordoados uma batalha irá chegar ao seu fim.
