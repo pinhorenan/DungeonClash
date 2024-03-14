@@ -47,10 +47,37 @@ public class Equipe {
         }
     } */
 
-    public Personagem definirProximoAtacante() {
+    /*public Personagem definirProximoAtacante() {
             // Compara os tempoEspera entre integrantes para retornar o com o menor valor, que será o próximo atacante. Em caso de valores iguais a escolha é feita aleatóriamente.
         return Collections.min(integrantes);
+    }*/
+
+    public Personagem definirProximoAtacante() {
+        if (integrantes.isEmpty()) {
+            throw new IllegalStateException("A lista de integrantes está vazia. Não é possível continuar.");
+        }
+
+        Personagem proximoAtacante = null;
+        for (Personagem integrante : integrantes) {
+            if (!integrante.getAtordoado()) { // Verifica se o integrante não está atordoado
+                if (proximoAtacante == null || integrante.getTempoEspera() < proximoAtacante.getTempoEspera()) {
+                    proximoAtacante = integrante;
+                } else if (integrante.getTempoEspera() == proximoAtacante.getTempoEspera()) {
+                    // Em caso de empate nos tempos de espera, desempata aleatoriamente
+                    if (Math.random() < 0.5) {
+                        proximoAtacante = integrante;
+                    }
+                }
+            }
+        }
+
+        if (proximoAtacante == null) {
+            throw new IllegalStateException("Nenhum integrante apto para ser o próximo atacante.");
+        }
+
+        return proximoAtacante;
     }
+
 
     public boolean peloMenosUmVivo() {
             // Verifica se há pelo menos um integrante não atordoado na Equipe. Quando todos integrantes de uma equipe forem atordoados uma batalha irá chegar ao seu fim.
