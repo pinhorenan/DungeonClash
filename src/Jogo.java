@@ -199,12 +199,17 @@ public class Jogo {
 
         // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno
       if (alvo.getAtordoado() && herois.getIntegrantes().contains(atacante)) {
-            for (Personagem personagem : herois.getIntegrantes()){
-              personagem.calcularPE(alvo);
-              personagem.subirNivel();
-            }
-          } else {
-            System.out.println("Nenhum alvo válido encontrado.");
+        System.out.println("Devido à morte do inimigo, todos os heróis recebem PE.");
+        for (Personagem personagem : herois.getIntegrantes()) {
+          int nivelAntes = personagem.getNivel();
+          personagem.calcularPE(alvo);
+          int nivelDepois = personagem.getNivel();
+          if (nivelDepois > nivelAntes) {
+            System.out.println(personagem.getNome() + " subiu para o nível " + nivelDepois + "!");
+          }
+        }
+      } else {
+        System.out.println("Nenhum alvo válido encontrado.");
         }
 
         // Atualiza o tempo de espera de maneira correspondente a sua habilidade
@@ -220,10 +225,10 @@ public class Jogo {
   }
 
   private void exibirHabilidades(Personagem personagem) {
-    System.out.println("Habilidades disponíveis para " + personagem.getNome() + ":");
+    System.out.println("Habilidades disponíveis para " + personagem.getNome() + ":\n");
 
     for (Habilidade habilidade : personagem.getClasse().getHabilidades()) {
-      System.out.println(habilidade.getNome() + " (PM Necessário: " + habilidade.calcularCustoMana(personagem.getClasse()) + ", Dano: " + habilidade.calcularDanoCausado(personagem.getClasse()) + " Cooldown: " + habilidade.getTempoEspera() + " turnos)");
+      System.out.println(habilidade.getNome() + " (PM Necessário: " + habilidade.calcularCustoMana(personagem.getClasse()) + ", Dano: " + habilidade.calcularDanoCausado(personagem.getClasse()) + " Cooldown: " + habilidade.getTempoEspera() + " turnos)\n");
     }
   }
 
@@ -234,7 +239,9 @@ public class Jogo {
         System.out.println("Nome: " + integrante.getNome());
         System.out.println("Classe: " + integrante.getNomeClasse());
         System.out.println("PV: " + integrante.getPV());
+        System.out.println("PV Máximo: " + integrante.getPVmax());
         System.out.println("PM: " + integrante.getPM());
+        System.out.println("PM Máximo: " + integrante.getPMmax());
         System.out.println("Nível: " + integrante.getNivel());
         System.out.println("Tempo de Espera: " + integrante.getTempoEspera());
 
