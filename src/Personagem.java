@@ -223,6 +223,14 @@ public class Personagem implements Comparable<Personagem> {
         // Altera o estado de Atordoamento do Personagem.
         this.atordoado = atordoado;
     }
+
+    public float getPVmax() {
+        return PVmax;
+    }
+
+    public float getPMmax() {
+        return PMmax;
+    }
 }
 
 
