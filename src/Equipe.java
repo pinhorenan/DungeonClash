@@ -13,43 +13,6 @@ public class Equipe {
         integrantes = new HashSet<>();
     }
 
-    public Personagem buscarIntegrante(int ID) {
-        // Busca um Personagem integrante de equipe a partir de seu ID e retorna-o.
-        for (Personagem personagem : integrantes) {
-            if (personagem.getID() == ID) {
-                return personagem;
-            }
-        } return null;
-    }
-
-    public Personagem definirProximoAtacante() {
-        // Compara os tempoEspera entre integrantes para retornar o com o menor valor, que será o próximo atacante. Em caso de valores iguais a escolha é feita aleatóriamente.
-        if (integrantes.isEmpty()) {
-            throw new IllegalStateException("A lista de integrantes está vazia. Não é possível continuar.");
-        }
-        return Collections.min(integrantes);
-    }
-
-    public Set<Personagem> getIntegrantes() {
-        // Retorna o conjunto de integrantes da Equipe.
-        return integrantes;
-    }
-
-    public boolean getIsInimigos() {
-        // Retorna um valor true ou false para IsInimigo. Quando IsInimigo == True as equipes podem ter um número indeterminado de integrantes.
-        return isInimigos;
-    }
-
-    public boolean peloMenosUmVivo() {
-        // Verifica se há pelo menos um integrante não atordoado na Equipe. Quando todos integrantes de uma equipe forem atordoados uma batalha irá chegar ao seu fim.
-        for (Personagem integrante : integrantes) {
-            if (!integrante.getAtordoado()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void adicionarIntegrante(Personagem personagem) {
             // Adiciona novos Personagens ao conjunto Equipe.
         if(getIsInimigos()) {
@@ -60,19 +23,56 @@ public class Equipe {
     }
 
     public void removerIntegrante(Personagem integrante) {
-        // Remove personagens do conjunto Equipe.
+            // Remove personagens do conjunto Equipe.
         if (!integrantes.contains(integrante)) {
             return;
         }
         integrantes.remove(integrante);
     }
 
-    public void distribuirPE(int ganhoPE) {
+    public Personagem buscarIntegrante(int ID) {
+            // Busca um Personagem integrante de equipe a partir de seu ID e retorna-o.
+        for (Personagem personagem : integrantes) {
+            if (personagem.getID() == ID) {
+                return personagem;
+            }
+        } return null;
+    }
+
+    /* public void distribuirPE(int ganhoPE) {
             // Incrementa PE à todos integrantes da Equipe e faz realiza a checa se algum integrante deve subir de nível.
         for (Personagem personagem: integrantes) {
             personagem.ganharPE(ganhoPE);
             personagem.subirNivel();
         }
+    } */
+
+    public Personagem definirProximoAtacante() {
+            // Compara os tempoEspera entre integrantes para retornar o com o menor valor, que será o próximo atacante. Em caso de valores iguais a escolha é feita aleatóriamente.
+        if (integrantes.isEmpty()) {
+            throw new IllegalStateException("A lista de integrantes está vazia. Não é possível continuar.");
+        }
+        return Collections.min(integrantes);
+    }
+
+    public boolean peloMenosUmVivo() {
+            // Verifica se há pelo menos um integrante não atordoado na Equipe. Quando todos integrantes de uma equipe forem atordoados uma batalha irá chegar ao seu fim.
+        for (Personagem integrante : integrantes) {
+            if (!integrante.getAtordoado()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Set<Personagem> getIntegrantes() {
+            // Retorna o conjunto de integrantes da Equipe.
+        return integrantes;
+    }
+
+    public boolean getIsInimigos() {
+            // Retorna um valor true ou false para IsInimigo. Quando IsInimigo == True as equipes podem ter um número indeterminado de integrantes.
+        return isInimigos;
     }
 
     public void decrementaTempoEspera(){
