@@ -10,6 +10,7 @@ public class Personagem implements Comparable<Personagem> {
     private float PVmax, PV, PMmax, PM;
     private boolean atordoado;
 
+    // Construtores
     public Personagem(String nome, Classe classe) {
         // Construtor. Deverá passar o nome (String) e uma classe, a classe deverá ser criada no campo de parâmetro
         this.nome = nome;
@@ -40,10 +41,20 @@ public class Personagem implements Comparable<Personagem> {
         atordoado = false;
     }
 
+    // Métodos
     @Override
     public int compareTo(Personagem outro) {
         // Define um método de comparação entre instâncias de Personagens para comparar seus tempoEspera. Chamado para definir o próximoAtacante.
         return Integer.compare(this.getTempoEspera(), outro.getTempoEspera());
+    }
+
+    public int calcularPE(Personagem alvo) {
+        return alvo.getNivel() * 5;
+    }
+
+    private static int gerarProximoID() {
+        // Gera um novo ID incrementando o último ID registrado. Chamado durante instanciação de Personagens.
+        return proximoID++;
     }
 
     public void ganharPE(int somaPE) {
@@ -61,14 +72,9 @@ public class Personagem implements Comparable<Personagem> {
         }
     }
 
-    public void atualizarTempoEspera(int tempo) {
-        // Define o tempo de espera do Personagem que chamar para "tempo". Chamado após usar habilidades.
-        this.setTempoEspera(tempo);
-    }
-
-    private static int gerarProximoID() {
-        // Gera um novo ID incrementando o último ID registrado. Chamado durante instanciação de Personagens.
-        return proximoID++;
+    public void atordoar() {
+        // Define o Personagem como Atordoado.
+        setAtordoado(true);
     }
 
     public void sofrerDano(float dano) {
@@ -76,25 +82,16 @@ public class Personagem implements Comparable<Personagem> {
         if (PV > 0) {
             PV -= dano;
         }
-        if (PV <= 0){
+        if (PV <= 0) {
             PV = 0;
             System.out.println("\n" + nome + " foi atordoado.");
             atordoar();
         }
     }
 
-    public float custoMana(Habilidade habilidade) {
-        // Retorna o custo em PM ao usar uma habilidade dependendo do nível do personagem que chamar.
-        return (nivel * habilidade.calcularCustoMana(classe));
-    }
-
-    public float danoCausado(Habilidade habilidade) {
-        // Retorna o dano em PV ao usar uma habilidade dependendo do nível do personagem que chamar.
-        return nivel * habilidade.calcularDanoCausado(classe);
-    }
-
-    public int calcularPE(Personagem alvo) {
-        return alvo.getNivel() * 5;
+    public void atualizarTempoEspera(int tempo) {
+        // Define o tempo de espera do Personagem que chamar para "tempo". Chamado após usar habilidades.
+        this.setTempoEspera(tempo);
     }
 
     public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
@@ -117,28 +114,6 @@ public class Personagem implements Comparable<Personagem> {
             // Atualiza o tempo de espera do personagem que utilizou a habilidade (aumenta).
             atualizarTempoEspera(habilidade.getTempoEspera());
         }
-    }
-
-    private boolean verificarRestricoes(Habilidade habilidade) {
-        // Método auxiliar para verificar possibilidade de "usarHabilidade()". Restrições sobre quem chama a Habilidade.
-        if (atordoado) {
-            return false;
-        }
-        if (tempoEspera != 0) {
-            return false;
-        }
-        if (habilidade.calcularCustoMana(classe) > PM) {
-            return false;
-        }
-        return classe.getHabilidades().contains(habilidade);
-    }
-
-    private boolean verificarRestricoes(Habilidade habilidade, Personagem alvo) {
-        // Método auxiliar para verificar possibilidade de "usarHabilidade()". Restrições sobre o alvo da habilidade.
-        if (alvo.atordoado) {
-            return false;
-        }
-        return verificarRestricoes(habilidade);
     }
 
     private void aplicarEfeitoHabilidade(Habilidade habilidade, Personagem alvo) {
@@ -174,24 +149,53 @@ public class Personagem implements Comparable<Personagem> {
         setPM(this.getPM() - custoMana(habilidade));
     }
 
-    public void atordoar() {
-        // Define o Personagem como Atordoado.
-        setAtordoado(true);
+    public float custoMana(Habilidade habilidade) {
+        // Retorna o custo em PM ao usar uma habilidade dependendo do nível do personagem que chamar.
+        return (nivel * habilidade.calcularCustoMana(classe));
     }
+
+    public float danoCausado(Habilidade habilidade) {
+        // Retorna o dano em PV ao usar uma habilidade dependendo do nível do personagem que chamar.
+        return nivel * habilidade.calcularDanoCausado(classe);
+    }
+
+    private boolean verificarRestricoes(Habilidade habilidade) {
+        // Método auxiliar para verificar possibilidade de "usarHabilidade()". Restrições sobre quem chama a Habilidade.
+        if (atordoado) {
+            return false;
+        }
+        if (tempoEspera != 0) {
+            return false;
+        }
+        if (habilidade.calcularCustoMana(classe) > PM) {
+            return false;
+        }
+        return classe.getHabilidades().contains(habilidade);
+    }
+
+    private boolean verificarRestricoes(Habilidade habilidade, Personagem alvo) {
+        // Método auxiliar para verificar possibilidade de "usarHabilidade()". Restrições sobre o alvo da habilidade.
+        if (alvo.atordoado) {
+            return false;
+        }
+        return verificarRestricoes(habilidade);
+    }
+
+    // Métodos Getters e Setters
 
     public String getNome() {
         // Retorna o nome do Personagem.
         return nome;
     }
 
+    public String getNomeClasse() {
+        // Retorna o nome simples da classe associada ao Personagem. (Estava saindo como "Arqueiro@6d06d69c" por exemplo)
+        return classe.getName();
+    }
+
     public Classe getClasse() {
         // Retorna a instância de classe do Personagem.
         return classe;
-    }
-
-    public String getNomeClasse() {
-        // Retorna o nome simples da classe associada ao Personagem.
-        return classe.getName();
     }
 
     public int getNivel() {
@@ -219,6 +223,14 @@ public class Personagem implements Comparable<Personagem> {
         return PM;
     }
 
+    public float getPVmax() {
+        return PVmax;
+    }
+
+    public float getPMmax() {
+        return PMmax;
+    }
+
     public boolean getAtordoado() {
         // Retorna o status de atordoamento do Personagem.
         return atordoado;
@@ -230,13 +242,29 @@ public class Personagem implements Comparable<Personagem> {
     }
 
     public void setPV(float PV) {
-        // Altera os Pontos de Vida do Personagem.
-        this.PV = PV;
+        // Verifica se PV é negativo
+        if (PV < 0) {
+            this.PV = 0;
+        }
+        // Verifica se PV é maior que PVmax
+        else if (PV > this.PVmax) {
+            this.PV = this.PVmax;
+        } else {
+            this.PV = PV;
+        }
     }
 
     public void setPM(float PM) {
-        // Altera os Pontos de Magia do Personagem.
-        this.PM = PM;
+        // Verifica se PM é negativo
+        if (PM < 0) {
+            this.PM = 0;
+        }
+        // Verifica se PM é maior que PMmax
+        else if (PM > this.PMmax) {
+            this.PM = this.PMmax;
+        } else {
+            this.PM = PM;
+        }
     }
 
     public void setAtordoado(boolean atordoado) {
@@ -244,16 +272,5 @@ public class Personagem implements Comparable<Personagem> {
         this.atordoado = atordoado;
     }
 
-    public float getPVmax() {
-        return PVmax;
-    }
-
-    public float getPMmax() {
-        return PMmax;
-    }
-
 
 }
-
-
-
