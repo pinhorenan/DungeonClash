@@ -14,7 +14,7 @@ public class Monstro extends Classe {
     }
 
     public void subirNivel() {
-        // Implementação com valores correspondentes à progressão do Mostro.
+        // Implementação com valores correspondentes à progressão do Mostro. A principio os monstros não irão upar mas isso foi decidido de última hora e nao faz mal manter o método aqui.
         this.forca += 4;
         this.agilidade += 1;
         this.inteligencia = 0;
