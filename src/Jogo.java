@@ -143,10 +143,12 @@ public class Jogo {
         realizarTurno(herois, inimigos, atacante);
 
         // Trocar o atacante para o próximo turno
-        do {
-            atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
-        }
-        while (atacante.getAtordoado() || atacante.getTempoEspera() > 0);
+          if (!turnoSilencioso(herois, inimigos)) {
+              do {
+                  atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+              }
+              while (atacante.getAtordoado() || atacante.getTempoEspera() > 0);
+          }
       }
 
         // Exibe o resultado da batalha
