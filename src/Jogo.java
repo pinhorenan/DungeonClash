@@ -193,6 +193,7 @@ public class Jogo {
           if (alvo.getPV() <= 0) {
             for (Personagem personagem : inimigos.getIntegrantes()){
               personagem.calcularPE(alvo);
+              personagem.subirNivel();
             }
             alvo.atordoar();
           }
@@ -256,11 +257,11 @@ public class Jogo {
 
   private boolean turnoSilencioso(Equipe herois, Equipe inimigos) {
     for (Personagem personagem : herois.getIntegrantes())
-      if (personagem.getTempoEspera() == 0) {
+      if (personagem.getTempoEspera() == 0 || !personagem.getAtordoado()){
         return false;
       }
     for (Personagem personagem : inimigos.getIntegrantes()){
-      if (personagem.getTempoEspera() == 0){
+      if (personagem.getTempoEspera() == 0 || !personagem.getAtordoado()){
         return false;
       }
     }
