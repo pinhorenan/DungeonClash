@@ -188,10 +188,16 @@ public class Jogo {
         }
 
         // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno
-        if (equipeAlvo == inimigos) {
-          herois.distribuirPE(acumuloPE);
-        } else if(turnoSilencioso(herois, inimigos)) {
-          System.out.println("Não há ninguém que possa atacar neste turno.");
+        if (alvo != null) {
+          atacante.usarHabilidade(habilidadeEscolhida, alvo);
+          if (alvo.getPV() <= 0) {
+            for (Personagem personagem : inimigos.getIntegrantes()){
+              personagem.calcularPE(alvo);
+            }
+            alvo.atordoar();
+          }
+        } else {
+            System.out.println("Nenhum alvo válido encontrado.");
         }
 
         // Atualiza o tempo de espera de maneira correspondente a sua habilidade
