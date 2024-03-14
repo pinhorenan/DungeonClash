@@ -72,10 +72,9 @@ public class Personagem implements Comparable<Personagem> {
         if (PV > 0) {
             PV -= dano;
         }
-        if (PV < 0){
+        if (PV <= 0){
             PV = 0;
-            atordoar();
-            System.out.println(nome + " morreu");
+            atordoado = true;
         }
     }
 
@@ -97,12 +96,11 @@ public class Personagem implements Comparable<Personagem> {
         return 0;
     }
 
-    public int usarHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
+    public void usarHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
         // Método para usar a Habilidade. Primeiro irá verificar se quem chamou cumpre os requisitos e então aplica os efeitos no grupoAlvo.
         if (verificarRestricoes(habilidade)) {
-            return(aplicarEfeitoHabilidade(habilidade, grupoAlvo));
+            aplicarEfeitoHabilidade(habilidade, grupoAlvo);
         }
-        return 0;
     }
 
     private boolean verificarRestricoes(Habilidade habilidade) {
@@ -133,38 +131,26 @@ public class Personagem implements Comparable<Personagem> {
             alvo.setPV(alvo.getPV() + danoCausado(habilidade));
         } else {
             alvo.sofrerDano(danoCausado(habilidade));
-            if (alvo.PV <= 0) {
-                alvo.atordoar();
-                return (alvo.getNivel()*5);
-            }
         }
         setPM(this.getPM() - custoMana(habilidade));
         return 0;
     }
 
-    private int aplicarEfeitoHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
+    public void calcularPE(Personagem alvo) {
+        this.PE += alvo.getNivel()*5;
+    }
+    private void aplicarEfeitoHabilidade(Habilidade habilidade, Equipe grupoAlvo) {
         // Método que aplica os efeitos de uma habilidade usada, é chamado por "usarHabilidade()"; Versão para ataque em Equipes.
         Set<Personagem> integrantes = grupoAlvo.getIntegrantes();
-        for (Personagem alvo : integrantes) {
-            if (habilidade.getIsAfetaAmigos()) {
-                alvo.setPV(alvo.getPV() + danoCausado(habilidade));
-            } else {
-                alvo.sofrerDano(danoCausado(habilidade));
-                if (alvo.PV <= 0) {
-                    alvo.atordoar();
-                    return (alvo.getNivel()*5);
-                }
-            }
-            setPM(this.getPM() - custoMana(habilidade));
-            return 0;
+        for (Personagem personagem : integrantes) {
+            personagem.sofrerDano(danoCausado(habilidade));
         }
-        return 0;
     }
 
-    public void ganharPE(int PE) {
+    /* public void ganharPE(int PE) {
         // Incrementa Pontos de Experiência ao Personagem.
         this.PE += PE;
-    }
+    } */
 
     public void atordoar() {
         // Define o Personagem como Atordoado.
