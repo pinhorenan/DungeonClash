@@ -1,4 +1,3 @@
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,12 +13,20 @@ public class Equipe {
     }
 
     public void adicionarIntegrante(Personagem personagem) {
-            // Adiciona novos Personagens ao conjunto Equipe.
-        if(getIsInimigos()) {
-            integrantes.add(personagem);
-        } else if (integrantes.size() < 3){
-            integrantes.add(personagem);
+        // Verifica se a equipe é de inimigos ou se ainda há espaço para mais personagens
+        if (!getIsInimigos() && integrantes.size() >= 3) {
+            throw new IllegalArgumentException("A equipe já está cheia.");
         }
+
+        // Verifica se já existe um personagem com o mesmo nome na equipe
+        for (Personagem integrante : integrantes) {
+            if (integrante.getNome().equalsIgnoreCase(personagem.getNome())) {
+                throw new IllegalArgumentException("Um personagem com este nome já existe na equipe.");
+            }
+        }
+
+        // Adiciona o novo personagem à equipe
+        integrantes.add(personagem);
     }
 
     public void removerIntegrante(Personagem integrante) {
@@ -30,10 +37,10 @@ public class Equipe {
         integrantes.remove(integrante);
     }
 
-    public Personagem buscarIntegrante(int ID) {
-            // Busca um Personagem integrante de equipe a partir de seu ID e retorna-o.
+    public Personagem buscarIntegrante(String nome) {
+        // Busca um Personagem integrante de equipe a partir de seu nome e retorna-o.
         for (Personagem personagem : integrantes) {
-            if (personagem.getID() == ID) {
+            if (personagem.getNome().equalsIgnoreCase(nome)) {
                 return personagem;
             }
         } return null;
