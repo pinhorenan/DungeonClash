@@ -63,8 +63,25 @@ public class Jogo {
     boolean criacaoPersonagens;
 
     for (int i = 1; i <= 3; ++i) {
-      System.out.println("\nNome do " + i + "º Herói ou Heroína: ");
-      String nomeHeroi = scanner.nextLine();
+      String nomeHeroi;
+      do {
+        System.out.println("\nNome do " + i + "º Herói ou Heroína: ");
+        nomeHeroi = scanner.nextLine();
+
+        // Verifica se já existe um personagem com o mesmo nome na equipe
+        boolean nomeExiste = false;
+        for (Personagem integrante : herois.getIntegrantes()) {
+          if (integrante.getNome().equalsIgnoreCase(nomeHeroi)) {
+            nomeExiste = true;
+            System.out.println("Um personagem com este nome já existe na equipe. Por favor, escolha outro nome.");
+            break;
+          }
+        }
+        if (!nomeExiste) {
+          break; // Sai do loop se o nome for válido
+        }
+      } while (true);
+
       System.out.println("\nQual será a classe de " + nomeHeroi + "?");
       System.out.println("\n1- GUERREIRO\n2- ARQUEIRO\n3- MAGO");
       int escolhaClasse;
@@ -95,15 +112,17 @@ public class Jogo {
       while (i <= 2) {
         System.out.println("\nDeseja criar mais um personagem?");
         try {
-          System.out.println("Digite 'true' se deseja criar mais um personagem ou 'false' para sair:");
-          criacaoPersonagens = scan.nextBoolean();
-          if (!criacaoPersonagens) {
+          System.out.println("Digite 'sim' se deseja criar mais um personagem ou 'nao' para sair:");
+          String resposta = scan.nextLine().toLowerCase();
+          if (resposta.equals("nao")) {
             i = 4;
+          } else if (!resposta.equals("sim")) {
+            throw new InputMismatchException();
           }
-            break;
+          break;
         } catch (InputMismatchException e) {
           System.out.println("Input inválido! Tente de novo.");
-          scan.nextLine(); // Clear the input buffer
+          scan.nextLine(); // Limpa o buffer
         }
     }
   }
@@ -117,24 +136,21 @@ public class Jogo {
     String classeMonstro = split[1];
     int nivelMonstro = Integer.parseInt(split[2]);
 
-    Personagem novoMonstro = null;
-    switch (classeMonstro.toLowerCase()) {
-      case "guerreiro":
-        novoMonstro = new Personagem(nomeMonstro, new Guerreiro(), nivelMonstro);
+    // Verifica se já existe um monstro com o mesmo nome na equipe
+    for (Personagem integrante : inimigos.getIntegrantes()) {
+      if (integrante.getNome().equalsIgnoreCase(nomeMonstro)) {
+        nomeMonstro += "_1"; // Adiciona um sufixo ao nome se já existir
         break;
-      case "arqueiro":
-        novoMonstro = new Personagem(nomeMonstro, new Arqueiro(), nivelMonstro);
-        break;
-      case "mago":
-        novoMonstro = new Personagem(nomeMonstro, new Mago(), nivelMonstro);
-        break;
-      case "monstro":
-        novoMonstro = new Personagem(nomeMonstro, new Monstro(), nivelMonstro);
-        break;
-      default:
-        // Lógica para tratamento de classe desconhecida
-        break;
+      }
     }
+
+    Personagem novoMonstro = switch (classeMonstro.toLowerCase()) {
+      case "guerreiro" -> new Personagem(nomeMonstro, new Guerreiro(), nivelMonstro);
+      case "arqueiro" -> new Personagem(nomeMonstro, new Arqueiro(), nivelMonstro);
+      case "mago" -> new Personagem(nomeMonstro, new Mago(), nivelMonstro);
+      case "monstro" -> new Personagem(nomeMonstro, new Monstro(), nivelMonstro);
+      default -> throw new IllegalArgumentException("Classe inválida: " + classeMonstro);
+    };
 
     inimigos.adicionarIntegrante(novoMonstro);
   }
