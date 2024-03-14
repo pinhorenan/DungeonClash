@@ -15,7 +15,7 @@ public class Jogo {
     this.inimigos = new Equipe(true);
     Path arquivo = Paths.get(caminhoArquivo);
     this.linhasArquivo = Files.readAllLines(arquivo);
-    this.contadorTurnos = 0;
+    this.contadorTurnos = 1;
 
     if (!Files.exists(arquivo)) {
       System.out.println("Arquivo não encontrado. Certifique-se de fornecer o caminho correto.");
@@ -135,30 +135,27 @@ public class Jogo {
   }
 
   private void iniciarBatalha() {
-      System.out.println("Iniciando batalha...");
+    System.out.println("Iniciando batalha...");
 
-        // Exibe informações iniciais das equipes
+    // Sorteia de quem ataca
+    Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
+
+    while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
       exibirInformacoesEquipes(herois, inimigos);
+      realizarTurno(herois, inimigos, atacante);
 
-
-        // Sorteia de quem ataca
-      Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
-
-      while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-        realizarTurno(herois, inimigos, atacante);
-        exibirInformacoesEquipes(herois, inimigos);
-
-        // Trocar o atacante para o próximo turno
-        atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+      // Trocar o atacante para o próximo turno
+      if (!turnoSilencioso(herois, inimigos)) {
+        do {
+          atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+        }
+        while (atacante.getAtordoado() || atacante.getTempoEspera() > 0);
       }
+    }
 
-        // Exibe o resultado da batalha
-      exibirResultadoBatalha(inimigos);
-
-        // Remover inimigos no fim da batalha
-      for (Personagem personagem : inimigos.getIntegrantes()) {
-        inimigos.removerIntegrante(personagem);
-      }
+    // Exibe o resultado da batalha
+    exibirResultadoBatalha(inimigos);
+    contadorTurnos = 1;
   }
 
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
