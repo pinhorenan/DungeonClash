@@ -141,16 +141,12 @@ public class Jogo {
     Personagem atacante = sortearPrimeiroAtacante(herois, inimigos);
 
     while (herois.peloMenosUmVivo() && inimigos.peloMenosUmVivo()) {
-      exibirInformacoesEquipes(herois, inimigos);
-      realizarTurno(herois, inimigos, atacante);
 
       // Trocar o atacante para o próximo turno
-      if (!turnoSilencioso(herois, inimigos)) {
-        do {
-          atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
-        }
-        while (atacante.getAtordoado() || atacante.getTempoEspera() > 0);
-      }
+      atacante = (herois.getIntegrantes().contains(atacante)) ? inimigos.definirProximoAtacante() : herois.definirProximoAtacante();
+
+      exibirInformacoesEquipes(herois, inimigos);
+      realizarTurno(herois, inimigos, atacante);
     }
 
     // Exibe o resultado da batalha
