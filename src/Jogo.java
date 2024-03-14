@@ -1,6 +1,11 @@
 import java.io.IOException;
-import java.nio.file.*;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Jogo {
 
@@ -162,11 +167,9 @@ public class Jogo {
   private void realizarTurno(Equipe herois, Equipe inimigos, Personagem atacante) {
     System.out.println("\n --- Turno " + contadorTurnos + " --- ");
 
-    int acumuloPE;
-
     // Verifica se o atacante possui tempo de espera
     if(!turnoSilencioso(herois, inimigos)) {
-        // Imprime
+      // Imprime o nome do atacante
         System.out.println("É a vez de " + atacante.getNome() + " atacar!");
 
         // Escolhe uma habilidade
@@ -176,32 +179,21 @@ public class Jogo {
         Equipe equipeAlvo = (herois.getIntegrantes().contains(atacante)) ? inimigos : herois;
         Personagem alvo = escolherAlvo(equipeAlvo);
 
-        // Executa a habilidade no alvo
-        if (alvo != null) {
-          atacante.usarHabilidade(habilidadeEscolhida, alvo);
-          acumuloPE = atacante.usarHabilidade(habilidadeEscolhida, alvo);
-        } else {
-          acumuloPE = 0;
-          System.out.println("Nenhum alvo válido encontrado.");
-        }
+      // Usa a habilidade escolhida
+      atacante.usarHabilidade(habilidadeEscolhida, alvo);
 
         // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno
-        if (alvo != null) {
-          atacante.usarHabilidade(habilidadeEscolhida, alvo);
-          if (alvo.getPV() <= 0) {
+      if (alvo.getAtordoado() && herois.getIntegrantes().contains(atacante)) {
             for (Personagem personagem : herois.getIntegrantes()){
               personagem.calcularPE(alvo);
               personagem.subirNivel();
             }
-            alvo.atordoar();
-          }
-        } else {
+          } else {
             System.out.println("Nenhum alvo válido encontrado.");
         }
 
         // Atualiza o tempo de espera de maneira correspondente a sua habilidade
         atacante.atualizarTempoEspera(habilidadeEscolhida.getTempoEspera());
-
     }
 
     // Decrementa o tempo de espera de todos os personagens ao final do turno
@@ -298,52 +290,29 @@ public class Jogo {
 
   private Personagem escolherAlvo(Equipe equipe) {
     Scanner scanner = new Scanner(System.in);
-    Set<Personagem> integrantes = equipe.getIntegrantes();
 
     // Exibir lista de alvos disponíveis
     System.out.println("Escolha um alvo:");
-
-    int index = 1;
-    for (Personagem integrante : integrantes) {
+    for (Personagem integrante : equipe.getIntegrantes()) {
       if (!integrante.getAtordoado()) {
-        System.out.println(index + ". " + integrante.getNome());
-        index++;
+        System.out.println(integrante.getNome());
       }
     }
 
     // Solicitar ao jogador a escolha do alvo
-    int escolha;
-    do {
-      System.out.print("Digite o número correspondente ao alvo: ");
-      try {
-        escolha = Integer.parseInt(scanner.nextLine());
+    while (true) {
+      System.out.print("Digite o nome do alvo: ");
+      String nomeAlvo = scanner.nextLine();
 
-        // Verifica se a escolha é válida
-        if (escolha < 1 || escolha > integrantes.size()) {
-          System.out.println("Escolha inválida. Digite um número válido.");
-        } else {
-          break;
+      // Verifica se o alvo escolhido está na lista de alvos disponíveis
+      for (Personagem integrante : equipe.getIntegrantes()) {
+        if (integrante.getNome().equalsIgnoreCase(nomeAlvo) && !integrante.getAtordoado()) {
+          return integrante; // Retorna o alvo escolhido
         }
-      } catch (NumberFormatException e) {
-        System.out.println("Entrada inválida. Digite um número válido.");
       }
-    } while (true);
 
-    // Retornar o alvo escolhido
-    int count = 1;
-    for (Personagem integrante : integrantes) {
-      if(!integrante.getAtordoado()) {
-        if (count == escolha) {
-          return integrante;
-        }
-        count++;
-      }
+      // Se o nome do alvo não foi encontrado, exibe uma mensagem de erro
+      System.out.println("Alvo inválido! Por favor, escolha um alvo da lista.");
     }
-
-    // Caso algo inesperado ocorra, retornamos null
-    return null;
   }
-
-  //not ok
-  //private Set<Personagem> escolherAlvo(Equipe equipe) { return null;}
 }
