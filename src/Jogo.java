@@ -184,7 +184,7 @@ public class Jogo {
         if (alvo != null) {
           atacante.usarHabilidade(habilidadeEscolhida, alvo);
           if (alvo.getPV() <= 0) {
-            for (Personagem personagem : inimigos.getIntegrantes()){
+            for (Personagem personagem : herois.getIntegrantes()){
               personagem.calcularPE(alvo);
               personagem.subirNivel();
             }
