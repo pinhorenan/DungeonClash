@@ -1,27 +1,19 @@
-# Dungeon Clash
+Dungeon Clash
+Dungeon Clash is a project developed for the Object-Oriented Programming course at the Federal University of Pelotas.
 
-Dungeon Clash é um projeto desenvolvido para a disciplina de Programação Orientada a Objetos na Universidade Federal de Pelotas.
+About the Project
+The project's main objective is the implementation of a basic RPG system, inspired by famous tabletop RPGs like Dungeons & Dragons. Developed entirely in Java, it aims to solidify the key concepts of Object-Oriented Programming through the creation of a system with a reduced number of classes and methods, facilitating both the addition of new features and the maintenance of the code.
 
-## Sobre o Projeto
+Developers
+The project was developed in the first semester of 2024 (second academic semester of 2023 at UFPel) by three Computer Science students:
 
-O projeto tem como objetivo principal a implementação de um sistema básico de RPG, inspirado nos famosos RPGs de mesa como Dungeons & Dragons. Desenvolvido inteiramente em Java, visa consolidar os principais conceitos de Orientação a Objetos através da criação de um sistema com um número reduzido de classes e métodos, facilitando tanto a adição de novas funcionalidades quanto a manutenção do código.
+Renan Monteiro de Pinho
+Gabriel Moura
+Luis Rasch
+How to Contribute
+If you wish to contribute to the project, feel free to:
 
-## Desenvolvedores
-
-O projeto foi desenvolvido no primeiro semestre de 2024 (segundo semestre letivo de 2023 na UFPel) por três alunos do curso de Ciência da Computação:
-
-- Renan Monteiro de Pinho
-- Gabriel Moura
-- Luis Rasch
-
-## Como Contribuir
-
-Se deseja contribuir com o projeto, sinta-se à vontade para:
-
-- Abrir issues relatando bugs ou sugerindo novas funcionalidades.
-- Realizar pull requests com melhorias no código.
-
-## Licença
-
-Este projeto está licenciado sob a [Licença MIT](LICENSE).
-
+Open issues reporting bugs or suggesting new features.
+Make pull requests with code improvements.
+License
+This project is licensed under the MIT License.
