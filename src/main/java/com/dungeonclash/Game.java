@@ -20,7 +20,6 @@ public class Game {
   private int turnCounter;
 
   public Game(String caminhoArquivo) throws IOException {
-      // Construtor
     this.heros = new Group(false);
     this.foes = new Group(true);
     Path file = Paths.get(caminhoArquivo);
@@ -41,10 +40,8 @@ public class Game {
   }
 
   public void start() {
-      // Prólogo
     loadHeros();
 
-      // História
     String searchFor = "fase";
     boolean verification = false;
     for (String line : textLines){
