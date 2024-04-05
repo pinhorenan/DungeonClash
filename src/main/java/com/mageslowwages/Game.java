@@ -1,12 +1,12 @@
-package main.java.com.dungeonclash;
+package main.java.com.mageslowwages;
 
-import main.java.com.dungeonclash.character.Character;
-import main.java.com.dungeonclash.character.classes.Archer;
-import main.java.com.dungeonclash.character.classes.Warrior;
-import main.java.com.dungeonclash.character.classes.Mage;
-import main.java.com.dungeonclash.character.classes.Monster;
-import main.java.com.dungeonclash.groups.Group;
-import main.java.com.dungeonclash.skills.Skill;
+import main.java.com.mageslowwages.character.Character;
+import main.java.com.mageslowwages.character.classes.Archer;
+import main.java.com.mageslowwages.character.classes.Warrior;
+import main.java.com.mageslowwages.character.classes.Mage;
+import main.java.com.mageslowwages.character.classes.Monster;
+import main.java.com.mageslowwages.groups.Group;
+import main.java.com.mageslowwages.skills.Skill;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -19,22 +19,22 @@ public class Game {
   private List<String> textLines;
   private int turnCounter;
 
-  public Game(String caminhoArquivo) throws IOException {
+  public Game(String filePath) throws IOException {
     this.heros = new Group(false);
     this.foes = new Group(true);
-    Path file = Paths.get(caminhoArquivo);
+    Path file = Paths.get(filePath);
     this.textLines = Files.readAllLines(file);
     this.turnCounter = 1;
 
     if (!Files.exists(file)) {
-      System.out.println("Arquivo não encontrado. Certifique-se de fornecer o caminho correto.");
+      System.out.println("File not found. Be sure the filepath is correct.");
       System.exit(1);
     }
 
     try {
       this.textLines = Files.readAllLines(file);
     } catch (IOException exception) {
-      System.err.println("Erro ao ler o arquivo: " + exception.getMessage());
+      System.err.println(STR."Error reading the file: \{exception.getMessage()}");
       System.exit(1);
     }
   }
@@ -53,7 +53,7 @@ public class Game {
             startBattle();
             verification = false;
           }
-          System.out.println("\n" + line.substring(5));
+          System.out.println(STR."\n\{line.substring(5)}");
         }
     }
       // Epílogo
@@ -65,10 +65,10 @@ public class Game {
     boolean characterCreation;
 
     for (int i = 1; i <= 3; ++i) {
-      System.out.println("\nNome do " + i + "º Herói ou Heroína: ");
+      System.out.println("\nName of your character: ");
       String characterName = scanner.nextLine();
-      System.out.println("\nQual será a classe de " + characterName + "?");
-      System.out.println("\n1- GUERREIRO\n2- ARQUEIRO\n3- MAGO");
+      System.out.println(STR."\nWhich class will \{characterName} be?");
+      System.out.println("\n1- Warrior\n2- Archer\n3- Mage");
       int chooseClass;
       do {
         try {
@@ -76,10 +76,10 @@ public class Game {
           if (chooseClass <= 3 && chooseClass >= 1) {
             break;         // Saia do loop se a entrada for válida
           } else {
-            System.out.println("Escolha inválida! Tente novamente.");
+            System.out.println("Invalid choice! Try again.");
           }
         } catch (NumberFormatException e) {
-          System.out.println("Input inválido! Tente de novo.");
+          System.out.println("Invalid input! Try again.");
         }
       } while (true);
 
@@ -87,7 +87,7 @@ public class Game {
         case 1 -> new Character(characterName, new Warrior());
         case 2 -> new Character(characterName, new Archer());
         case 3 -> new Character(characterName, new Mage());
-        default -> throw new IllegalStateException("Valor inválido: " + chooseClass);
+        default -> throw new IllegalStateException(STR."Invalid value: \{chooseClass}");
       };
 
       heros.addMember(newCharacter);
@@ -95,21 +95,21 @@ public class Game {
         Scanner scan = new Scanner(System.in);
 
       while (i <= 2) {
-        System.out.println("\nDeseja criar mais um personagem?");
+        System.out.println("\nDo you wish to create another character?");
         try {
-          System.out.println("Digite 'true' se deseja criar mais um personagem ou 'false' para sair:");
+          System.out.println("Type (y)es to create another character, type (n)o to end character creation and start the game:");
           characterCreation = scan.nextBoolean();
           if (!characterCreation) {
             i = 4;
           }
             break;
         } catch (InputMismatchException e) {
-          System.out.println("Input inválido! Tente de novo.");
+          System.out.println("Invalid input! Try again.");
           scan.nextLine(); // Clear the input buffer
         }
     }
   }
-  System.out.println("\nMain.java.com.dungeonclash.groups.Group criada!");
+  System.out.println("\nGroup created!");
 }
 
   private void loadFoes(String line) {
@@ -121,16 +121,16 @@ public class Game {
 
     Character newFoe = null;
     switch (foeClass.toLowerCase()) {
-      case "guerreiro":
+      case "warrior":
         newFoe = new Character(foeName, new Warrior(), foeLevel);
         break;
-      case "arqueiro":
+      case "archer":
         newFoe = new Character(foeName, new Archer(), foeLevel);
         break;
-      case "mago":
+      case "mage":
         newFoe = new Character(foeName, new Mage(), foeLevel);
         break;
-      case "monstro":
+      case "monster":
         newFoe = new Character(foeName, new Monster(), foeLevel);
         break;
       default:
@@ -142,7 +142,7 @@ public class Game {
   }
 
   private void startBattle() {
-    System.out.println("Iniciando batalha...");
+    System.out.println("The battle begins!");
 
     // Sorteia de quem ataca
     Character attacker = randomlyChooseFirstAttacker(heros, foes);
@@ -166,44 +166,44 @@ public class Game {
     } else System.exit(1);
   }
 
-  private void runTurn(Group heros, Group foes, Character attacker) {
-    System.out.println("\n --- Turno " + turnCounter + " --- ");
+  private void runTurn(Group heroes, Group foes, Character attacker) {
+    System.out.println(STR."\n --- Round \{turnCounter} --- ");
 
-    int acumuloPE;
+    int accumulatedXP;
 
     // Verifica se o atacante possui tempo de espera
-    if(!silentTurn(heros, foes)) {
+    if(!silentTurn(heroes, foes)) {
         // Imprime
-        System.out.println("É a vez de " + attacker.getName() + " atacar!");
+        System.out.println(STR."It's time for \{attacker.getName()} to attack!");
 
         // Escolhe uma habilidade
         Skill choosenSkill = chooseSkill(attacker);
 
         // Escolhe um alvo
-        Group targetGroup = (heros.getMembers().contains(attacker)) ? foes : heros;
+        Group targetGroup = (heroes.getMembers().contains(attacker)) ? foes : heroes;
         Character target = chooseTarget(targetGroup);
 
         // Executa a habilidade no alvo
         if (target != null) {
           attacker.useSkill(choosenSkill, target);
-          acumuloPE = attacker.useSkill(choosenSkill, target);
+          accumulatedXP = attacker.useSkill(choosenSkill, target);
         } else {
-          acumuloPE = 0;
-          System.out.println("Nenhum alvo válido encontrado.");
+          accumulatedXP = 0;
+          System.out.println("No valid target found.");
         }
 
         // Distribui possível PE vindo de possíveis atordoamentos da habilidade usada no turno
         if (target != null) {
           attacker.useSkill(choosenSkill, target);
           if (target.getHP() <= 0) {
-            for (Character character : heros.getMembers()){
+            for (Character character : heroes.getMembers()){
               character.calculateXP(target);
               character.levelUp();
             }
             target.kill();
           }
         } else {
-            System.out.println("Nenhum alvo válido encontrado.");
+            System.out.println("No valid target found.");
         }
 
         // Atualiza o tempo de espera de maneira correspondente a sua habilidade
@@ -212,7 +212,7 @@ public class Game {
     }
 
     // Decrementa o tempo de espera de todos os personagens ao final do turno
-    heros.decrementsWaitingTime();
+    heroes.decrementsWaitingTime();
     foes.decrementsWaitingTime();
 
     // Incrementa o contador de turnos
@@ -220,23 +220,23 @@ public class Game {
   }
 
   private void showSkills(Character character) {
-    System.out.println("Habilidades disponíveis para " + character.getName() + ":");
+    System.out.println(STR."Available skills for \{character.getName()}:");
 
-    for (Skill skill : character.getCharacterClass().getHabilidades()) {
-      System.out.println(skill.getName() + " (PM Necessário: " + skill.getManaCost(character.getCharacterClass())+", Dano: " + skill.getDamageDealt(character.getCharacterClass()) +")");
+    for (Skill skill : character.getCharacterClass().getSkills()) {
+      System.out.println(STR."\{skill.getName()} (Mana Cost: \{skill.getManaCost(character.getCharacterClass())}, Damage: \{skill.getDamageDealt(character.getCharacterClass())})");
     }
   }
 
   private void showInfo(Group group) {
     for (Character member : group.getMembers()) {
       if(member.getIsDead()) {
-        System.out.println("ID: " + member.getID());
-        System.out.println("Nome: " + member.getName());
-        System.out.println("Main.java.com.dungeonclash.character.classes.CharacterClass: " + member.getClassName());
-        System.out.println("PV: " + member.getHP());
-        System.out.println("PM: " + member.getMana());
-        System.out.println("Nível: " + member.getLevel());
-        System.out.println("Tempo de Espera: " + member.getWaitTime());
+        System.out.println(STR."ID: \{member.getID()}");
+        System.out.println(STR."Name: \{member.getName()}");
+        System.out.println(STR."Class: \{member.getClassName()}");
+        System.out.println(STR."HP: \{member.getHP()}");
+        System.out.println(STR."Mana: \{member.getMana()}");
+        System.out.println(STR."Level: \{member.getLevel()}");
+        System.out.println(STR."Cooldown: \{member.getWaitTime()}");
 
         System.out.println("---------------------------------------");
       }
@@ -244,25 +244,25 @@ public class Game {
   }
 
   private void showGroupInfo(Group heros, Group foes) {
-    System.out.println("\n --- Informações das Equipes ---");
-    System.out.println("\nHeróis: ");
+    System.out.println("\n --- Teams Info ---");
+    System.out.println("\nHeroes: ");
     showInfo(heros);
-    System.out.println("\nInimigos: ");
+    System.out.println("\nEnemies: ");
     showInfo(foes);
   }
 
   private boolean showBattleResults(Group foes) {
     if (!foes.atLeastOneStillAlive()) {
-      System.out.println("Parabéns! Você venceu a batalha!");
+      System.out.println("Congratulations! You won!");
       return true;
     } else {
-      System.out.println("Game over! Você foi derrotado!");
+      System.out.println("Game over! You lose!");
       return false;
     }
   }
 
-  private boolean silentTurn(Group heros, Group foes) {
-    for (Character character : heros.getMembers())
+  private boolean silentTurn(Group heroes, Group foes) {
+    for (Character character : heroes.getMembers())
       if (character.getWaitTime() == 0 || character.getIsDead()){
         return false;
       }
@@ -278,23 +278,23 @@ public class Game {
     Scanner scanner = new Scanner(System.in);
 
     // Mostra as skills disponíveis para o character
-    System.out.println("Escolha uma habilidade para " + character.getName() + ":");
+    System.out.println(STR."Choose a skill for \{character.getName()}:");
     showSkills(character);
 
     // Solicita a entrada do usuário até que uma habilidade válida seja escolhida
     while (true) {
-      System.out.print("Digite o nome da habilidade: ");
-      String nomeHabilidade = scanner.nextLine();
+      System.out.print("Insert skill name: ");
+      String skillName = scanner.nextLine();
 
       // Verifica se a habilidade escolhida está na lista de skills do character
-      for (Skill skill : character.getCharacterClass().getHabilidades()) {
-        if (skill.getName().equalsIgnoreCase(nomeHabilidade)) {
+      for (Skill skill : character.getCharacterClass().getSkills()) {
+        if (skill.getName().equalsIgnoreCase(skillName)) {
           return skill; // Retorna a skill escolhida
         }
       }
 
       // Se o nome da habilidade não foi encontrado, exibe uma mensagem de erro
-      System.out.println("Main.java.com.dungeonclash.skills.Skill inválida! Por favor, escolha uma habilidade da lista.");
+      System.out.println("Invalid skill! Please, choose a skill from the list.");
     }
   }
 
@@ -308,12 +308,12 @@ public class Game {
     Set<Character> members = group.getMembers();
 
     // Exibir lista de alvos disponíveis
-    System.out.println("Escolha um alvo:");
+    System.out.println("Choose a target:");
 
     int index = 1;
     for (Character member : members) {
       if (member.getIsDead()) {
-        System.out.println(index + ". " + member.getName());
+        System.out.println(STR."\{index}. \{member.getName()}");
         index++;
       }
     }
@@ -321,18 +321,18 @@ public class Game {
     // Solicitar ao jogador a choice do alvo
     int choice;
     do {
-      System.out.print("Digite o número correspondente ao alvo: ");
+      System.out.print("Insert target number: ");
       try {
         choice = Integer.parseInt(scanner.nextLine());
 
         // Checks if it's a valid choice
         if (choice < 1 || choice > members.size()) {
-          System.out.println("Escolha inválida. Digite um número válido.");
+          System.out.println("Invalid choice. Insert a valid number.");
         } else {
           break;
         }
       } catch (NumberFormatException e) {
-        System.out.println("Entrada inválida. Digite um número válido.");
+        System.out.println("Invalid choice. Insert a valid number.");
       }
     } while (true);
 
@@ -352,5 +352,5 @@ public class Game {
   }
 
   //not ok
-  //private Set<Main.java.com.dungeonclash.character.Character> escolherAlvo(Main.java.com.dungeonclash.groups.Group equipe) { return null;}
+  //private Set<Character> chooseTarget(Group group) { return null;}
 }
