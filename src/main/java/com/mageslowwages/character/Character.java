@@ -1,8 +1,8 @@
-package main.java.com.dungeonclash.character;
+package main.java.com.mageslowwages.character;
 
-import main.java.com.dungeonclash.character.classes.CharacterClass;
-import main.java.com.dungeonclash.groups.Group;
-import main.java.com.dungeonclash.skills.Skill;
+import main.java.com.mageslowwages.character.classes.CharacterClass;
+import main.java.com.mageslowwages.groups.Group;
+import main.java.com.mageslowwages.skills.Skill;
 
 import java.util.Set;
 
@@ -125,7 +125,7 @@ public class Character implements Comparable<Character> {
         if (skill.getManaCost(characterClass) > mana) {
             return false;
         }
-        return characterClass.getHabilidades().contains(skill);
+        return characterClass.getSkills().contains(skill);
     }
 
     private boolean checkCanUse(Skill skill, Character target) {

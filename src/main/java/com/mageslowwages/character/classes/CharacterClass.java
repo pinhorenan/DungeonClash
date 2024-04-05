@@ -1,6 +1,6 @@
-package main.java.com.dungeonclash.character.classes;
+package main.java.com.mageslowwages.character.classes;
 
-import main.java.com.dungeonclash.skills.Skill;
+import main.java.com.mageslowwages.skills.Skill;
 
 import java.util.Set;
 
@@ -39,7 +39,7 @@ public abstract class CharacterClass {
         return intelligence;
     }
 
-    public Set<Skill> getHabilidades() {
+    public Set<Skill> getSkills() {
         // Retorna o conjunto de Habilidades. Método padrão para todas classes herdam de Main.java.com.dungeonclash.character.classes.CharacterClass.
         return skills;
     }

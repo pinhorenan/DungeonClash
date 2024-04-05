@@ -1,4 +1,4 @@
-package main.java.com.dungeonclash.skills;
+package main.java.com.mageslowwages.skills;
 
 public class AtributesModifiers {
 

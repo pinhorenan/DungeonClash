@@ -1,6 +1,6 @@
-package main.java.com.dungeonclash.groups;
+package main.java.com.mageslowwages.groups;
 
-import main.java.com.dungeonclash.character.Character;
+import main.java.com.mageslowwages.character.Character;
 
 import java.util.HashSet;
 import java.util.Set;

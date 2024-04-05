@@ -1,6 +1,6 @@
-package main.java.com.dungeonclash.skills;
+package main.java.com.mageslowwages.skills;
 
-import main.java.com.dungeonclash.character.classes.CharacterClass;
+import main.java.com.mageslowwages.character.classes.CharacterClass;
 
 public class Skill {
 

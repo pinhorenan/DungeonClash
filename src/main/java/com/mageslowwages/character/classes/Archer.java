@@ -1,7 +1,7 @@
-package main.java.com.dungeonclash.character.classes;
+package main.java.com.mageslowwages.character.classes;
 
-import main.java.com.dungeonclash.skills.Skill;
-import main.java.com.dungeonclash.skills.AtributesModifiers;
+import main.java.com.mageslowwages.skills.Skill;
+import main.java.com.mageslowwages.skills.AtributesModifiers;
 
 import java.util.HashSet;
 
