@@ -1,0 +1,74 @@
+## Improve existing systems
+- improve leveling system
+- improve skill system
+- improve battle system
+
+## Classes
+- add lich
+- add dragon
+- add thief
+- add bard
+- add rogue
+- add necromancer
+- add insectoid
+- add witch
+- add spider
+- add werewolf
+- add vampire
+- add knight
+- add ninja
+- add dealer
+- add samurai
+- add monk
+- add brawler
+- add hunter
+- add monster_hunter
+- add programmer
+- add wizard
+- add designer
+- add artist
+- add druid
+- add cleric
+- add student
+- add soldier
+- add guard
+- add alchemist
+- add astrologer
+- add zombie
+
+## New Features
+- add potions
+- add scrolls
+- add shopping and money
+- add map
+- add inventory
+- add difficulty settings
+- add save system
+- add a quest system
+- add items
+- add crafting system
+- add a story
+- add races
+
+## AI
+- add enemy AI
+- add allies AI
+- add neutral AI
+
+## Design
+- add sound effects
+- add music
+- add icons for skills
+- add icons for items
+- add icons for classes
+- add icons for buttons
+
+## Graphical Interface
+- add a main menu screen
+- add a settings menu screen
+- add a pause menu screen
+- add a game over screen
+- add a victory screen
+- add a credits screen
+- add a bestiary
+- add a journal

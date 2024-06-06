@@ -1,0 +1,4 @@
+EASY:();
+MEDIUM:();
+HARD:();
+EXTREME:();
